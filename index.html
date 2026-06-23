@@ -24,6 +24,14 @@
             font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold;
         }
         .timezone-bar span { color: #ffe600; }
+        
+        /* --- MUSIC FLOATING PLAYER BAR --- */
+        .music-bar {
+            background: rgba(9, 25, 41, 0.9); border: 1px solid var(--border-blue); padding: 8px 15px;
+            display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 10px auto 0 auto;
+            border-radius: 6px; font-size: 0.8rem; box-shadow: 0 0 10px rgba(0,210,255,0.1);
+        }
+
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
 
         /* --- LOGIN FORM --- */
@@ -98,7 +106,7 @@
 </head>
 <body>
 
-    <div id="yt-music-player" style="position: absolute; top: -9999px;"></div>
+    <div id="yt-music-player" style="position: fixed; bottom: 0; left: 0; width: 1px; height: 1px; opacity: 0.01; pointer-events: none; z-index: -9999;"></div>
 
     <div class="timezone-bar">
         <div id="live-date">Selasa, 23 Juni 2026</div>
@@ -107,6 +115,11 @@
             <div>WITA: <span id="clock-wita">00:00:00</span></div>
             <div>WIT: <span id="clock-wit">00:00:00</span></div>
         </div>
+    </div>
+
+    <div class="music-bar">
+        <div>🎵 BGM: <span id="current-song-title" style="color: var(--cyan-glow); font-weight: bold;">Loading Playlist...</span></div>
+        <button onclick="skipToNextSong()" style="background: #0088cc; border: 1px solid #00c3ff; color: white; padding: 3px 10px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: bold;">⏭️ SKIP LAGU</button>
     </div>
 
     <div id="login-container">
@@ -121,7 +134,10 @@
 
     <div id="main-panel-dashboard" class="container hidden">
         <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="color: var(--cyan-glow); font-weight: bold;" id="display-user-login">Logged In</span>
+            <div>
+                <span style="color: var(--cyan-glow); font-weight: bold;" id="display-user-login">Logged In</span>
+                <span id="display-user-expired" style="font-size:0.8rem; margin-left:10px; color:#a0aec0;"></span>
+            </div>
             <button onclick="executeLogout()" style="background:#f56565; color:white; border:none; padding:5px 12px; border-radius:4px; cursor:pointer; font-size:0.75rem;">Logout</button>
         </div>
 
@@ -177,12 +193,31 @@
                     <input type="text" id="admin-input-title-banner" placeholder="NusaTopic Gacha">
                     <label style="font-size: 0.75rem; color: #ccc;">Nama Gacha Tengah (Peti):</label>
                     <input type="text" id="admin-input-title-box" placeholder="TeraPS Gacha">
-                    <button class="btn-blue" style="background:#4a5568; border-color:#718096; margin-top:5px;" onclick="updateGachaTitles()">Terapkan Nama Baru</button>
+                    <button class="btn-blue" style="background:#4a5568; border-color:#718096; margin-top:5px; margin-bottom:15px;" onclick="updateGachaTitles()">Terapkan Nama Baru</button>
 
-                    <h4 style="color:#ef4444; font-family:'Orbitron'; margin-top:20px; margin-bottom:10px;">CREATE NEW MEMBER</h4>
+                    <h4 style="color:#ef4444; font-family:'Orbitron'; margin-bottom:10px;">CREATE MEMBER WITH EXPIRED</h4>
                     <input type="text" id="new-member-user" placeholder="Username Baru">
                     <input type="password" id="new-member-pass" placeholder="Password Baru">
-                    <button class="btn-blue" style="background:#ef4444; border-color:#ff6666;" onclick="adminCreateAccount()">Save Akun</button>
+                    
+                    <label style="font-size: 0.75rem; color: #ccc;">Set Masa Expired Akun:</label>
+                    <select id="new-member-expiry">
+                        <option value="1">1 Menit</option>
+                        <option value="5">5 Menit</option>
+                        <option value="60">1 Jam</option>
+                        <option value="1440">1 Hari</option>
+                        <option value="10080">1 Minggu</option>
+                        <option value="43200">1 Bulan</option>
+                    </select>
+                    
+                    <button class="btn-blue" style="background:#ef4444; border-color:#ff6666; margin-top:5px;" onclick="adminCreateAccount()">Save Akun</button>
+                    
+                    <h4 style="color:#ef4444; font-family:'Orbitron'; margin-top:20px; margin-bottom:10px;">LIST DAFTAR AKUN MEMBER</h4>
+                    <div class="admin-table-wrapper">
+                        <table id="admin-accounts-table">
+                            <thead><tr><th>User</th><th>Expired Time</th><th>Aksi</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="admin-col">
@@ -214,7 +249,21 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // DATA AWAL SEBELUM DIUBAH-UBAH OLEH ADMIN LEWAH WEB
+        // DAFTAR LAGU PILIHAN SESUAI REQUEST USER
+        const PLAYLIST_SONGS = [
+            { title: "Sheila on 7 - Sephia", id: "0vS5M2_xYWM" },
+            { title: "Sheila on 7 - Dan", id: "dBtK9-mP1F4" },
+            { title: "Noah - Separuh Aku", id: "t29W2wG1C1s" },
+            { title: "FIFTY FIFTY - Cupid", id: "eChxhlG6M4E" },
+            { title: "Astrid - Terpukau", id: "d6w_v2t7_r4" },
+            { title: "Vierratale - Hapus Aku", id: "P2NExqZ30R0" },
+            { title: "D'Bagindas - Maafkan", id: "zZk6L9mE56s" }
+        ];
+
+        let currentSongIndex = 0;
+        let musicAudioPlayer;
+        let loggedInUser = null;
+
         let INITIAL_ITEMS = [
             { name: "Legendary Rayman", img: "https://images.vdownload.im/g/growtopia/items/rayman_hair.png", chance: 20 },
             { name: "Mythical Rayman", img: "https://images.vdownload.im/g/growtopia/items/rayman_hair.png", chance: 20 },
@@ -224,33 +273,80 @@
 
         // INITIAL DATABASE LOCALSTORAGE
         if(!localStorage.getItem("items_gacha_save")) localStorage.setItem("items_gacha_save", JSON.stringify(INITIAL_ITEMS));
-        if(!localStorage.getItem("accounts_gacha_save")) localStorage.setItem("accounts_gacha_save", JSON.stringify({ "admin": { pass: "admin123", role: "admin" } }));
+        // Admin default dibuat permanent (tidak ada expired)
+        if(!localStorage.getItem("accounts_gacha_save")) {
+            localStorage.setItem("accounts_gacha_save", JSON.stringify({ 
+                "admin": { pass: "admin123", role: "admin", expiresAt: null } 
+            }));
+        }
         if(!localStorage.getItem("title_banner_save")) localStorage.setItem("title_banner_save", "NusaTopic Gacha - Rare Chest Simulation");
         if(!localStorage.getItem("title_box_save")) localStorage.setItem("title_box_save", "TeraPS Gacha - Pilih Chest Untuk Dibuka");
 
         let currentItems = JSON.parse(localStorage.getItem("items_gacha_save"));
         let userAccounts = JSON.parse(localStorage.getItem("accounts_gacha_save"));
-        let musicAudioPlayer;
 
+        // LOAD YOUTUBE MULTI-PLAYLIST PLAYER
         function onYouTubeIframeAPIReady() {
-            musicAudioPlayer = new YT.Player('yt-music-player', {
-                height: '0', width: '0', videoId: 'gQ59f_68sv4',
-                playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'gQ59f_68sv4' }
-            });
+            loadSong(currentSongIndex);
         }
 
-        // TIMER JAM 3 ZONA WAKTU
-        function syncRealtimeClocks() {
+        function loadSong(index) {
+            const track = PLAYLIST_SONGS[index];
+            document.getElementById('current-song-title').innerText = track.title;
+
+            if (!musicAudioPlayer) {
+                musicAudioPlayer = new YT.Player('yt-music-player', {
+                    height: '1', width: '1', videoId: track.id,
+                    playerVars: { 'autoplay': 1, 'controls': 0, 'mute': 0 },
+                    events: {
+                        'onStateChange': function(event) {
+                            if (event.data === YT.PlayerState.ENDED) {
+                                skipToNextSong();
+                            }
+                        }
+                    }
+                });
+            } else {
+                musicAudioPlayer.loadVideoById(track.id);
+            }
+        }
+
+        function skipToNextSong() {
+            currentSongIndex = (currentSongIndex + 1) % PLAYLIST_SONGS.length;
+            loadSong(currentSongIndex);
+        }
+
+        // REALTIME 3 ZONA WAKTU & REALTIME CHECK EXPIRED USER
+        function systemHeartbeat() {
             const t = new Date();
             document.getElementById('live-date').innerText = t.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' });
             document.getElementById('clock-wib').innerText = t.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
             document.getElementById('clock-wita').innerText = t.toLocaleTimeString('id-ID', { timeZone: 'Asia/Makassar' });
             document.getElementById('clock-wit').innerText = t.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jayapura' });
-        }
-        setInterval(syncRealtimeClocks, 1000);
-        syncRealtimeClocks();
 
-        // LOAD TITLE JUDUL GACHA DARI DATABASE
+            // Check Expired User yang sedang Login secara realtime
+            if (loggedInUser && userAccounts[loggedInUser]) {
+                let accountData = userAccounts[loggedInUser];
+                if (accountData.expiresAt) {
+                    let nowTime = new Date().getTime();
+                    let timeLeft = accountData.expiresAt - nowTime;
+
+                    if (timeLeft <= 0) {
+                        alert("Masa aktif akun Anda telah expired! Sistem akan me-logout otomatis.");
+                        executeLogout();
+                    } else {
+                        let secLeft = Math.ceil(timeLeft / 1000);
+                        let mLeft = Math.floor(secLeft / 60);
+                        let sLeft = secLeft % 60;
+                        document.getElementById('display-user-expired').innerText = `(Aktif sisa: ${mLeft}m ${sLeft}s)`;
+                    }
+                } else {
+                    document.getElementById('display-user-expired').innerText = `(Permanent Admin)`;
+                }
+            }
+        }
+        setInterval(systemHeartbeat, 1000);
+
         function loadGachaTitles() {
             document.getElementById('title-banner-gacha').innerHTML = `<span style="color:#00d2ff">●</span> ` + localStorage.getItem("title_banner_save");
             document.getElementById('title-box-gacha').innerHTML = `<span style="color:#a855f7">●</span> ` + localStorage.getItem("title_box_save");
@@ -258,7 +354,6 @@
             document.getElementById('admin-input-title-box').value = localStorage.getItem("title_box_save");
         }
 
-        // FUNGSI ADMIN EDIT NAMA JUDUL GACHA
         function updateGachaTitles() {
             let bTitle = document.getElementById('admin-input-title-banner').value.trim();
             let xTitle = document.getElementById('admin-input-title-box').value.trim();
@@ -270,24 +365,36 @@
             alert("Judul Gacha berhasil diperbarui di web!");
         }
 
-        // LOGIN SYSTEM
+        // LOGIN SYSTEM DENGAN CEK EXPIRED
         function executeLogin() {
             const u = document.getElementById('input-username').value.trim();
             const p = document.getElementById('input-password').value.trim();
             const alertText = document.getElementById('login-alert-msg');
 
             if(userAccounts[u] && userAccounts[u].pass === p) {
+                // Check jika sudah expired duluan sebelum login
+                if (userAccounts[u].expiresAt && new Date().getTime() > userAccounts[u].expiresAt) {
+                    alertText.innerText = "Akun ini sudah expired! Hubungi admin.";
+                    return;
+                }
+
                 alertText.innerText = "";
+                loggedInUser = u;
                 document.getElementById('login-container').classList.add('hidden');
                 document.getElementById('main-panel-dashboard').classList.remove('hidden');
                 document.getElementById('display-user-login').innerText = `Logged In: ${u.toUpperCase()}`;
 
-                if(musicAudioPlayer && typeof musicAudioPlayer.playVideo === 'function') musicAudioPlayer.playVideo();
+                if(musicAudioPlayer && typeof musicAudioPlayer.playVideo === 'function') {
+                    musicAudioPlayer.setVolume(70);
+                    musicAudioPlayer.playVideo();
+                }
+                
                 loadGachaTitles();
 
                 if(userAccounts[u].role === "admin") {
                     document.getElementById('admin-restricted-section').classList.remove('hidden');
                     updateAdminViews();
+                    updateAdminAccountsTable();
                 } else {
                     document.getElementById('admin-restricted-section').classList.add('hidden');
                 }
@@ -297,18 +404,71 @@
             }
         }
 
-        // ADMIN CREATE NEW MEMBER ACCOUNT
+        // ADMIN CREATE MEMBER DENGAN TIMESTAMP EXPIRED DARI 1 MENIT SAMPAI 1 BULAN
         function adminCreateAccount() {
             const u = document.getElementById('new-member-user').value.trim();
             const p = document.getElementById('new-member-pass').value.trim();
+            const expiryMinutes = parseInt(document.getElementById('new-member-expiry').value);
+
             if(!u || !p) { alert("Username & Password kosong!"); return; }
             if(userAccounts[u]) { alert("User sudah terdaftar!"); return; }
 
-            userAccounts[u] = { pass: p, role: "member" };
+            let currentTimeMs = new Date().getTime();
+            let expiryTimeMs = currentTimeMs + (expiryMinutes * 60 * 1000);
+
+            userAccounts[u] = { 
+                pass: p, 
+                role: "member", 
+                expiresAt: expiryTimeMs 
+            };
+
             localStorage.setItem("accounts_gacha_save", JSON.stringify(userAccounts));
-            alert("Member baru tersimpan!");
+            alert(`Member baru "${u}" berhasil dibuat aktif selama ${expiryMinutes} menit!`);
+            
             document.getElementById('new-member-user').value = "";
             document.getElementById('new-member-pass').value = "";
+            updateAdminAccountsTable();
+        }
+
+        // TABEL MANAGEMENT DAFTAR AKUN DAN HAPUS AKUN
+        function updateAdminAccountsTable() {
+            const tbody = document.querySelector('#admin-accounts-table tbody');
+            tbody.innerHTML = "";
+            
+            Object.keys(userAccounts).forEach(username => {
+                let acc = userAccounts[username];
+                let expiredStatus = "Permanent";
+                
+                if (acc.expiresAt) {
+                    let now = new Date().getTime();
+                    if (now > acc.expiresAt) {
+                        expiredStatus = "<span style='color:#ef4444;'>Expired</span>";
+                    } else {
+                        let diffMins = Math.round((acc.expiresAt - now) / 60000);
+                        expiredStatus = `Aktif (~${diffMins} mnt)`;
+                    }
+                }
+
+                let deleteBtn = username === "admin" ? "" : `<button style="background:#f56565; color:#fff; border:none; padding:2px 5px; cursor:pointer; border-radius:3px; font-size:0.65rem;" onclick="adminDeleteAccount('${username}')">Hapus</button>`;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${username}</b> [${acc.role}]</td>
+                        <td>${expiredStatus}</td>
+                        <td>${deleteBtn}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        // FUNGSI ADMIN HAPUS AKUN MEMBER
+        function adminDeleteAccount(username) {
+            if (confirm(`Apakah Anda yakin ingin menghapus total akun "${username}"?`)) {
+                delete userAccounts[username];
+                localStorage.setItem("accounts_gacha_save", JSON.stringify(userAccounts));
+                updateAdminAccountsTable();
+                alert(`Akun "${username}" berhasil dihapus dari database.`);
+            }
         }
 
         function updateAdminViews() {
@@ -345,7 +505,6 @@
             document.getElementById('form-action-title').innerText = "Tambah / Modifikasi Item Baru:";
         }
 
-        // ADVANCED: SAVE JIKA EDIT, ATAU TAMBAH JIKA BARU (TANPA DIBATASI 5 ITEM)
         function saveOrAddItem() {
             let idx = parseInt(document.getElementById('edit-item-index').value);
             let name = document.getElementById('edit-item-name').value.trim();
@@ -355,11 +514,9 @@
             if(!name || !img || isNaN(chance)) { alert("Data input tidak boleh kosong!"); return; }
 
             if(idx === -1) {
-                // Tambah Item Baru
                 currentItems.push({ name: name, img: img, chance: chance });
                 alert("Sukses MENAMBAHKAN item baru ke gacha!");
             } else {
-                // Edit Item yang Sudah Ada
                 currentItems[idx] = { name: name, img: img, chance: chance };
                 alert("Sukses MENGUBAH konfigurasi item!");
             }
@@ -370,7 +527,6 @@
             renderUserGridItems();
         }
 
-        // HAPUS ITEM DARI WEB
         function deleteItemData(index) {
             if(confirm(`Hapus item ${currentItems[index].name} dari list gacha?`)) {
                 currentItems.splice(index, 1);
@@ -394,7 +550,6 @@
             });
         }
 
-        // ALGORITMA SPIN ROULLETE GACHA
         function triggerRollAnimation() {
             const strip = document.getElementById('strip-roll-box');
             const announce = document.getElementById('gacha-winning-text');
@@ -434,7 +589,10 @@
             }, 4600);
         }
 
-        function executeLogout() { location.reload(); }
+        function executeLogout() { 
+            loggedInUser = null;
+            location.reload(); 
+        }
     </script>
 </body>
 </html>
