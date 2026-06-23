@@ -2,122 +2,550 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Growtopia Pro V7 Ultimate</title>
-    <style>
-        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
-        .panel { background: #111; border: 1px solid #333; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .btn { padding: 12px; background: #007bff; color: white; border: none; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
-        input { width: 100%; padding: 10px; margin: 5px 0; background: #222; border: 1px solid #444; color: white; box-sizing: border-box; }
-        #start-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AndraDev - Gacha Growtopia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gtDark: '#0A0E27',
+                        gtGold: '#FFD700',
+                        gtBlue: '#4A90E2',
+                        gtPurple: '#9B59B6',
+                        gtRed: '#E74C3C',
+                        gtGreen: '#2ECC71'
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+            }
+            .text-shadow-sm {
+                text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
+            }
+            .glow-border {
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            }
+            .bg-pattern {
+                background-image: url('https://i.imgur.com/7Z9KqGm.png');
+                background-size: 150px;
+                background-repeat: repeat;
+                opacity: 0.05;
+            }
+            .bg-anim {
+                animation: moveBg 60s linear infinite;
+            }
+            @keyframes moveBg {
+                0% { background-position: 0 0; }
+                100% { background-position: 1000px 1000px; }
+            }
+            @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+            .float {
+                animation: float 4s ease-in-out infinite;
+            }
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.8; }
+            }
+            .pulse {
+                animation: pulse 2s ease-in-out infinite;
+            }
+            .scrollbar::-webkit-scrollbar {
+                width: 6px;
+            }
+            .scrollbar::-webkit-scrollbar-track {
+                background: #1E2952;
+            }
+            .scrollbar::-webkit-scrollbar-thumb {
+                background: #FFD700;
+                border-radius: 3px;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="bg-gtDark text-white min-h-screen relative overflow-x-hidden">
+    <!-- Background Animasi -->
+    <div class="fixed inset-0 bg-pattern bg-anim z-0"></div>
+    <div class="fixed inset-0 bg-gradient-to-b from-black/70 to-gtDark/90 z-10"></div>
 
-    <!-- START SCREEN (WAJIB BUAT LAGU) -->
-    <div id="start-screen">
-        <button class="btn" onclick="startApp()" style="width: 200px;">KLIK UNTUK MASUK</button>
-    </div>
-
-    <div id="dev-tag" style="text-align: center; color: #555; margin-bottom: 10px;">Developer : @Andra</div>
-
-    <div class="panel">
-        <h3>Playlist Lagu</h3>
-        <select id="song-select" style="width:100%; padding:10px; background:#222; color:#fff;" onchange="playSelected()">
-            <option value="https://files.catbox.moe/sephia.mp3">Sephia - SO7</option>
-            <option value="https://files.catbox.moe/dan.mp3">Dan - SO7</option>
-            <option value="https://files.catbox.moe/separuhaku.mp3">Separuh Aku - Judika</option>
-            <option value="https://files.catbox.moe/maafkan.mp3">Maafkan - D'Bagindas</option>
-            <option value="https://files.catbox.moe/cupid.mp3">Cupid</option>
-            <option value="https://files.catbox.moe/cantbefriends.mp3">We Can't Be Friends</option>
-            <option value="https://files.catbox.moe/birds.mp3">Birds of Feather</option>
-            <option value="https://files.catbox.moe/cry.mp3">Cry Before Sex</option>
+    <!-- Kontrol Musik -->
+    <div class="fixed bottom-4 left-4 z-50 bg-black/70 backdrop-blur-md rounded-full p-3 border border-gtGold/40 flex items-center gap-2">
+        <button id="btnPlay" class="w-8 h-8 flex items-center justify-center text-gtGold hover:text-white transition-colors"><i class="fa fa-play"></i></button>
+        <button id="btnStop" class="w-8 h-8 flex items-center justify-center text-gtGold hover:text-white transition-colors"><i class="fa fa-stop"></i></button>
+        <select id="speedAudio" class="bg-transparent border border-gtGold/40 rounded px-1 text-xs outline-none">
+            <option value="1">1x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+            <option value="2.5">2.5x</option>
+            <option value="3">3x</option>
         </select>
-        <audio id="music" loop></audio>
+        <input type="range" id="volumeAudio" min="0" max="100" value="50" class="w-16 h-1 bg-gtGold/40 rounded outline-none">
     </div>
 
-    <div id="login-box" class="panel">
-        <h3>Login</h3>
-        <input type="text" id="u" placeholder="Username">
-        <input type="password" id="p" placeholder="Password">
-        <button class="btn" onclick="login()">LOGIN</button>
-    </div>
+    <!-- Audio Lagu Hits 2026 Indonesia -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="https://cdn.jsdelivr.net/gh/andrawb/assets/music/hits-indo-2026.mp3" type="audio/mpeg">
+        Browser kamu tidak mendukung pemutar musik.
+    
 
-    <div id="main-panel" class="panel" style="display:none;">
-        <h2 id="welcome"></h2>
-        <p>Saldo: $<span id="bal">0</span> USD</p>
-        
-        <h3>Gacha Simulation</h3>
-        <img id="gacha-img" src="https://i.ibb.co/C0W2h2Z/Item-3374.png" style="width:100px; height:100px; border:1px solid #555;">
-        <button class="btn" onclick="roll()">BUKA CHEST</button>
-
-        <h3>Ganti Password</h3>
-        <input type="password" id="new-p" placeholder="Password Baru">
-        <button class="btn" onclick="changePass()">UBAH PASS</button>
-
-        <div id="admin-tools" style="display:none; margin-top:20px; border-top:1px solid #444;">
-            <h3>Admin Tools (Daftar Akun)</h3>
-            <div id="user-list"></div>
+    <!-- Halaman Login -->
+    <div id="halamanLogin" class="fixed inset-0 z-40 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="bg-gradient-to-br from-[#162342] to-[#0F1A36] p-8 rounded-2xl border-2 border-gtGold glow-border w-full max-w-md mx-4">
+            <h2 class="text-3xl font-bold text-center text-gtGold text-shadow mb-6">AndraDev Gacha</h2>
+            <div class="mb-4">
+                <label class="block text-sm text-gray-300 mb-1">Username</label>
+                <input type="text" id="inputUser" class="w-full px-4 py-2 rounded-lg bg-[#1E2952] border border-gtBlue/40 focus:border-gtGold outline-none transition-colors" placeholder="Masukkan username">
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm text-gray-300 mb-1">Password</label>
+                <input type="password" id="inputPass" class="w-full px-4 py-2 rounded-lg bg-[#1E2952] border border-gtBlue/40 focus:border-gtGold outline-none transition-colors" placeholder="Masukkan password">
+            </div>
+            <div id="pesanLogin" class="text-center text-sm mb-4 h-5"></div>
+            <button onclick="prosesLogin()" class="w-full py-3 bg-gradient-to-r from-gtGold to-[#F5B800] text-black font-bold rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] transition-shadow">Masuk</button>
         </div>
     </div>
 
-<script>
-    let users = JSON.parse(localStorage.getItem('users')) || { 
-        'admin': { pass: 'admin123', bal: 1000, role: 'admin', passCount: 0 },
-        'member': { pass: '12345', bal: 50, role: 'member', passCount: 0 }
-    };
-    let cur = '';
+    <!-- Halaman Utama -->
+    <div id="halamanUtama" class="relative z-20 hidden p-4 max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex flex-wrap justify-between items-center gap-4 bg-black/50 backdrop-blur-sm p-4 rounded-xl border border-gtGold/30 mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gtGold text-shadow">AndraDev Gacha</h1>
+            <div class="text-right">
+                <p class="text-sm text-gray-300">Selamat datang, <span id="namaPengguna" class="font-bold text-gtGold"></span></p>
+                <p class="text-xs text-gray-400">Masa Aktif: <span id="masaAktifText" class="text-gtGreen"></span></p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="tampilkanSaldo()" class="px-3 py-1 bg-gtBlue rounded text-sm"><i class="fa fa-wallet mr-1"></i> Rp <span id="saldoUser">0</span></button>
+                <button onclick="bukaTransfer()" class="px-3 py-1 bg-gtPurple rounded text-sm"><i class="fa fa-exchange mr-1"></i> Transfer</button>
+                <button onclick="keluarAkun()" class="px-3 py-1 bg-gtRed rounded text-sm"><i class="fa fa-sign-out mr-1"></i> Keluar</button>
+            </div>
+        </header>
 
-    function startApp() {
-        document.getElementById('start-screen').style.display = 'none';
-        let m = document.getElementById('music');
-        m.play();
-    }
+        <!-- Jam & Waktu -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-gtBlue/30 text-center">
+                <p class="text-sm text-gray-300">WIB</p>
+                <p id="jamWib" class="text-xl font-bold text-gtGold"></p>
+            </div>
+            <div class="bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-gtBlue/30 text-center">
+                <p class="text-sm text-gray-300">WITA</p>
+                <p id="jamWita" class="text-xl font-bold text-gtGold"></p>
+            </div>
+            <div class="bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-gtBlue/30 text-center">
+                <p class="text-sm text-gray-300">WIT</p>
+                <p id="jamWit" class="text-xl font-bold text-gtGold"></p>
+            </div>
+        </div>
 
-    function playSelected() {
-        let m = document.getElementById('music');
-        m.src = document.getElementById('song-select').value;
-        m.play();
-    }
+        <!-- Menu Gacha -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div onclick="pilihPeti('basic')" class="bg-gradient-to-br from-[#1E2952] to-[#0F1A36] p-6 rounded-xl border-2 border-[#4A5568] hover:border-gtGold transition-all duration-300 glow-border hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] cursor-pointer group float">
+                <h3 class="text-xl font-bold text-center text-gray-200 group-hover:text-gtGold transition-colors">Basic Chest</h3>
+                <img src="https://i.imgur.com/7Z9KqGm.png" alt="Basic Chest" class="w-32 h-32 mx-auto my-4 drop-shadow-[0_0_10px_rgba(74,85,104,0.5)]">
+                <p class="text-center text-gray-300 text-sm">Harga: Rp 5.000</p>
+                <button onclick="mulaiGacha('basic'); event.stopPropagation()" class="w-full mt-3 py-2 bg-[#4A5568] hover:bg-gtGold hover:text-black font-bold rounded transition-colors">Buka</button>
+            </div>
+            <div onclick="pilihPeti('rare')" class="bg-gradient-to-br from-[#1E2952] to-[#0F1A36] p-6 rounded-xl border-2 border-[#4299E1] hover:border-gtGold transition-all duration-300 glow-border hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] cursor-pointer group float" style="animation-delay: 0.5s">
+                <h3 class="text-xl font-bold text-center text-gtBlue group-hover:text-gtGold transition-colors">Rare Chest</h3>
+                <img src="https://i.imgur.com/3xQz8Lp.png" alt="Rare Chest" class="w-32 h-32 mx-auto my-4 drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]">
+                <p class="text-center text-gray-300 text-sm">Harga: Rp 15.000</p>
+                <button onclick="mulaiGacha('rare'); event.stopPropagation()" class="w-full mt-3 py-2 bg-gtBlue hover:bg-gtGold hover:text-black font-bold rounded transition-colors">Buka</button>
+            </div>
+            <div onclick="pilihPeti('mythic')" class="bg-gradient-to-br from-[#1E2952] to-[#0F1A36] p-6 rounded-xl border-2 border-[#9B59B6] hover:border-gtGold transition-all duration-300 glow-border hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] cursor-pointer group float" style="animation-delay: 1s">
+                <h3 class="text-xl font-bold text-center text-gtPurple group-hover:text-gtGold transition-colors">Mythic Chest</h3>
+                <img src="https://i.imgur.com/9V5mQxH.png" alt="Mythic Chest" class="w-32 h-32 mx-auto my-4 drop-shadow-[0_0_10px_rgba(155,89,182,0.5)]">
+                <p class="text-center text-gray-300 text-sm">Harga: Rp 30.000</p>
+                <button onclick="mulaiGacha('mythic'); event.stopPropagation()" class="w-full mt-3 py-2 bg-gtPurple hover:bg-gtGold hover:text-black font-bold rounded transition-colors">Buka</button>
+            </div>
+        </div>
 
-    function login() {
-        let u = document.getElementById('u').value;
-        let p = document.getElementById('p').value;
-        if(users[u] && users[u].pass == p) {
-            cur = u;
-            document.getElementById('login-box').style.display = 'none';
-            document.getElementById('main-panel').style.display = 'block';
-            document.getElementById('welcome').innerText = "Halo " + u;
-            document.getElementById('bal').innerText = users[u].bal;
-            if(users[u].role == 'admin') {
-                document.getElementById('admin-tools').style.display = 'block';
-                renderAdmin();
-            }
-        } else alert('Login gagal!');
-    }
+        <!-- Hasil Gacha -->
+        <div id="hasilGacha" class="bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-gtGold/30 mb-8 text-center min-h-[200px] flex flex-col items-center justify-center">
+            <p class="text-gray-300">Pilih dan buka peti di atas untuk melihat hasil</p>
+        </div>
 
-    function changePass() {
-        if(users[cur].passCount < 2) {
-            users[cur].pass = document.getElementById('new-p').value;
-            users[cur].passCount++;
-            localStorage.setItem('users', JSON.stringify(users));
-            alert('Password berhasil diganti!');
-        } else alert('Limit ganti password (2x/minggu) habis!');
-    }
+        <!-- Tombol Admin & Perpanjang -->
+        <div class="flex flex-wrap gap-3 justify-center">
+            <button onclick="bukaPanelAdmin()" class="px-5 py-2 bg-gtRed rounded-lg font-bold hover:shadow-[0_0_15px_rgba(231,76,60,0.5)] transition-shadow"><i class="fa fa-cog mr-1"></i> Panel Admin</button>
+            <button onclick="bukaPerpanjang()" class="px-5 py-2 bg-gtGreen rounded-lg font-bold hover:shadow-[0_0_15px_rgba(46,204,113,0.5)] transition-shadow"><i class="fa fa-calendar-plus-o mr-1"></i> Perpanjang Masa Aktif</button>
+        </div>
+    </div>
 
-    function renderAdmin() {
-        let list = '';
-        for(let u in users) {
-            list += `<p style="border-bottom:1px solid #333;"><b>${u}</b> | Pass: <code>${users[u].pass}</code> | Saldo: $${users[u].bal}</p>`;
+    <!-- Panel Admin -->
+    <div id="panelAdmin" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden p-4 overflow-y-auto scrollbar">
+        <div class="max-w-4xl mx-auto bg-gradient-to-br from-[#162342] to-[#0F1A36] p-6 rounded-xl border-2 border-gtGold glow-border">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gtGold">Panel Admin</h2>
+                <button onclick="tutupPanelAdmin()" class="text-gtRed text-xl"><i class="fa fa-times"></i></button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Kelola Akun -->
+                <div class="bg-black/40 p-4 rounded-lg border border-gtBlue/30">
+                    <h3 class="text-lg font-bold text-gtGold mb-3">Kelola Akun Pengguna</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                        <input type="text" id="adminUser" placeholder="Username" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                        <input type="password" id="adminPass" placeholder="Password" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                        <input type="number" id="adminSaldo" placeholder="Saldo (Rp)" min="0" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                        <select id="adminExpired" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                            <option value="0">Selamanya</option>
+                            <option value="1">1 Hari</option>
+                            <option value="7">7 Hari</option>
+                            <option value="30">30 Hari</option>
+                            <option value="90">90 Hari</option>
+                        </select>
+                    </div>
+                    <button onclick="tambahAkunAdmin()" class="w-full py-2 bg-gtGreen rounded font-bold mb-4">Tambah Akun</button>
+                    <div id="daftarAkunAdmin" class="max-h-60 overflow-y-auto space-y-2"></div>
+                </div>
+
+                <!-- Kelola Item Gacha -->
+                <div class="bg-black/40 p-4 rounded-lg border border-gtBlue/30">
+                    <h3 class="text-lg font-bold text-gtGold mb-3">Kelola Item Gacha</h3>
+                    <select id="jenisPetiAdmin" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-3">
+                        <option value="basic">Basic Chest</option>
+                        <option value="rare">Rare Chest</option>
+                        <option value="mythic">Mythic Chest</option>
+                    </select>
+                    <div class="grid grid-cols-1 gap-2 mb-3">
+                        <input type="text" id="namaItemAdmin" placeholder="Nama Item" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                        <input type="text" id="gambarItemAdmin" placeholder="Link Gambar (bebas)" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                        <input type="number" id="chanceItemAdmin" min="0" max="100" step="0.1" placeholder="Peluang (%)" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
+                    </div>
+                    <button onclick="tambahItemAdmin()" class="w-full py-2 bg-gtPurple rounded font-bold mb-4">Tambah Item</button>
+                    <div id="daftarItemAdmin" class="max-h-60 overflow-y-auto space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Transfer -->
+    <div id="modalTransfer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#162342] p-6 rounded-xl border-2 border-gtGold w-full max-w-md">
+            <h3 class="text-xl font-bold text-gtGold mb-4">Transfer Saldo</h3>
+            <input type="text" id="tujuanTransfer" placeholder="Username Tujuan" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-3">
+            <input type="number" id="jumlahTransfer" min="1000" placeholder="Jumlah (Rp)" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-4">
+            <div class="flex gap-2">
+                <button onclick="lakukanTransfer()" class="flex-1 py-2 bg-gtGreen rounded font-bold">Kirim</button>
+                <button onclick="tutupModalTransfer()" class="flex-1 py-2 bg-gtRed rounded font-bold">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Perpanjang -->
+    <div id="modalPerpanjang" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[#162342] p-6 rounded-xl border-2 border-gtGold w-full max-w-md">
+            <h3 class="text-xl font-bold text-gtGold mb-4">Perpanjang Masa Aktif</h3>
+            <select id="pilihLama" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-4">
+                <option value="7">7 Hari - Rp 10.000</option>
+                <option value="30">30 Hari - Rp 35.000</option>
+                <option value="90">90 Hari - Rp 90.000</option>
+            </select>
+            <div class="flex gap-2">
+                <button onclick="lakukanPerpanjang()" class="flex-1 py-2 bg-gtGreen rounded font-bold">Bayar & Perpanjang</button>
+                <button onclick="tutupModalPerpanjang()" class="flex-1 py-2 bg-gtRed rounded font-bold">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATABASE & DATA AWAL ---
+        let db = JSON.parse(localStorage.getItem('andraDevGachaDB')) || {
+            akun: [
+                {username: 'admin', sandi: 'admin123', saldo: 999999999, expired: 0, blokir: 0, salahLogin: 0}
+            ],
+            item: {
+                basic: [
+                    {nama: 'Batu Kecil', gambar: 'https://i.imgur.com/3yaf2WB.png', chance: 60},
+                    {nama: 'Biji Pohon', gambar: 'https://i.imgur.com/8Km9tLL.png', chance: 30},
+                    {nama: 'Batu Langka', gambar: 'https://i.imgur.com/Z6XbK0F.png', chance: 10}
+                ],
+                rare: [
+                    {nama: 'Batu Langka', gambar: 'https://i.imgur.com/Z6XbK0F.png', chance: 50},
+                    {nama: 'Alat Kerja', gambar: 'https://i.imgur.com/2nCt3Sbl.png', chance: 35},
+                    {nama: 'Barang Bernilai', gambar: 'https://i.imgur.com/9V5mQxH.png', chance: 15}
+                ],
+                mythic: [
+                    {nama: 'Barang Bernilai', gambar: 'https://i.imgur.com/9V5mQxH.png', chance: 60},
+                    {nama: 'Alat Kerja Premium', gambar: 'https://i.imgur.com/2nCt3Sbl.png', chance: 30},
+                    {nama: 'Item Legendaris', gambar: 'https://i.imgur.com/7Z9KqGm.png', chance: 10}
+                ]
+            },
+            pengaturan: {namaWeb: 'AndraDev', musik: 'https://cdn.jsdelivr.net/gh/andrawb/assets/music/hits-indo-2026.mp3'}
+        };
+
+        let userAktif = null;
+        let audio = document.getElementById('bgAudio');
+
+        // --- SIMPAN DATABASE ---
+        function simpanDB() {
+            localStorage.setItem('andraDevGachaDB', JSON.stringify(db));
         }
-        document.getElementById('user-list').innerHTML = list;
-    }
 
-    function roll() {
-        let img = document.getElementById('gacha-img');
-        // Proxy otomatis via weserv agar tidak tanda tanya
-        img.src = "https://images.weserv.nl/?url=https://i.ibb.co/hK8bHhX/Item-3802.png";
-        img.onerror = () => { img.src = 'https://i.ibb.co/C0W2h2Z/Item-3374.png'; };
-    }
-</script>
+        // --- JAM WAKTU ---
+        function updateJam() {
+            const now = new Date();
+            const jamWib = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Jakarta'}));
+            const jamWita = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Makassar'}));
+            const jamWit = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Jayapura'}));
+
+            const format = (t) => t.toLocaleString('id-ID', {day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'});
+
+            document.getElementById('jamWib').textContent = format(jamWib);
+            document.getElementById('jamWita').textContent = format(jamWita);
+            document.getElementById('jamWit').textContent = format(jamWit);
+        }
+        setInterval(updateJam, 1000); updateJam();
+
+        // --- KONTROL MUSIK ---
+        document.getElementById('btnPlay').addEventListener('click', () => audio.play().catch(() => {}));
+        document.getElementById('btnStop').addEventListener('click', () => audio.pause());
+        document.getElementById('speedAudio').addEventListener('change', (e) => audio.playbackRate = parseFloat(e.target.value));
+        document.getElementById('volumeAudio').addEventListener('input', (e) => audio.volume = e.target.value / 100);
+
+        // --- LOGIN SISTEM ---
+        function prosesLogin() {
+            const u = document.getElementById('inputUser').value.trim();
+            const p = document.getElementById('inputPass').value.trim();
+            const pesan = document.getElementById('pesanLogin');
+
+            if (!u || !p) return pesan.textContent = 'Isi semua kolom!', pesan.className = 'text-gtRed';
+
+            const akun = db.akun.find(a => a.username === u);
+            if (!akun) return pesan.textContent = 'Akun tidak ditemukan!', pesan.className = 'text-gtRed';
+
+            if (akun.blokir > Date.now()) return pesan.textContent = 'Akun diblokir, coba nanti!', pesan.className = 'text-gtRed';
+
+            if (akun.sandi !== p) {
+                akun.salahLogin++;
+                if (akun.salahLogin >= 3) {
+                    akun.blokir = Date.now() + 15 * 60 * 1000;
+                    pesan.textContent = 'Salah 3x! Akun diblokir 15 menit';
+                } else {
+                    pesan.textContent = `Salah! Kesempatan: ${3 - akun.salahLogin}`;
+                }
+                simpanDB();
+                return pesan.className = 'text-gtRed';
+            }
+
+            if (akun.expired !== 0 && akun.expired < Date.now()) {
+                return pesan.textContent = 'Masa aktif habis! Hubungi admin.', pesan.className = 'text-gtRed';
+            }
+
+            akun.salahLogin = 0;
+            simpanDB();
+            userAktif = akun;
+            masukKeHalamanUtama();
+        }
+
+        function masukKeHalamanUtama() {
+            document.getElementById('halamanLogin').classList.add('hidden');
+            document.getElementById('halamanUtama').classList.remove('hidden');
+            document.getElementById('namaPengguna').textContent = userAktif.username;
+            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
+            document.getElementById('masaAktifText').textContent = userAktif.expired === 0 ? 'Selamanya' : new Date(userAktif.expired).toLocaleDateString('id-ID');
+        }
+
+        function keluarAkun() {
+            userAktif = null;
+            document.getElementById('halamanUtama').classList.add('hidden');
+            document.getElementById('halamanLogin').classList.remove('hidden');
+            document.getElementById('inputUser').value = '';
+            document.getElementById('inputPass').value = '';
+        }
+
+        // --- GACHA SISTEM ---
+        function pilihPeti(jenis) {
+            window.jenisTerpilih = jenis;
+        }
+
+        function mulaiGacha(jenis) {
+            const harga = {basic: 5000, rare: 15000, mythic: 30000}[jenis];
+            if (userAktif.saldo < harga) return alert('Saldo tidak cukup!');
+
+            userAktif.saldo -= harga;
+            simpanDB();
+            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
+
+            const daftar = db.item[jenis];
+            let total = 0;
+            let hasil = null;
+            const acak = Math.random() * 100;
+
+            for (const item of daftar) {
+                total += item.chance;
+                if (acak <= total) {
+                    hasil = item;
+                    break;
+                }
+            }
+
+            const tampil = document.getElementById('hasilGacha');
+            tampil.innerHTML = `
+                <h3 class="text-xl font-bold text-gtGold mb-3">Selamat Kamu Mendapatkan:</h3>
+                <img src="${hasil.gambar}" alt="${hasil.nama}" class="w-40 h-40 mx-auto my-3 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]">
+                <p class="text-lg font-bold">${hasil.nama}</p>
+                <p class="text-sm text-gray-400">Peluang: ${hasil.chance}%</p>
+            `;
+        }
+
+        // --- TRANSFER SALDO ---
+        function bukaTransfer() {
+            document.getElementById('modalTransfer').classList.remove('hidden');
+        }
+        function tutupModalTransfer() {
+            document.getElementById('modalTransfer').classList.add('hidden');
+        }
+        function lakukanTransfer() {
+            const tujuan = document.getElementById('tujuanTransfer').value.trim();
+            const jumlah = parseInt(document.getElementById('jumlahTransfer').value);
+
+            if (!tujuan || !jumlah || jumlah < 1000) return alert('Isi data dengan benar!');
+            if (tujuan === userAktif.username) return alert('Tidak bisa transfer ke diri sendiri!');
+            if (userAktif.saldo < jumlah) return alert('Saldo tidak cukup!');
+
+            const akunTujuan = db.akun.find(a => a.username === tujuan);
+            if (!akunTujuan) return alert('Username tujuan tidak ditemukan!');
+
+            userAktif.saldo -= jumlah;
+            akunTujuan.saldo += jumlah;
+            simpanDB();
+            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
+            alert(`Berhasil transfer Rp ${jumlah.toLocaleString('id-ID')} ke ${tujuan}`);
+            tutupModalTransfer();
+        }
+
+        // --- PERPANJANG AKUN ---
+        function bukaPerpanjang() {
+            document.getElementById('modalPerpanjang').classList.remove('hidden');
+        }
+        function tutupModalPerpanjang() {
+            document.getElementById('modalPerpanjang').classList.add('hidden');
+        }
+        function lakukanPerpanjang() {
+            const hari = parseInt(document.getElementById('pilihLama').value);
+            const harga = {7: 10000, 30: 35000, 90: 90000}[hari];
+
+            if (userAktif.saldo < harga) return alert('Saldo tidak cukup!');
+
+            userAktif.saldo -= harga;
+            const tambah = hari * 24 * 60 * 60 * 1000;
+            userAktif.expired = userAktif.expired === 0 ? Date.now() + tambah : userAktif.expired + tambah;
+            simpanDB();
+            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
+            document.getElementById('masaAktifText').textContent = new Date(userAktif.expired).toLocaleDateString('id-ID');
+            alert(`Berhasil perpanjang ${hari} hari!`);
+            tutupModalPerpanjang();
+        }
+
+        // --- PANEL ADMIN ---
+        function bukaPanelAdmin() {
+            if (userAktif.username !== 'admin') return alert('Hanya admin yang bisa akses!');
+            document.getElementById('panelAdmin').classList.remove('hidden');
+            tampilkanDaftarAkunAdmin();
+            tampilkanDaftarItemAdmin();
+        }
+        function tutupPanelAdmin() {
+            document.getElementById('panelAdmin').classList.add('hidden');
+        }
+
+        function tambahAkunAdmin() {
+            const u = document.getElementById('adminUser').value.trim();
+            const p = document.getElementById('adminPass').value.trim();
+            const s = parseInt(document.getElementById('adminSaldo').value) || 0;
+            const e = parseInt(document.getElementById('adminExpired').value);
+
+            if (!u || !p) return alert('Username dan password wajib diisi!');
+            if (db.akun.some(a => a.username === u)) return alert('Username sudah ada!');
+
+            const expired = e === 0 ? 0 : Date.now() + e * 24 * 60 * 60 * 1000;
+            db.akun.push({username: u, sandi: p, saldo: s, expired: expired, blokir: 0, salahLogin: 0});
+            simpanDB();
+            tampilkanDaftarAkunAdmin();
+            alert('Akun berhasil ditambahkan!');
+        }
+
+        function tampilkanDaftarAkunAdmin() {
+            const wadah = document.getElementById('daftarAkunAdmin');
+            wadah.innerHTML = '';
+            db.akun.forEach((akun, idx) => {
+                if (akun.username === 'admin') return;
+                const teksExp = akun.expired === 0 ? 'Selamanya' : new Date(akun.expired).toLocaleDateString('id-ID');
+                wadah.innerHTML += `
+                    <div class="bg-black/50 p-2 rounded border border-gtBlue/30 flex justify-between items-center">
+                        <div>
+                            <p>${akun.username} | Rp ${akun.saldo.toLocaleString('id-ID')}</p>
+                            <p class="text-xs text-gray-400">Masa Aktif: ${teksExp}</p>
+                        </div>
+                        <button onclick="hapusAkunAdmin(${idx})" class="text-gtRed"><i class="fa fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function hapusAkunAdmin(idx) {
+            if (confirm('Yakin hapus akun ini?')) {
+                db.akun.splice(idx, 1);
+                simpanDB();
+                tampilkanDaftarAkunAdmin();
+            }
+        }
+
+        function tambahItemAdmin() {
+            const jenis = document.getElementById('jenisPetiAdmin').value;
+            const nama = document.getElementById('namaItemAdmin').value.trim();
+            const gambar = document.getElementById('gambarItemAdmin').value.trim();
+            const chance = parseFloat(document.getElementById('chanceItemAdmin').value);
+
+            if (!nama || !gambar || isNaN(chance) || chance <= 0 || chance > 100) return alert('Isi data dengan benar!');
+
+            db.item[jenis].push({nama, gambar, chance});
+            simpanDB();
+            tampilkanDaftarItemAdmin();
+            alert('Item berhasil ditambahkan!');
+        }
+
+        function tampilkanDaftarItemAdmin() {
+            const wadah = document.getElementById('daftarItemAdmin');
+            wadah.innerHTML = '';
+            for (const jenis in db.item) {
+                wadah.innerHTML += `<h4 class="text-sm text-gtGold mt-2">${jenis.toUpperCase()}</h4>`;
+                db.item[jenis].forEach((item, idx) => {
+                    wadah.innerHTML += `
+                        <div class="bg-black/50 p-2 rounded border border-gtBlue/30 flex justify-between items-center">
+                            <div>
+                                <p>${item.nama} | ${item.chance}%</p>
+                            </div>
+                            <button onclick="hapusItemAdmin('${jenis}', ${idx})" class="text-gtRed"><i class="fa fa-trash"></i></button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function hapusItemAdmin(jenis, idx) {
+            if (confirm('Yakin hapus item ini?')) {
+                db.item[jenis].splice(idx, 1);
+                simpanDB();
+                tampilkanDaftarItemAdmin();
+            }
+        }
+    </script>
 </body>
 </html>
