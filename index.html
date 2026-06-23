@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TeraPS Gacha</title>
+<title>AndraWeb Gacha</title>
 <style>
 * {
     margin: 0;
@@ -13,7 +13,7 @@
 }
 
 body {
-    background: #0a0d27 url('https://i.imgur.com/9ZbXqYj.jpg') no-repeat center/cover fixed;
+    background: #0a0d27 url('https://i.imgur.com/7ZbXqYj.jpg') no-repeat center/cover fixed;
     color: #ffffff;
     min-height: 100vh;
     padding: 20px 15px;
@@ -21,7 +21,58 @@ body {
     transition: background 0.3s;
 }
 
-/* ============= HALAMAN LOGIN ============= */
+/* Kontrol Musik */
+.music-control {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(12, 18, 50, 0.9);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(114, 215, 255, 0.4);
+    z-index: 9999;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.music-control button {
+    background: #0099ff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.music-control button:hover {
+    background: #00b2ff;
+}
+
+/* Animasi Gaya Growtopia */
+@keyframes kilau {
+    0% { box-shadow: 0 0 10px #ffd700, 0 0 20px rgba(255,215,0,0.4), inset 0 0 5px rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 0 20px #fff350, 0 0 35px rgba(255,215,0,0.7), inset 0 0 10px rgba(255,215,0,0.6); }
+    100% { box-shadow: 0 0 10px #ffd700, 0 0 20px rgba(255,215,0,0.4), inset 0 0 5px rgba(255,215,0,0.3); }
+}
+
+@keyframes gerakBingkai {
+    0% { border-color: #ffd700 #4ecdc4 #ffd700 #4ecdc4; }
+    25% { border-color: #4ecdc4 #ffd700 #4ecdc4 #ffd700; }
+    50% { border-color: #ff6b6b #ffd700 #ff6b6b #ffd700; }
+    75% { border-color: #4ecdc4 #ff6b6b #4ecdc4 #ff6b6b; }
+    100% { border-color: #ffd700 #4ecdc4 #ffd700 #4ecdc4; }
+}
+
+@keyframes naikTurun {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+/* Halaman Login */
 #halamanLogin {
     display: flex;
     flex-direction: column;
@@ -31,57 +82,81 @@ body {
 }
 
 .login-box {
-    background: rgba(12, 18, 50, 0.92);
+    background: linear-gradient(135deg, #1a2a4a 0%, #0f1a36 100%);
     padding: 35px 30px;
-    border-radius: 20px;
-    border: 2px solid rgba(114, 215, 255, 0.4);
+    border-radius: 12px;
+    border: 3px solid #ffd700;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 0 40px rgba(0, 160, 255, 0.3);
+    animation: kilau 3s infinite ease-in-out, gerakBingkai 8s linear infinite, naikTurun 4s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-box::before {
+    content: "";
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 60%);
+    animation: kilau 6s infinite alternate;
+    pointer-events: none;
 }
 
 .login-box h2 {
     text-align: center;
-    color: #72d7ff;
+    color: #ffd700;
     margin-bottom: 25px;
-    font-size: 26px;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255,215,0,0.5), 2px 2px 4px rgba(0,0,0,0.8);
+    letter-spacing: 1px;
 }
 
 .login-box p {
     text-align: center;
-    color: #a0b3d9;
+    color: #c0d8ff;
     margin-bottom: 20px;
     font-size: 14px;
+    text-shadow: 1px 1px 2px #000;
 }
 
 .login-box input {
     width: 100%;
     padding: 13px;
     margin: 10px 0;
-    border-radius: 10px;
-    border: 1px solid #334488;
-    background: #1e2952;
+    border-radius: 6px;
+    border: 2px solid #3a5795;
+    background: #162342;
     color: #fff;
     font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.login-box input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255,215,0,0.6);
 }
 
 .btn-login {
     width: 100%;
     padding: 14px;
     border: none;
-    border-radius: 10px;
-    font-size: 17px;
+    border-radius: 6px;
+    font-size: 18px;
     font-weight: bold;
-    background: linear-gradient(90deg, #0099ff, #5c52ff);
-    color: white;
+    background: linear-gradient(180deg, #ffd700 0%, #f5b800 100%);
+    color: #111;
     cursor: pointer;
     margin-top: 15px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     transition: 0.2s;
 }
 
 .btn-login:hover {
-    background: linear-gradient(90deg, #00b2ff, #7b61ff);
-    box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(255,215,0,0.4);
 }
 
 .pesan-error {
@@ -89,9 +164,10 @@ body {
     text-align: center;
     margin-top: 12px;
     display: none;
+    font-weight: bold;
 }
 
-/* ============= HALAMAN UTAMA ============= */
+/* Halaman Utama */
 #halamanUtama {
     display: none;
 }
@@ -102,25 +178,34 @@ header {
     padding: 15px;
     background: rgba(12, 18, 50, 0.75);
     border-radius: 12px;
-    border: 1px solid rgba(114, 215, 255, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.4);
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+    animation: kilau 4s infinite ease-in-out;
 }
 
 h1 {
     font-size: 28px;
-    background: linear-gradient(90deg, #72d7ff, #b066ff);
+    background: linear-gradient(90deg, #ffd700, #b066ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(114, 215, 255, 0.4);
+    text-shadow: 0 0 20px rgba(255,215,0,0.4);
 }
 
 .info-user {
     font-size: 14px;
-    color: #a0b3d9;
+    color: #c0d8ff;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.jam-wib {
+    font-weight: bold;
+    color: #ffd700;
 }
 
 .btn-keluar {
@@ -130,10 +215,17 @@ h1 {
     background: #ff4466;
     color: white;
     cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn-keluar:hover {
+    background: #ff2244;
+    box-shadow: 0 0 10px rgba(255,68,102,0.5);
 }
 
 .subtitle {
-    color: #a0b3d9;
+    color: #c0d8ff;
     font-size: 14px;
     margin-top: 8px;
     text-align: center;
@@ -152,32 +244,37 @@ h1 {
     border-radius: 18px;
     padding: 28px 18px;
     text-align: center;
-    border: 1px solid rgba(114, 215, 255, 0.28);
-    box-shadow: 0 0 28px rgba(0, 160, 255, 0.22);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 28px rgba(255, 215, 0, 0.22);
     transition: all 0.28s ease;
     cursor: pointer;
+    animation: naikTurun 5s ease-in-out infinite;
 }
 
 .chest-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 38px rgba(176, 102, 255, 0.42);
-    border-color: rgba(176, 102, 255, 0.5);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 0 38px rgba(255, 215, 0, 0.6);
+    border-color: #ffd700;
 }
 
 .chest-card img {
     width: 130px;
+    height: 130px;
     margin-bottom: 16px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(255,215,0,0.5));
 }
 
 .chest-card h3 {
     font-size: 21px;
     margin-bottom: 10px;
-    color: #e6f2ff;
+    color: #ffd700;
+    text-shadow: 0 0 6px rgba(255,215,0,0.5);
 }
 
 .chest-desc {
     font-size: 13px;
-    color: #8ca6d9;
+    color: #c0d8ff;
     margin-bottom: 20px;
 }
 
@@ -188,15 +285,17 @@ h1 {
     border-radius: 11px;
     font-size: 17px;
     font-weight: bold;
-    background: linear-gradient(90deg, #0099ff, #5c52ff);
-    color: #ffffff;
+    background: linear-gradient(90deg, #ffd700, #f59e00);
+    color: #111;
     cursor: pointer;
     transition: 0.22s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
 }
 
 .btn-buka:hover {
-    background: linear-gradient(90deg, #00b2ff, #7b61ff);
-    box-shadow: 0 0 18px rgba(0, 180, 255, 0.55);
+    background: linear-gradient(90deg, #fff350, #ffb300);
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.7);
+    transform: translateY(-2px);
 }
 
 .result-area {
@@ -205,15 +304,17 @@ h1 {
     background: rgba(16, 24, 60, 0.92);
     border-radius: 18px;
     padding: 32px 22px;
-    border: 1px solid rgba(114, 215, 255, 0.32);
+    border: 2px solid rgba(255, 215, 0, 0.4);
     text-align: center;
     min-height: 230px;
+    box-shadow: 0 0 25px rgba(255,215,0,0.2);
 }
 
 .result-area h2 {
-    color: #72d7ff;
+    color: #ffd700;
     margin-bottom: 28px;
     font-size: 24px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.5);
 }
 
 #hasil {
@@ -226,7 +327,8 @@ h1 {
     width: 150px;
     margin-top: 22px;
     border-radius: 12px;
-    box-shadow: 0 0 22px rgba(255, 220, 68, 0.45);
+    box-shadow: 0 0 22px rgba(255, 220, 68, 0.6);
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
 }
 
 .item-list {
@@ -235,13 +337,15 @@ h1 {
     background: rgba(12, 20, 55, 0.85);
     border-radius: 16px;
     padding: 22px;
-    border: 1px solid rgba(114, 215, 255, 0.25);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px rgba(255,215,0,0.15);
 }
 
 .item-list h3 {
-    color: #72d7ff;
+    color: #ffd700;
     margin-bottom: 18px;
     font-size: 20px;
+    text-shadow: 0 0 6px rgba(255,215,0,0.4);
 }
 
 .items-grid {
@@ -255,12 +359,19 @@ h1 {
     padding: 12px;
     border-radius: 10px;
     text-align: center;
-    border: 1px solid rgba(114, 215, 255, 0.2);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: 0.2s;
+}
+
+.item-box:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
 }
 
 .item-box img {
     width: 50px;
     margin-bottom: 8px;
+    object-fit: contain;
 }
 
 .item-box p {
@@ -283,34 +394,43 @@ h1 {
 }
 
 .admin-box {
-    max-width: 480px;
+    max-width: 500px;
     margin: 20px auto;
-    background: #121a3d;
+    background: linear-gradient(135deg, #1a2a4a 0%, #0f1a36 100%);
     padding: 28px 22px;
     border-radius: 18px;
-    border: 2px solid #72d7ff;
+    border: 3px solid #ffd700;
+    animation: kilau 3s infinite ease-in-out;
 }
 
 .admin-box h3 {
     text-align: center;
-    color: #72d7ff;
+    color: #ffd700;
     margin-bottom: 22px;
     font-size: 22px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.5);
 }
 
-input, textarea {
+input, select, textarea {
     width: 100%;
     padding: 12px;
     margin: 9px 0 16px;
     border-radius: 9px;
-    border: 1px solid #334488;
+    border: 2px solid #3a5795;
     background: #1e2952;
     color: #ffffff;
     font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255,215,0,0.5);
 }
 
 textarea {
-    min-height: 140px;
+    min-height: 120px;
     resize: vertical;
 }
 
@@ -321,19 +441,54 @@ textarea {
     border-radius: 9px;
     font-size: 16px;
     font-weight: bold;
-    background: linear-gradient(90deg, #b066ff, #72d7ff);
-    color: white;
+    background: linear-gradient(90deg, #ffd700, #b066ff);
+    color: #111;
     cursor: pointer;
     margin-top: 10px;
+    transition: 0.2s;
+}
+
+.btn-admin:hover {
+    opacity: 0.9;
+    box-shadow: 0 0 12px rgba(255,215,0,0.5);
 }
 
 .btn-tutup {
     background: #ff4466;
     margin-top: 20px;
+    color: white;
 }
 
-.btn-admin:hover {
-    opacity: 0.9;
+.btn-hapus {
+    background: #ff4466;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.daftar-akun {
+    background: rgba(16, 24, 60, 0.8);
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid rgba(255,215,0,0.3);
+}
+
+.daftar-akun p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #d0e6ff;
+}
+
+.form-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 8px;
+    margin-bottom: 10px;
+    align-items: center;
 }
 
 .btn-pengaturan {
@@ -343,32 +498,53 @@ textarea {
     padding: 10px 16px;
     border-radius: 8px;
     background: #222e66;
-    border: 1px solid #72d7ff;
-    color: #fff;
+    border: 2px solid #ffd700;
+    color: #ffd700;
     cursor: pointer;
     font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+    transition: 0.2s;
+}
+
+.btn-pengaturan:hover {
+    background: #2a3980;
+    box-shadow: 0 0 15px rgba(255,215,0,0.6);
 }
 </style>
 </head>
 <body>
 
-<!-- HALAMAN LOGIN -->
+<!-- Kontrol Musik -->
+<div class="music-control">
+    <button id="toggleMusic">🔊 Putar/Jeda</button>
+    <input type="range" id="volumeControl" min="0" max="100" value="50" style="width:70px;">
+</div>
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.jsdelivr.net/gh/andrawb/assets/music/dj-plat-kt-breakbeat-2026.mp3" type="audio/mpeg">
+    Browser kamu tidak mendukung pemutar musik.
+
+
+<!-- Halaman Login -->
 <div id="halamanLogin">
     <div class="login-box">
-        <h2>Masuk ke TeraPS Gacha</h2>
+        <h2>AndraWeb Gacha</h2>
         <p>Gunakan akun yang diberikan pengelola</p>
         <input type="text" id="inputUser" placeholder="Username">
         <input type="password" id="inputPass" placeholder="Password">
         <button class="btn-login" onclick="cekLogin()">Masuk</button>
-        <div class="pesan-error" id="pesanError">Username atau Password salah!</div>
+        <div class="pesan-error" id="pesanError">Username atau Password salah / sudah kadaluwarsa!</div>
     </div>
 </div>
 
-<!-- HALAMAN UTAMA -->
+<!-- Halaman Utama -->
 <div id="halamanUtama">
     <header>
-        <h1>TeraPS Gacha</h1>
-        <div class="info-user">Selamat datang, <span id="namaPengguna"></span></div>
+        <h1>AndraWeb Gacha</h1>
+        <div class="info-user">
+            <span>Selamat datang, <span id="namaPengguna"></span></span>
+            <span class="jam-wib" id="jamWib"></span>
+        </div>
         <button class="btn-keluar" onclick="keluarAkun()">Keluar</button>
     </header>
     <p class="subtitle">PILIH CHEST UNTUK DIBUKA • Setiap chest berisi item dengan peluang berbeda</p>
@@ -407,7 +583,7 @@ textarea {
     <button class="btn-pengaturan" onclick="bukaAdmin()">⚙️ Pengaturan Admin</button>
 </div>
 
-<!-- PANEL ADMIN -->
+<!-- Panel Admin -->
 <div id="adminPanel">
     <div class="admin-box">
         <h3>🔐 Masuk Pengaturan</h3>
@@ -415,24 +591,45 @@ textarea {
         <button class="btn-admin" onclick="cekSandiAdmin()">Masuk</button>
 
         <div id="kontenAdmin" style="display:none; margin-top:25px;">
-            <h3>👤 Atur Semua Akun Pengguna</h3>
-            <textarea id="dataAkun" rows="6" placeholder="Format: username|kata_sandi
-Contoh:
-admin|admin123
-pengguna1|pass123
-pengguna2|pass456"></textarea>
-            <button class="btn-admin" onclick="simpanAkun()">Simpan Daftar Akun</button>
+            <!-- Atur Akun Pengguna -->
+            <h3>👤 Atur Akun Pengguna</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr auto; gap:8px; margin-bottom:15px;">
+                <input type="text" id="tambahUser" placeholder="Username">
+                <input type="password" id="tambahPass" placeholder="Password">
+                <select id="masaAktif">
+                    <option value="0">Selamanya</option>
+                    <option value="1">1 Hari</option>
+                    <option value="7">7 Hari</option>
+                    <option value="30">30 Hari</option>
+                </select>
+                <button class="btn-admin" onclick="tambahAkun()" style="padding:12px 8px;">+</button>
+            </div>
+            <div id="tampilanDaftarAkun"></div>
 
+            <!-- Ganti Lagu -->
+            <h3 style="margin-top:22px;">🎵 Ganti Lagu Latar</h3>
+            <input type="text" id="linkLagu" placeholder="Masukkan link lagu MP3">
+            <button class="btn-admin" onclick="gantiLagu()">Terapkan</button>
+
+            <!-- Ganti Latar -->
             <h3 style="margin-top:22px;">🖼️ Ganti Latar Belakang</h3>
             <input type="text" id="linkLatar" placeholder="Tautan gambar latar">
             <button class="btn-admin" onclick="gantiLatar()">Terapkan</button>
 
+            <!-- Atur Item & Peluang -->
             <h3 style="margin-top:22px;">📋 Atur Item & Peluang</h3>
-            <textarea id="dataSemuaChest" rows="8" placeholder="Format: jenis|nama_item|tautan_gambar|peluang
-Contoh:
-rare|Legendary Rayman|https://i.imgur.com/Z6XbK0F.png|5
-mythic|Mythical Rayman|https://i.imgur.com/8Km9tLL.png|15"></textarea>
-            <button class="btn-admin" onclick="simpanSemuaChest()">Simpan Perubahan</button>
+            <select id="jenisPeti">
+                <option value="rare">Rare Chest</option>
+                <option value="mythic">Mythic Chest</option>
+                <option value="secret">Secret Chest</option>
+            </select>
+            <div class="form-item">
+                <input type="text" id="namaItem" placeholder="Nama Item">
+                <input type="text" id="gambarItem" placeholder="Link Gambar">
+                <input type="number" id="peluangItem" min="0" max="100" step="0.1" placeholder="Peluang %">
+                <button class="btn-admin" onclick="tambahItem()">+</button>
+            </div>
+            <div id="daftarItemAdmin"></div>
 
             <button class="btn-admin btn-tutup" onclick="tutupAdmin()">Tutup Pengaturan</button>
         </div>
@@ -440,51 +637,80 @@ mythic|Mythical Rayman|https://i.imgur.com/8Km9tLL.png|15"></textarea>
 </div>
 
 <script>
-// Data awal akun
-let daftarAkun = [
-    { username: "admin", sandi: "admin123" }
+// Data Awal
+let daftarAkun = JSON.parse(localStorage.getItem('daftarAkunGacha')) || [
+    { username: "admin", sandi: "admin123", kadaluarsa: 0 }
 ];
 
-// Data awal gacha
-let chestData = {
+let chestData = JSON.parse(localStorage.getItem('chestDataGacha')) || {
     rare: [
         { nama: "✨ Legendary Rayman", gambar: "https://i.imgur.com/Z6XbK0F.png", peluang: 5 },
         { nama: "💎 Mythical Rayman", gambar: "https://i.imgur.com/8Km9tLL.png", peluang: 15 },
-        { nama: "🔧 Magplant 15K", gambar: "https://i.imgur.com/3yaf2WB.png", peluang: 25 },
-        { nama: "🪱 Worm", gambar: "https://i.imgur.com/2nCt3Sbl.png", peluang: 55 }
+        { nama: "🔧 Magplant 15K", gambar: "https://i.imgur.com/2nCt3Sbl.png", peluang: 25 },
+        { nama: "🪱 Worm", gambar: "https://i.imgur.com/3yaf2WB.png", peluang: 55 }
     ],
     mythic: [
         { nama: "✨ Legendary Rayman", gambar: "https://i.imgur.com/Z6XbK0F.png", peluang: 12 },
         { nama: "💎 Mythical Rayman", gambar: "https://i.imgur.com/8Km9tLL.png", peluang: 28 },
-        { nama: "🔧 Magplant 15K", gambar: "https://i.imgur.com/3yaf2WB.png", peluang: 35 },
-        { nama: "🪱 Worm", gambar: "https://i.imgur.com/2nCt3Sbl.png", peluang: 25 }
+        { nama: "🔧 Magplant 15K", gambar: "https://i.imgur.com/2nCt3Sbl.png", peluang: 35 },
+        { nama: "🪱 Worm", gambar: "https://i.imgur.com/3yaf2WB.png", peluang: 25 }
     ],
     secret: [
         { nama: "✨ Legendary Rayman", gambar: "https://i.imgur.com/Z6XbK0F.png", peluang: 25 },
         { nama: "💎 Mythical Rayman", gambar: "https://i.imgur.com/8Km9tLL.png", peluang: 40 },
-        { nama: "🔧 Magplant 15K", gambar: "https://i.imgur.com/3yaf2WB.png", peluang: 25 },
-        { nama: "🪱 Worm", gambar: "https://i.imgur.com/2nCt3Sbl.png", peluang: 10 }
+        { nama: "🔧 Magplant 15K", gambar: "https://i.imgur.com/2nCt3Sbl.png", peluang: 25 },
+        { nama: "🪱 Worm", gambar: "https://i.imgur.com/3yaf2WB.png", peluang: 10 }
     ]
 };
 
 let jenisSekarang = "rare";
 const sandiAdmin = "admin123";
+const musik = document.getElementById("bgMusic");
+
+// Jam WIB
+function perbaruiJam() {
+    const waktu = new Date().toLocaleString('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    document.getElementById("jamWib").textContent = waktu;
+}
+setInterval(perbaruiJam, 1000);
+perbaruiJam();
+
+// Kontrol Musik
+document.getElementById("toggleMusic").addEventListener("click", () => {
+    if (musik.paused) musik.play().catch(e => console.log("Klik untuk aktifkan musik:", e));
+    else musik.pause();
+});
+document.getElementById("volumeControl").addEventListener("input", () => musik.volume = document.getElementById("volumeControl").value / 100);
 
 // Fungsi Login
 function cekLogin() {
     const user = document.getElementById("inputUser").value.trim();
     const pass = document.getElementById("inputPass").value.trim();
+    const sekarang = Date.now();
     const cocok = daftarAkun.find(a => a.username === user && a.sandi === pass);
 
-    if (cocok) {
-        document.getElementById("namaPengguna").textContent = user;
-        document.getElementById("halamanLogin").style.display = "none";
-        document.getElementById("halamanUtama").style.display = "block";
-        tampilkanDaftarItem();
-    } else {
-        document.getElementById("pesanError").style.display = "block";
-        setTimeout(() => document.getElementById("pesanError").style.display = "none", 3000);
-    }
+    if (!cocok) return tampilPesanSalah();
+    if (cocok.kadaluarsa !== 0 && cocok.kadaluarsa < sekarang) return tampilPesanSalah();
+
+    document.getElementById("namaPengguna").textContent = user;
+    document.getElementById("halamanLogin").style.display = "none";
+    document.getElementById("halamanUtama").style.display = "block";
+    tampilkanDaftarItem();
+}
+
+function tampilPesanSalah() {
+    const el = document.getElementById("pesanError");
+    el.style.display = "block";
+    setTimeout(() => el.style.display = "none", 3000);
 }
 
 function keluarAkun() {
@@ -501,7 +727,7 @@ function tampilkanDaftarItem() {
     chestData[jenisSekarang].forEach(item => {
         wadah.innerHTML += `
             <div class="item-box">
-                <img src="${item.gambar}" alt="${item.nama}">
+                <img src="${item.gambar}" alt="${item.nama}" onerror="this.src='https://i.imgur.com/9ZbXqYj.jpg'">
                 <p>${item.nama}</p>
                 <p style="font-size:10px; color:#aaa;">${item.peluang}%</p>
             </div>
@@ -511,7 +737,7 @@ function tampilkanDaftarItem() {
 
 function pilihChest(jenis) {
     jenisSekarang = jenis;
-    document.getElementById("hasil").innerHTML = `Kamu memilih <b>${jenis.toUpperCase()} CHEST</b>, silakan tekan tombol buka!`;
+    document.getElementById("hasil").innerHTML = `Kamu memilih <b style="color:#ffd700;">${jenis.toUpperCase()} CHEST</b>, silakan tekan tombol buka!`;
     tampilkanDaftarItem();
 }
 
@@ -521,19 +747,16 @@ function mulaiGacha() {
     let total = 0, dapat;
     for (let barang of daftar) {
         total += barang.peluang;
-        if (acak <= total) {
-            dapat = barang;
-            break;
-        }
+        if (acak <= total) { dapat = barang; break; }
     }
     document.getElementById("hasil").innerHTML = `
         <h3>${dapat.nama}</h3>
-        <img src="${dapat.gambar}" alt="Hadiah">
+        <img src="${dapat.gambar}" alt="Hadiah" onerror="this.src='https://i.imgur.com/9ZbXqYj.jpg'">
         <p style="margin-top:10px; color:#aaa;">Peluang: ${dapat.peluang}%</p>
     `;
 }
 
-// Fungsi Admin
+// Panel Admin
 function bukaAdmin() {
     document.getElementById("adminPanel").style.display = "block";
     document.getElementById("kontenAdmin").style.display = "none";
@@ -548,76 +771,92 @@ function cekSandiAdmin() {
     const masukan = document.getElementById("passAdmin").value;
     if (masukan === sandiAdmin) {
         document.getElementById("kontenAdmin").style.display = "block";
-        isiDataAkunKeKolom();
-        isiDataChestKeKolom();
-    } else {
-        alert("❌ Sandi admin salah!");
-    }
+        tampilkanDaftarAkun();
+        tampilkanDaftarItemAdmin();
+    } else alert("❌ Sandi admin salah!");
 }
 
-function isiDataAkunKeKolom() {
-    let teks = "";
-    daftarAkun.forEach(a => teks += `${a.username}|${a.sandi}\n`);
-    document.getElementById("dataAkun").value = teks;
+function simpanData() {
+    localStorage.setItem('daftarAkunGacha', JSON.stringify(daftarAkun));
+    localStorage.setItem('chestDataGacha', JSON.stringify(chestData));
 }
 
-function simpanAkun() {
-    const teks = document.getElementById("dataAkun").value.trim();
-    if (!teks) return alert("⚠️ Data tidak boleh kosong!");
-    const baris = teks.split("\n");
-    const baru = [];
-    let ok = true;
-    baris.forEach(brs => {
-        brs = brs.trim();
-        if (!brs) return;
-        const bagian = brs.split("|");
-        if (bagian.length === 2 && bagian[0].trim() && bagian[1].trim()) {
-            baru.push({ username: bagian[0].trim(), sandi: bagian[1].trim() });
-        } else ok = false;
+function tambahAkun() {
+    const user = document.getElementById("tambahUser").value.trim();
+    const pass = document.getElementById("tambahPass").value.trim();
+    const hari = parseInt(document.getElementById("masaAktif").value);
+    if (!user || !pass) return alert("⚠️ Isi username & password!");
+    const kadaluarsa = hari === 0 ? 0 : Date.now() + hari * 86400000;
+    daftarAkun.push({ username: user, sandi: pass, kadaluarsa });
+    simpanData();
+    tampilkanDaftarAkun();
+    document.getElementById("tambahUser").value = "";
+    document.getElementById("tambahPass").value = "";
+}
+
+function tampilkanDaftarAkun() {
+    const wadah = document.getElementById("tampilanDaftarAkun");
+    wadah.innerHTML = "<h4 style='color:#ffd700; margin:10px 0;'>Daftar Akun:</h4>";
+    daftarAkun.forEach((akun, idx) => {
+        const status = akun.kadaluarsa === 0 ? "Selamanya" : new Date(akun.kadaluarsa).toLocaleDateString('id-ID');
+        wadah.innerHTML += `
+            <div class="daftar-akun">
+                <p>👤 ${akun.username} | 🗓️ ${status}</p>
+                <button class="btn-hapus" onclick="hapusAkun(${idx})">Hapus</button>
+            </div>
+        `;
     });
-    if (!ok) return alert("❌ Format salah! Gunakan: username|kata_sandi");
-    daftarAkun = baru;
-    alert("✅ Daftar akun berhasil disimpan!");
 }
 
-function isiDataChestKeKolom() {
-    let teks = "";
+function hapusAkun(idx) {
+    if (confirm("Yakin hapus akun ini?")) { daftarAkun.splice(idx, 1); simpanData(); tampilkanDaftarAkun(); }
+}
+
+function tambahItem() {
+    const jenis = document.getElementById("jenisPeti").value;
+    const nama = document.getElementById("namaItem").value.trim();
+    const gambar = document.getElementById("gambarItem").value.trim();
+    const peluang = parseFloat(document.getElementById("peluangItem").value);
+    if (!nama || !gambar || isNaN(peluang) || peluang <= 0) return alert("⚠️ Isi semua data dengan benar!");
+    chestData[jenis].push({ nama, gambar, peluang });
+    simpanData();
+    tampilkanDaftarItemAdmin();
+    document.getElementById("namaItem").value = "";
+    document.getElementById("gambarItem").value = "";
+    document.getElementById("peluangItem").value = "";
+}
+
+function tampilkanDaftarItemAdmin() {
+    const wadah = document.getElementById("daftarItemAdmin");
+    wadah.innerHTML = "<h4 style='color:#ffd700; margin:10px 0;'>Daftar Item:</h4>";
     for (const jenis in chestData) {
-        chestData[jenis].forEach(item => {
-            teks += `${jenis}|${item.nama}|${item.gambar}|${item.peluang}\n`;
+        wadah.innerHTML += `<p style="color:#c0d8ff; margin-top:8px; font-weight:bold;">${jenis.toUpperCase()}</p>`;
+        chestData[jenis].forEach((item, idx) => {
+            wadah.innerHTML += `
+                <div class="daftar-akun">
+                    <p>${item.nama} | ${item.peluang}%</p>
+                    <button class="btn-hapus" onclick="hapusItem('${jenis}', ${idx})">Hapus</button>
+                </div>
+            `;
         });
     }
-    document.getElementById("dataSemuaChest").value = teks;
 }
 
-function simpanSemuaChest() {
-    const teks = document.getElementById("dataSemuaChest").value.trim();
-    if (!teks) return alert("⚠️ Data tidak boleh kosong!");
-    const baris = teks.split("\n");
-    const baru = { rare: [], mythic: [], secret: [] };
-    let ok = true;
-    baris.forEach(brs => {
-        brs = brs.trim();
-        if (!brs) return;
-        const bagian = brs.split("|");
-        if (bagian.length === 4 && ["rare", "mythic", "secret"].includes(bagian[0])) {
-            baru[bagian[0]].push({
-                nama: bagian[1].trim(),
-                gambar: bagian[2].trim(),
-                peluang: parseFloat(bagian[3])
-            });
-        } else ok = false;
-    });
-    if (!ok) return alert("❌ Format salah!");
-    chestData = baru;
-    tampilkanDaftarItem();
-    alert("✅ Data gacha berhasil disimpan!");
+function hapusItem(jenis, idx) {
+    if (confirm("Yakin hapus item ini?")) { chestData[jenis].splice(idx, 1); simpanData(); tampilkanDaftarItemAdmin(); tampilkanDaftarItem(); }
+}
+
+function gantiLagu() {
+    const link = document.getElementById("linkLagu").value.trim();
+    if (!link) return alert("⚠️ Masukkan link lagu!");
+    musik.src = link; musik.load(); musik.play().catch(e => {});
+    alert("✅ Lagu berhasil diganti!");
 }
 
 function gantiLatar() {
-    const tautan = document.getElementById("linkLatar").value.trim();
-    if (!tautan) return alert("⚠️ Masukkan tautan gambar!");
-    document.body.style.backgroundImage = `url('${tautan}')`;
+    const link = document.getElementById("linkLatar").value.trim();
+    if (!link) return alert("⚠️ Masukkan link gambar!");
+    document.body.style.backgroundImage = `url('${link}')`;
     alert("✅ Latar belakang berhasil diganti!");
 }
 </script>
