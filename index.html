@@ -1,1 +1,298 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>AndraWeb Gacha</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,Arial,sans-serif}body{background:#0a0d27 url('https://i.imgur.com/9ZbXqYj.jpg') no-repeat center/cover fixed;color:#fff;min-height:100vh;padding:20px 15px;line-height:1.5;transition:background .3s}.music-control{position:fixed;bottom:20px;left:20px;background:rgba(12,18,50,.9);padding:8px 12px;border-radius:8px;border:1px solid rgba(114,215,255,.4);z-index:9999;display:flex;gap:8px;align-items:center;font-size:13px}.music-control button{background:#0099ff;border:none;border-radius:4px;color:#fff;padding:4px 8px;cursor:pointer;font-size:12px}.music-control button:hover{background:#00b2ff}@keyframes kilau{0%{box-shadow:0 0 10px #ffd700,0 0 20px rgba(255,215,0,.4),inset 0 0 5px rgba(255,215,0,.3)}50%{box-shadow:0 0 20px #fff350,0 0 35px rgba(255,215,0,.7),inset 0 0 10px rgba(255,215,0,.6)}100%{box-shadow:0 0 10px #ffd700,0 0 20px rgba(255,215,0,.4),inset 0 0 5px rgba(255,215,0,.3)}}@keyframes gerakBingkai{0%{border-color:#ffd700 #4ecdc4 #ffd700 #4ecdc4}25%{border-color:#4ecdc4 #ffd700 #4ecdc4 #ffd700}50%{border-color:#ff6b6b #ffd700 #ff6b6b #ffd700}75%{border-color:#4ecdc4 #ff6b6b #4ecdc4 #ff6b6b}100%{border-color:#ffd700 #4ecdc4 #ffd700 #4ecdc4}}@keyframes naikTurun{0%{transform:translateY(0)}50%{transform:translateY(-5px)}100%{transform:translateY(0)}}#halamanLogin{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh}.login-box{background:linear-gradient(135deg,#1a2a4a 0,#0f1a36 100%);padding:35px 30px;border-radius:12px;border:3px solid #ffd700;width:100%;max-width:400px;animation:kilau 3s infinite ease-in-out,gerakBingkai 8s linear infinite,naikTurun 4s ease-in-out infinite;position:relative;overflow:hidden}.login-box::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,215,0,.15) 0,transparent 60%);animation:kilau 6s infinite alternate;pointer-events:none}.login-box h2{text-align:center;color:#ffd700;margin-bottom:25px;font-size:28px;font-weight:700;text-shadow:0 0 8px rgba(255,215,0,.5),2px 2px 4px rgba(0,0,0,.8);letter-spacing:1px}.login-box p{text-align:center;color:#c0d8ff;margin-bottom:20px;font-size:14px;text-shadow:1px 1px 2px #000}.login-box input{width:100%;padding:13px;margin:10px 0;border-radius:6px;border:2px solid #3a5795;background:#162342;color:#fff;font-size:16px;outline:0;transition:.2s}.login-box input:focus{border-color:#ffd700;box-shadow:0 0 8px rgba(255,215,0,.6)}.btn-login{width:100%;padding:14px;border:none;border-radius:6px;font-size:18px;font-weight:700;background:linear-gradient(180deg,#ffd700 0,#f5b800 100%);color:#111;cursor:pointer;margin-top:15px;box-shadow:0 3px 6px rgba(0,0,0,.3);transition:.2s}.btn-login:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(255,215,0,.4)}.pesan-error{color:#f66;text-align:center;margin-top:12px;display:none;font-weight:700}#halamanUtama{display:none}header{text-align:center;margin-bottom:35px;padding:15px;background:rgba(12,18,50,.75);border-radius:12px;border:2px solid rgba(255,215,0,.4);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;animation:kilau 4s infinite ease-in-out}h1{font-size:28px;background:linear-gradient(90deg,#ffd700,#b066ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 20px rgba(255,215,0,.4)}.info-user{font-size:14px;color:#c0d8ff;display:flex;flex-direction:column;gap:4px}.jam-wib{font-weight:700;color:#ffd700}.btn-keluar{padding:8px 14px;border:none;border-radius:8px;background:#f46;color:#fff;cursor:pointer;font-weight:700;transition:.2s}.btn-keluar:hover{background:#f24;box-shadow:0 0 10px rgba(255,68,102,.5)}.subtitle{color:#c0d8ff;font-size:14px;margin-top:8px;text-align:center}.chest-selector{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;max-width:950px;margin:0 auto 45px}.chest-card{background:rgba(16,24,60,.88);border-radius:18px;padding:28px 18px;text-align:center;border:2px solid rgba(255,215,0,.4);box-shadow:0 0 28px rgba(255,215,0,.22);transition:all .28s ease;cursor:pointer;animation:naikTurun 5s ease-in-out infinite}.chest-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 0 38px rgba(255,215,0,.6);border-color:#ffd700}.chest-card img{width:130px;height:130px;margin-bottom:16px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(255,215,0,.5))}.chest-card h3{font-size:21px;margin-bottom:10px;color:#ffd700;text-shadow:0 0 6px rgba(255,215,0,.5)}.chest-desc{font-size:13px;color:#c0d8ff;margin-bottom:20px}.btn-buka{width:100%;padding:13px;border:none;border-radius:11px;font-size:17px;font-weight:700;background:linear-gradient(90deg,#ffd700,#f59e00);color:#111;cursor:pointer;transition:.22s;box-shadow:0 3px 8px rgba(0,0,0,.3)}.btn-buka:hover{background:linear-gradient(90deg,#fff350,#ffb300);box-shadow:0 0 18px rgba(255,215,0,.7);transform:translateY(-2px)}.result-area{max-width:720px;margin:0 auto 40px;background:rgba(16,24,60,.92);border-radius:18px;padding:32px 22px;border:2px solid rgba(255,215,0,.4);text-align:center;min-height:230px;box-shadow:0 0 25px rgba(255,215,0,.2)}.result-area h2{color:#ffd700;margin-bottom:28px;font-size:24px;text-shadow:0 0 8px rgba(255,215,0,.5)}#hasil{font-size:24px;font-weight:700;color:#fd4}#hasil img{width:150px;margin-top:22px;border-radius:12px;box-shadow:0 0 22px rgba(255,220,68,.6);filter:drop-shadow(0 0 10px rgba(255,215,0,.5))}.item-list{max-width:950px;margin:0 auto 40px;background:rgba(12,20,55,.85);border-radius:16px;padding:22px;border:2px solid rgba(255,215,0,.3);box-shadow:0 0 20px rgba(255,215,0,.15)}.item-list h3{color:#ffd700;margin-bottom:18px;font-size:20px;text-shadow:0 0 6px rgba(255,215,0,.4)}.items-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:15px}.item-box{background:rgba(25,35,75,.8);padding:12px;border-radius:10px;text-align:center;border:1px solid rgba(255,215,0,.3);transition:.2s}.item-box:hover{border-color:#ffd700;box-shadow:0 0 10px rgba(255,215,0,.3)}.item-box img{width:50px;margin-bottom:8px;object-fit:contain}.item-box p{font-size:12px;color:#d0e6ff}#adminPanel{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.93);z-index:999;padding:25px 15px;overflow-y:auto}.admin-box{max-width:500px;margin:20px auto;background:linear-gradient(135deg,#1a2a4a 0,#0f1a36 100%);padding:28px 22px;border-radius:18px;border:3px solid #ffd700;animation:kilau 3s infinite ease-in-out}.admin-box h3{text-align:center;color:#ffd700;margin-bottom:22px;font-size:22px;text-shadow:0 0 8px rgba(255,215,0,.5)}input,select,textarea{width:100%;padding:12px;margin:9px 0 16px;border-radius:9px;border:2px solid #3a5795;background:#1e2952;color:#fff;font-size:15px;outline:0;transition:.2s}input:focus,select:focus,textarea:focus{border-color:#ffd700;box-shadow:0 0 8px rgba(255,215,0,.5)}textarea{min-height:120px;resize:vertical}.btn-admin{width:100%;padding:12px;border:none;border-radius:9px;font-size:16px;font-weight:700;background:linear-gradient(90deg,#ffd700,#b066ff);color:#111;cursor:pointer;margin-top:10px;transition:.2s}.btn-admin:hover{opacity:.9;box-shadow:0 0 12px rgba(255,215,0,.5)}.btn-tutup{background:#f46;margin-top:20px;color:#fff}.btn-hapus{background:#f46;color:#fff;border:none;padding:6px 10px;border-radius:5px;cursor:pointer;font-size:12px}.daftar-akun{background:rgba(16,24,60,.8);border-radius:8px;padding:10px;margin:10px 0;border:1px solid rgba(255,215,0,.3)}.daftar-akun p{margin:4px 0;font-size:14px;color:#d0e6ff}.form-item{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-bottom:10px;align-items:center}.btn-pengaturan{position:fixed;bottom:20px;right:20px;padding:10px 16px;border-radius:8px;background:#222e66;border:2px solid #ffd700;color:#ffd700;cursor:pointer;font-size:14px;font-weight:700;box-shadow:0 0 10px rgba(255,215,0,.3);transition:.2s}.btn-pengaturan:hover{background:#2a3980;box-shadow:0 0 15px rgba(255,215,0,.6)}</style></head><body><div class="music-control"><button id="toggleMusic">🔊 Putar/Jeda</button><input type="range" id="volumeControl" min="0" max="100" value="50" style="width:70px"></div><audio id="bgMusic" loop preload="auto"><source src="https://cdn.jsdelivr.net/gh/andrawb/assets/music/dj-plat-kt-breakbeat-2026.mp3" type="audio/mpeg">Browser tidak mendukung pemutar musik<div id="halamanLogin"><div class="login-box"><h2>AndraWeb Gacha</h2><p>Gunakan akun yang diberikan</p><input type="text" id="inputUser" placeholder="Username"><input type="password" id="inputPass" placeholder="Password"><button class="btn-login" onclick="cekLogin()">Masuk</button><div class="pesan-error" id="pesanError">Username atau Password salah!</div></div></div><div id="halamanUtama"><header><h1>AndraWeb Gacha</h1><div class="info-user"><span>Selamat datang, <span id="namaPengguna"></span></span><span class="jam-wib" id="jamWib"></span></div><button class="btn-keluar" onclick="keluarAkun()">Keluar</button></header><p class="subtitle">PILIH CHEST UNTUK DIBUKA</p><div class="chest-selector"><div class="chest-card" onclick="pilihChest('rare')"><img src="https://i.imgur.com/7Z9KqGm.png" alt="Rare Chest"><h3>Rare Chest</h3><p class="chest-desc">Item biasa sampai bagus</p><button class="btn-buka" onclick="mulaiGacha()">BUKA</button></div><div class="chest-card" onclick="pilihChest('mythic')"><img src="https://i.imgur.com/3xQz8Lp.png" alt="Mythic Chest"><h3>Mythic Chest</h3><p class="chest-desc">Peluang item langka lebih tinggi</p><button class="btn-buka" onclick="mulaiGacha()">BUKA</button></div><div class="chest-card" onclick="pilihChest('secret')"><img src="https://i.imgur.com/9V5mQxH.png" alt="Secret Chest"><h3>Secret Chest</h3><p class="chest-desc">Item paling langka</p><button class="btn-buka" onclick="mulaiGacha()">BUKA</button></div></div><div class="result-area"><h2>Hasil Buka</h2><div id="hasil">Pilih dan buka peti di atas</div></div><div class="item-list"><h3>Daftar Item</h3><div class="items-grid" id="daftarItemTampil"></div></div><button class="btn-pengaturan" onclick="bukaAdmin()">⚙️ Admin</button></div><div id="adminPanel"><div class="admin-box"><h3>🔐 Masuk Admin</h3><input type="password" id="passAdmin" placeholder="Sandi Admin"><button class="btn-admin" onclick="cekSandiAdmin()">Masuk</button><div id="kontenAdmin" style="display:none;margin-top:25px"><h3>👤 Atur Akun</h3><div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-bottom:15px"><input type="text" id="tambahUser" placeholder="Username"><input type="password" id="tambahPass" placeholder="Password"><select id="masaAktif"><option value="0">Selamanya</option><option value="1">1 Hari</option><option value="7">7 Hari</option><option value="30">30 Hari</option></select><button class="btn-admin" onclick="tambahAkun()" style="padding:12px 8px;">+</button></div><div id="tampilanDaftarAkun"></div><h3 style="margin-top:22px">🎵 Ganti Lagu</h3><input type="text" id="linkLagu" placeholder="Link MP3"><button class="btn-admin" onclick="gantiLagu()">Terapkan</button><h3 style="margin-top:22px">🖼️ Ganti Latar</h3><input type="text" id="linkLatar" placeholder="Link Gambar"><button class="btn-admin" onclick="gantiLatar()">Terapkan</button><h3 style="margin-top:22px">📋 Atur Item</h3><select id="jenisPeti"><option value="rare">Rare</option><option value="mythic">Mythic</option><option value="secret">Secret</option></select><div class="form-item"><input type="text" id="namaItem" placeholder="Nama"><input type="text" id="gambarItem" placeholder="Link Gambar"><input type="number" id="peluangItem" min="0" max="100" step="0.1" placeholder="%"><button class="btn-admin" onclick="tambahItem()">+</button></div><div id="daftarItemAdmin"></div><button class="btn-admin btn-tutup" onclick="tutupAdmin()">Tutup</button></div></div></div><script>let daftarAkun=JSON.parse(localStorage.getItem('daftarAkunGacha'))||[{username:"admin",sandi:"admin123",kadaluarsa:0}];let chestData=JSON.parse(localStorage.getItem('chestDataGacha'))||{rare:[{nama:"✨ Legendary Rayman",gambar:"https://i.imgur.com/Z6XbK0F.png",peluang:5},{nama:"💎 Mythical Rayman",gambar:"https://i.imgur.com/8Km9tLL.png",peluang:15},{nama:"🔧 Magplant 15K",gambar:"https://i.imgur.com/2nCt3Sbl.png",peluang:25},{nama:"🪱 Worm",gambar:"https://i.imgur.com/3yaf2WB.png",peluang:55}],mythic:[{nama:"✨ Legendary Rayman",gambar:"https://i.imgur.com/Z6XbK0F.png",peluang:12},{nama:"💎 Mythical Rayman",gambar:"https://i.imgur.com/8Km9tLL.png",peluang:28},{nama:"🔧 Magplant 15K",gambar:"https://i.imgur.com/2nCt3Sbl.png",peluang:35},{nama:"🪱 Worm",gambar:"https://i.imgur.com/3yaf2WB.png",peluang:25}],secret:[{nama:"✨ Legendary Rayman",gambar:"https://i.imgur.com/Z6XbK0F.png",peluang:25},{nama:"💎 Mythical Rayman",gambar:"https://i.imgur.com/8Km9tLL.png",peluang:40},{nama:"🔧 Magplant 15K",gambar:"https://i.imgur.com/2nCt3Sbl.png",peluang:25},{nama:"🪱 Worm",gambar:"https://i.imgur.com/3yaf2WB.png",peluang:10}]};let jenisSekarang="rare",sandiAdmin="admin123",musik=document.getElementById("bgMusic");function perbaruiJam(){let t=new Date().toLocaleString("id-ID",{timeZone:"Asia/Jakarta",weekday:"long",year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});document.getElementById("jamWib").textContent=t}setInterval(perbaruiJam,1e3);perbaruiJam();document.getElementById("toggleMusic").addEventListener("click",()=>musik.paused?musik.play().catch(e=>{}):musik.pause());document.getElementById("volumeControl").addEventListener("input",()=>musik.volume=document.getElementById("volumeControl").value/100);function cekLogin(){let u=document.getElementById("inputUser").value.trim(),p=document.getElementById("inputPass").value.trim(),n=Date.now(),c=daftarAkun.find(a=>a.username===u&&a.sandi===p);if(!c||0!==c.kadaluarsa&&c.kadaluarsa<n)return tampilPesanSalah();document.getElementById("namaPengguna").textContent=u;document.getElementById("halamanLogin").style.display="none";document.getElementById("halamanUtama").style.display="block";tampilkanDaftarItem()}function tampilPesanSalah(){let e=document.getElementById("pesanError");e.style.display="block",setTimeout(()=>e.style.display="none",3e3)}function keluarAkun(){document.getElementById("halamanUtama").style.display="none",document.getElementById("halamanLogin").style.display="flex",document.getElementById("inputUser").value="",document.getElementById("inputPass").value=""}function tampilkanDaftarItem(){let d=document.getElementById("daftarItemTampil");d.innerHTML="",chestData[jenisSekarang].forEach(i=>d.innerHTML+=`<div class="item-box"><img src="${i.gambar}" alt="${i.nama}" onerror="this.src='https://i.imgur.com/9ZbXqYj.jpg'"><p>${i.nama}</p><p style="font-size:10px;color:#aaa">${i.peluang}%</p></div>`)}function pilihChest(j){jenisSekarang=j,document.getElementById("hasil").innerHTML=`Kamu memilih <b style="color:#ffd700">${j.toUpperCase()} CHEST</b>`,tampilkanDaftarItem()}function mulaiGacha(){let d=chestData[jenisSekarang],a=100*Math.random(),t=0,h;for(let i of d){if(t+=i.peluang,a<=t){h=i;break}}document.getElementById("hasil").innerHTML=`<h3>${h.nama}</h3><img src="${h.gambar}" alt="Hadiah" onerror="this.src='https://i.imgur.com/9ZbXqYj.jpg'"><p style="margin-top:10px;color:#aaa">Peluang: ${h.peluang}%</p>`}function bukaAdmin(){document.getElementById("adminPanel").style.display="block",document.getElementById("kontenAdmin").style.display="none",document.getElementById("passAdmin").value=""}function tutupAdmin(){document.getElementById("adminPanel").style.display="none"}function cekSandiAdmin(){let m=document.getElementById("passAdmin").value;m===sandiAdmin?(document.getElementById("kontenAdmin").style.display="block",tampilkanDaftarAkun(),tampilkanDaftarItemAdmin()):alert("❌ Sandi salah!")}function simpanData(){localStorage.setItem("daftarAkunGacha",JSON.stringify(daftarAkun)),localStorage.setItem("chestDataGacha",JSON.stringify(chestData))}function tambahAkun(){let u=document.getElementById("tambahUser").value.trim(),p=document.getElementById("tambahPass").value.trim(),h=parseInt(document.getElementById("masaAktif").value);if(!u||!p)return alert("⚠️ Isi semua data!");let k=0===h?0:Date.now()+864e5*h;daftarAkun.push({username:u,sandi:p,kadaluarsa:k}),simpanData(),tampilkanDaftarAkun(),document.getElementById("tambahUser").value="",document.getElementById("tambahPass").value=""}function tampilkanDaftarAkun(){let d=document.getElementById("tampilanDaftarAkun");d.innerHTML="<h4 style='color:#ffd700;margin:10px 0'>Daftar Akun:</h4>",daftarAkun.forEach((a,i)=>{let s=0===a.kadaluarsa?"Selamanya":new Date(a.kadaluarsa).toLocaleDateString("id-ID");d.innerHTML+=`<div class="daftar-akun"><p>👤 ${a.username} | 🗓️ ${s}</p><button class="btn-hapus" onclick="hapusAkun(${i})">Hapus</button></div>`})}function hapusAkun(i){confirm("Yakin hapus?")&&(daftarAkun.splice(i,1),simpanData(),tampilkanDaftarAkun())}function tambahItem(){let j=document.getElementById("jenisPeti").value,n=document.getElementById("namaItem").value.trim(),g=document.getElementById("gambarItem").value.trim(),p=parseFloat(document.getElementById("peluangItem").value);if(!n||!g||isNaN(p)||p<=0)return alert("⚠️ Isi data benar!");chestData[j].push({nama:n,gambar:g,peluang:p}),simpanData(),tampilkanDaftarItemAdmin(),tampilkanDaftarItem(),document.getElementById("namaItem").value="",document.getElementById("gambarItem").value="",document.getElementById("peluangItem").value=""}function tampilkanDaftarItemAdmin(){let d=document.getElementById("daftarItemAdmin");d.innerHTML="<h4 style='color:#ffd700;margin:10px 0'>Daftar Item:</h4>";for(let j in chestData){d.innerHTML+=`<p style="color:#c0d8ff;margin-top:8px;font-weight:bold">${j.toUpperCase()}</p>`,chestData[j].forEach((i,x)=>d.innerHTML+=`<div class="daftar-akun"><p>${i.nama} | ${i.peluang}%</p><button class="btn-hapus" onclick="hapusItem('${j}',${x})">Hapus</button></div>`)}}function hapusItem(j,x){confirm("Yakin hapus?")&&(chestData[j].splice(x,1),simpanData(),tampilkanDaftarItem(),tampilkanDaftarItemAdmin())}function gantiLagu(){let l=document.getElementById("linkLagu").value.trim();if(!l)return alert("⚠️ Masukkan link lagu!");musik.src=l,musik.load(),musik.play().catch(e=>{}),alert("✅ Lagu diganti!")}function gantiLatar(){let l=document.getElementById("linkLatar").value.trim();if(!l)return alert("⚠️ Masukkan link gambar!");document.body.style.backgroundImage=`url('${l}')`,alert("✅ Latar diganti!")}</script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growtopia Web Panel</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
+        
+        body {
+            background: #0f0c20;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Animasi ala Growtopia (Poin 5) */
+        .bg-animation {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, #1a0033 0%, #001a33 100%);
+            z-index: -2;
+        }
+        .particles {
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(circle, #00ffcc 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBg 10s linear infinite;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        @keyframes moveBg {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        /* Jam Tiga Zona Waktu (Poin 4 & 7) */
+        .jam-container {
+            position: absolute;
+            top: 20px;
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 2px solid #00ffcc;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .panel-box {
+            background: rgba(20, 20, 40, 0.9);
+            border: 4px solid #e6a100;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            box-shadow: 0 0 20px rgba(230, 161, 0, 0.5);
+            text-align: center;
+        }
+
+        h2 { color: #e6a100; margin-bottom: 20px; text-shadow: 2px 2px #000; }
+        input, button {
+            width: 100%; padding: 10px; margin: 10px 0;
+            border-radius: 5px; border: none; font-weight: bold;
+        }
+        input { background: #fff; color: #000; }
+        button { background: #e6a100; color: #fff; cursor: pointer; text-shadow: 1px 1px #000;}
+        button:hover { background: #ffb700; }
+
+        .hidden { display: none !important; }
+
+        /* Menu Utama Dashboard */
+        .dashboard { width: 90%; max-width: 800px; }
+        .grid-menu { display: flex; gap: 20px; margin-top: 20px; }
+        .card { 
+            background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; 
+            border: 2px solid #e6a100; flex: 1;
+        }
+
+        /* Gacha Section */
+        .item-display { margin: 20px 0; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+        .item-img { width: 80px; height: 80px; image-rendering: pixelated; }
+
+        /* Admin Panel (Poin 6) */
+        .admin-section { border-color: #ff3333 !important; }
+        .admin-section h3 { color: #ff3333; }
+        .user-list { text-align: left; background: #000; padding: 10px; border-radius: 5px; max-height: 100px; overflow-y: auto; margin-top: 10px;}
+    </style>
+</head>
+<body>
+
+    <div class="bg-animation"><div class="particles"></div></div>
+
+    <!-- Info Jam (WIB, WITA, WIT) -->
+    <div class="jam-container">
+        <div id="hari-tanggal" style="width: 100%; color: #e6a100; margin-bottom: 5px; font-weight: bold;"></div>
+        <div><span style="color:#00ffcc">WIB</span><br><span id="wib">00:00:00</span></div>
+        <div><span style="color:#00ffcc">WITA</span><br><span id="wita">00:00:00</span></div>
+        <div><span style="color:#00ffcc">WIT</span><br><span id="wit">00:00:00</span></div>
+    </div>
+
+    <!-- YouTube Audio Player (Hidden berkat Youtube API) -->
+    <div id="player" style="position:absolute; top:-9999px; left:-9999px;"></div>
+
+    <!-- 1. PANEL LOGIN -->
+    <div id="login-panel" class="panel-box">
+        <h2>GT PANEL LOGIN</h2>
+        <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 10px;">Klik tombol di bawah terlebih dahulu untuk mengaktifkan musik.</p>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="prosesLogin()">LOGIN</button>
+        <p id="login-error" style="color: red; margin-top: 10px; font-size: 0.8rem;"></p>
+    </div>
+
+    <!-- DASHBOARD UTAMA (Setelah Login) -->
+    <div id="main-dashboard" class="dashboard hidden">
+        <div class="panel-box" style="width: 100%;">
+            <h2>SELAMAT DATANG DI GROWTOPIA PANEL</h2>
+            <button onclick="logout()" style="width: auto; padding: 5px 15px; float: right; background: #ff3333;">Logout</button>
+            
+            <div class="grid-menu">
+                <!-- Fitur Gacha/Crate -->
+                <div class="card">
+                    <h3>Gacha Crate</h3>
+                    <div class="item-display" id="gacha-result">
+                        <p>Silahkan Gacha!</p>
+                    </div>
+                    <button onclick="gachaItem()">Buka Crate (Gacha)</button>
+                </div>
+
+                <!-- 6. MENU ADMIN (Hanya muncul jika yang login adalah akun admin) -->
+                <div id="admin-panel" class="card admin-section hidden">
+                    <h3>ADMIN CONTROL</h3>
+                    <p style="font-size: 0.8rem;">Buat Akun Member Baru:</p>
+                    <input type="text" id="new-user" placeholder="Username Baru" style="padding: 5px;">
+                    <input type="password" id="new-pass" placeholder="Password Baru" style="padding: 5px;">
+                    <button onclick="tambahUser()" style="background: #ff3333; padding: 5px;">Buat Akun</button>
+                    
+                    <div class="user-list" id="daftar-user">
+                        <!-- Daftar user terdaftar muncul di sini -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Player API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+        // DATA ITEM & CHANCE (Poin 3 - Bisa lu ubah sesuka hati di sini)
+        // Pastikan total "chance" jika dijumlahkan bernilai 100
+        const DATA_ITEM = [
+            { nama: "World Lock", gambar: "https://images.vdownload.im/g/growtopia/items/world_lock.png", chance: 60 },
+            { nama: "Diamond Lock", gambar: "https://images.vdownload.im/g/growtopia/items/diamond_lock.png", chance: 30 },
+            { nama: "Blue Anemone Hair", gambar: "https://images.vdownload.im/g/growtopia/items/blue_anemone_hair.png", chance: 8 },
+            { nama: "Devil Wings", gambar: "https://images.vdownload.im/g/growtopia/items/devil_wings.png", chance: 2 }
+        ];
+
+        // Database Akun bawaan (Hanya Admin yang terdaftar di awal)
+        let databaseUser = {
+            "admin": { pass: "admin123", role: "admin" }
+        };
+
+        let currentUser = null;
+        let ytPlayer;
+
+        // Integrasi Musik YouTube (Poin 2)
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('player', {
+                height: '0', width: '0',
+                videoId: 'gQ59f_68sv4', // ID dari link youtube lu
+                playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'gQ59f_68sv4' },
+                events: { 'onReady': onPlayerReady }
+            });
+        }
+        function onPlayerReady(event) {
+            // Browser memblokir autoplay sebelum klik, lagu akan otomatis jalan begitu user interaksi dengan halaman web
+            document.body.addEventListener('click', () => {
+                ytPlayer.playVideo();
+            }, { once: true });
+        }
+
+        // Live Clock WIB, WITA, WIT (Poin 4 & 7)
+        function updateJam() {
+            const sekarang = new Date();
+            
+            // Opsi untuk Tanggal dan Hari Indonesia
+            const opsiHari = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' };
+            document.getElementById('hari-tanggal').innerText = sekarang.toLocaleDateString('id-ID', opsiHari);
+
+            // Format Jam asli berdasarkan Zona Waktu
+            document.getElementById('wib').innerText = sekarang.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
+            document.getElementById('wita').innerText = toggleTimezone(sekarang, 1);
+            document.getElementById('wit').innerText = toggleTimezone(sekarang, 2);
+        }
+        
+        function toggleTimezone(date, offsetHours) {
+            let targetTime = new Date(date.getTime() + (offsetHours * 60 * 60 * 1000));
+            return targetTime.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
+        }
+        setInterval(updateJam, 1000);
+        updateJam();
+
+        // Sistem Login (Poin 1 & 6)
+        function prosesLogin() {
+            const userInput = document.getElementById('username').value;
+            const passInput = document.getElementById('password').value;
+            const errorMengecek = document.getElementById('login-error');
+
+            if (databaseUser[userInput] && databaseUser[userInput].pass === passInput) {
+                currentUser = userInput;
+                errorMengecek.innerText = "";
+                
+                // Pindah Tampilan
+                document.getElementById('login-panel').classList.add('hidden');
+                document.getElementById('main-dashboard').classList.remove('hidden');
+
+                // Cek Role Admin
+                if (databaseUser[userInput].role === "admin") {
+                    document.getElementById('admin-panel').classList.remove('hidden');
+                    updateDaftarUser();
+                } else {
+                    document.getElementById('admin-panel').classList.add('hidden');
+                }
+            } else {
+                errorMengecek.innerText = "Username atau Password Salah / Belum Dibuat Admin!";
+            }
+        }
+
+        function logout() {
+            document.getElementById('main-dashboard').classList.add('hidden');
+            document.getElementById('login-panel').classList.remove('hidden');
+            document.getElementById('username').value = "";
+            document.getElementById('password').value = "";
+            currentUser = null;
+        }
+
+        // Fitur Tambah Akun oleh Admin (Poin 6)
+        function tambahUser() {
+            const userBaru = document.getElementById('new-user').value.trim();
+            const passBaru = document.getElementById('new-pass').value.trim();
+
+            if (userBaru === "" || passBaru === "") {
+                alert("Isi username dan password!");
+                return;
+            }
+
+            if (databaseUser[userBaru]) {
+                alert("User sudah terdaftar!");
+                return;
+            }
+
+            databaseUser[userBaru] = { pass: passBaru, role: "member" };
+            alert(`Akun untuk ${userBaru} berhasil dibuat!`);
+            document.getElementById('new-user').value = "";
+            document.getElementById('new-pass').value = "";
+            updateDaftarUser();
+        }
+
+        function updateDaftarUser() {
+            const listDiv = document.getElementById('daftar-user');
+            listDiv.innerHTML = "<strong>Daftar Akun:</strong><br>";
+            for (let user in databaseUser) {
+                listDiv.innerHTML += `- ${user} (${databaseUser[user].role})<br>`;
+            }
+        }
+
+        // Fitur Gacha Simple Sesuai Persentase (Poin 3)
+        function gachaItem() {
+            let rand = Math.random() * 100;
+            let akumulasiChance = 0;
+            let itemDidapat = DATA_ITEM[0];
+
+            for (let item of DATA_ITEM) {
+                akumulasiChance += item.chance;
+                if (rand <= akumulasiChance) {
+                    itemDidapat = item;
+                    break;
+                }
+            }
+
+            // Tampilkan Hasil
+            const display = document.getElementById('gacha-result');
+            display.innerHTML = `
+                <img class="item-img" src="${itemDidapat.gambar}" alt="${itemDidapat.nama}" onerror="this.src='https://placehold.co/80?text=Item'">
+                <p style="font-weight:bold; color:#e6a100; margin-top:5px;">${itemDidapat.nama}</p>
+                <p style="font-size:0.7rem; color:#aaa;">Chance: ${itemDidapat.chance}%</p>
+            `;
+        }
+    </script>
+</body>
+</html>
