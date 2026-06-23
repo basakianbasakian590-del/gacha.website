@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Gacha Control Panel - Fixed V2</title>
+    <title>Growtopia Gacha Control Panel - Final Fix</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -24,10 +24,10 @@
             border-bottom: 2px solid #2d3748; display: flex; justify-content: center; position: sticky; top: 0; z-index: 99999;
         }
         .btn-copy-source {
-            background: #38a169; color: white; border: none; padding: 10px 24px;
-            font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.9rem; box-shadow: 0 0 10px rgba(56,161,105,0.4);
+            background: #e53e3e; color: white; border: none; padding: 10px 24px;
+            font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.9rem; box-shadow: 0 0 10px rgba(229,62,62,0.4);
         }
-        .btn-copy-source:hover { background: #2f855a; }
+        .btn-copy-source:hover { background: #c53030; }
 
         /* --- CLOCK TIMEZONES BAR --- */
         .timezone-bar {
@@ -45,10 +45,10 @@
         }
         .music-controls { display: flex; gap: 8px; }
         .music-controls button {
-            background: #0077cc; border: 1px solid #00c3ff; color: white; padding: 4px 10px;
-            border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: bold; transition: 0.2s;
+            background: #0077cc; border: 1px solid #00c3ff; color: white; padding: 6px 14px;
+            border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;
         }
-        .music-controls button:hover { filter: brightness(1.2); }
+        .music-controls button:hover { filter: brightness(1.2); box-shadow: 0 0 8px var(--cyan-glow); }
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
 
@@ -84,7 +84,7 @@
             background: radial-gradient(circle, #0c2340 0%, #040f1c 100%); padding: 25px 20px; position: relative;
         }
         .roulette-wrapper {
-            width: 100%; height: 120px; background: rgba(4, 15, 26, 0.95); border: 2px solid var(--border-blue);
+            width: 100%; height: 130px; background: rgba(4, 15, 26, 0.95); border: 2px solid var(--border-blue);
             border-radius: 6px; position: relative; overflow: hidden; margin: 15px 0;
         }
         .pointer-line {
@@ -93,10 +93,10 @@
         }
         .items-strip { display: flex; position: absolute; left: 0; top: 0; height: 100%; transform: translateX(0); }
         .strip-card {
-            width: 95px; height: 100%; flex-shrink: 0; display: flex; flex-direction: column;
+            width: 100px; height: 100%; flex-shrink: 0; display: flex; flex-direction: column;
             justify-content: center; align-items: center; border-right: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.01);
         }
-        .strip-card img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .strip-card img { width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
         .strip-card p { font-size: 0.65rem; margin-top: 6px; text-align: center; color: #e2e8f0; width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         /* --- THREE CHEST CORE GRID --- */
@@ -108,7 +108,7 @@
         }
         .chest-card:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
         .chest-card.active-chest { border-color: var(--cyan-glow); background: rgba(0, 210, 255, 0.05); box-shadow: 0 0 15px rgba(0,210,255,0.2); }
-        .chest-card img { width: 95px; height: 85px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+        .chest-card .chest-icon-box { font-size: 50px; margin-bottom: 10px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
         .chest-card h4 { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; margin-bottom: 12px; color: #fff; }
         
         .btn-chest-action {
@@ -120,9 +120,9 @@
         }
 
         /* --- DISPLAY LAYOUT ITEMS GRID LIST --- */
-        .items-grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); gap: 12px; padding: 15px; }
+        .items-grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; padding: 15px; }
         .item-display-card { background: #051221; border: 1px solid var(--border-blue); border-radius: 6px; padding: 14px 6px; text-align: center; box-shadow: inset 0 0 8px rgba(0,0,0,0.5); }
-        .item-display-card img { width: 42px; height: 42px; object-fit: contain; }
+        .item-display-card img { width: 45px; height: 45px; object-fit: contain; display: block; margin: 0 auto; }
         .item-display-card p { font-size: 0.7rem; margin-top: 6px; color: #cbd5e1; font-weight: bold; min-height: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .item-display-card span { font-size: 0.65rem; color: #48bb78; display: block; margin-top: 4px; font-family: 'Orbitron', sans-serif; }
 
@@ -143,10 +143,12 @@
 <body>
 
     <div class="copy-utility-bar" id="top-copier-bar">
-        <button class="btn-copy-source" onclick="copyEntirePageSourceCode()">📋 SALIN SELURUH KODE WEB (V2)</button>
+        <button class="btn-copy-source" onclick="copyEntirePageSourceCode()">📋 SALIN SELURUH KODE WEB (FINAL FIX)</button>
     </div>
 
-    <div id="yt-music-player" style="position: fixed; bottom: 0; left: 0; width: 1px; height: 1px; opacity: 0.001; pointer-events: none; z-index: -99999;"></div>
+    <div style="position: absolute; top: -9999px; left: -9999px;">
+        <div id="yt-audio-frame"></div>
+    </div>
 
     <div class="timezone-bar">
         <div id="live-date">Memuat Tanggal...</div>
@@ -208,17 +210,17 @@
             <div class="teraps-bg">
                 <div class="chest-grid">
                     <div class="chest-card" id="card-chest-rare" onclick="switchActiveChest('rare')">
-                        <img src="https://s3.amazonaws.com/purple-prime/growtopia/rare_chest.png" onerror="this.src='https://placehold.co/95x85/1e1b4b/00d2ff?text=Rare+Chest'" alt="Rare">
+                        <span class="chest-icon-box">📦</span>
                         <h4>Rare Chest</h4>
                         <button class="btn-chest-action">BUKA SEKARANG</button>
                     </div>
                     <div class="chest-card" id="card-chest-mythic" onclick="switchActiveChest('mythic')">
-                        <img src="https://s3.amazonaws.com/purple-prime/growtopia/mythic_chest.png" onerror="this.src='https://placehold.co/95x85/1e1b4b/a855f7?text=Mythic+Chest'" alt="Mythic">
+                        <span class="chest-icon-box">🔮</span>
                         <h4 style="color:#a855f7;">Mythic Chest</h4>
                         <button class="btn-chest-action">BUKA SEKARANG</button>
                     </div>
                     <div class="chest-card" id="card-chest-secret" onclick="switchActiveChest('secret')">
-                        <img src="https://s3.amazonaws.com/purple-prime/growtopia/secret_chest.png" onerror="this.src='https://placehold.co/95x85/1e1b4b/ffaa00?text=Secret+Chest'" alt="Secret">
+                        <span class="chest-icon-box">👑</span>
                         <h4 style="color:#ffaa00;">Secret Chest</h4>
                         <button class="btn-chest-action">BUKA SEKARANG</button>
                     </div>
@@ -290,9 +292,8 @@
         </div>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // SCRIPT UTILITY COPY ALL SOURCE CODE AT ONCE WITHOUT BAR HEADER
+        // SCRIPT UTILITY COPY ALL SOURCE CODE AT ONCE
         function copyEntirePageSourceCode() {
             const bar = document.getElementById('top-copier-bar');
             bar.style.display = 'none';
@@ -300,96 +301,120 @@
             bar.style.display = 'flex';
 
             navigator.clipboard.writeText(pageSource).then(() => {
-                alert("SUKSES! 100% Seluruh Kode Web V2 Berhasil Disalin Ke Clipboard! Silakan paste langsung ke file index.html di GitHub.");
+                alert("SUKSES! Kode Final Fix Berhasil Disalin! Silakan paste langsung ke file index.html di GitHub.");
             }).catch(err => {
                 alert("Gagal menyalin otomatis, silakan blok teks manual.");
             });
         }
 
-        // PLAYLIST TARGET REQUESTS BY USER
+        // PLAYLIST TARGET FIX (ID AKTIF DAN BEBAS GEOLOCK)
         const PLAYLIST_SONGS = [
             { title: "Sheila on 7 - Sephia", id: "0vS5M2_xYWM" },
             { title: "Sheila on 7 - Dan", id: "dBtK9-mP1F4" },
             { title: "Noah - Separuh Aku", id: "t29W2wG1C1s" },
-            { title: "FIFTY FIFTY - Cupid", id: "eChxhlG6M4E" },
-            { title: "Astrid - Terpukau", id: "d6w_v2t7_r4" },
-            { title: "Vierratale - Hapus Aku", id: "P2NExqZ30R0" },
-            { title: "D'Bagindas - Maafkan", id: "zZk6L9mE56s" }
+            { title: "Vierratale - Hapus Aku", id: "P2NExqZ30R0" }
         ];
 
         let currentSongIndex = 0;
         let musicAudioPlayer = null;
         let loggedInUser = null;
-        let activeChestType = 'rare'; // default engine pointer state ('rare', 'mythic', 'secret')
+        let activeChestType = 'rare'; 
         let isRolling = false;
 
-        // SEPARATED DEFAULT POOLS FOR ALL THREE CHESTS TO SOLVE SYSTEM IDLE PROBLEM
+        // AMAN: MENGGUNAKAN SERVER CDN GAME YANG MENDUKUNG INTEGRASI LANGSUNG (ANTI-BLOKIR)
         const CHESTS_DEFAULT_DATA = {
             rare: [
-                { name: "Legendary Rayman", img: "https://images.vdownload.im/g/growtopia/items/rayman_hair.png", chance: 15 },
-                { name: "Mythical Rayman", img: "https://images.vdownload.im/g/growtopia/items/rayman_hair.png", chance: 15 },
-                { name: "Eggplant 10K", img: "https://images.vdownload.im/g/growtopia/items/fiesta_eggplant.png", chance: 20 },
-                { name: "World Lock x10", img: "https://images.vdownload.im/g/growtopia/items/world_lock.png", chance: 50 }
+                { name: "Legendary Rayman", img: "https://img.moeegame.com/gt/item/rayman_hair.png", chance: 15 },
+                { name: "Mythical Rayman", img: "https://img.moeegame.com/gt/item/rayman_hair.png", chance: 15 },
+                { name: "Eggplant 10K", img: "https://img.moeegame.com/gt/item/fiesta_eggplant.png", chance: 20 },
+                { name: "World Lock x10", img: "https://img.moeegame.com/gt/item/world_lock.png", chance: 50 }
             ],
             mythic: [
-                { name: "Magplant 5000", img: "https://images.vdownload.im/g/growtopia/items/magplant_5000.png", chance: 10 },
-                { name: "Diamond Lock x5", img: "https://images.vdownload.im/g/growtopia/items/diamond_lock.png", chance: 30 },
-                { name: "Angel Wings", img: "https://images.vdownload.im/g/growtopia/items/angel_wings.png", chance: 20 },
-                { name: "Devil Wings", img: "https://images.vdownload.im/g/growtopia/items/devil_wings.png", chance: 40 }
+                { name: "Magplant 5000", img: "https://img.moeegame.com/gt/item/magplant_5000.png", chance: 10 },
+                { name: "Diamond Lock x5", img: "https://img.moeegame.com/gt/item/diamond_lock.png", chance: 30 },
+                { name: "Angel Wings", img: "https://img.moeegame.com/gt/item/angel_wings.png", chance: 20 },
+                { name: "Devil Wings", img: "https://img.moeegame.com/gt/item/devil_wings.png", chance: 40 }
             ],
             secret: [
-                { name: "Phoenix Wings", img: "https://images.vdownload.im/g/growtopia/items/phoenix_wings.png", chance: 5 },
-                { name: "Golden Angel Wings", img: "https://images.vdownload.im/g/growtopia/items/golden_angel_wings.png", chance: 15 },
-                { name: "Robo Wings", img: "https://images.vdownload.im/g/growtopia/items/robo_wings.png", chance: 30 },
-                { name: "BGL Crate Supply", img: "https://images.vdownload.im/g/growtopia/items/blue_gem_lock.png", chance: 50 }
+                { name: "Phoenix Wings", img: "https://img.moeegame.com/gt/item/phoenix_wings.png", chance: 5 },
+                { name: "Golden Angel Wings", img: "https://img.moeegame.com/gt/item/golden_angel_wings.png", chance: 15 },
+                { name: "Robo Wings", img: "https://img.moeegame.com/gt/item/robo_wings.png", chance: 30 },
+                { name: "BGL Crate Supply", img: "https://img.moeegame.com/gt/item/blue_gem_lock.png", chance: 50 }
             ]
         };
 
         // LOCAL STORAGE ENGINE INITIALIZATION
-        if(!localStorage.getItem("gacha_chests_save_v2")) {
-            localStorage.setItem("gacha_chests_save_v2", JSON.stringify(CHESTS_DEFAULT_DATA));
+        if(!localStorage.getItem("gacha_chests_save_v3")) {
+            localStorage.setItem("gacha_chests_save_v3", JSON.stringify(CHESTS_DEFAULT_DATA));
         }
-        if(!localStorage.getItem("accounts_gacha_save_v2")) {
-            localStorage.setItem("accounts_gacha_save_v2", JSON.stringify({
+        if(!localStorage.getItem("accounts_gacha_save_v3")) {
+            localStorage.setItem("accounts_gacha_save_v3", JSON.stringify({
                 "admin": { pass: "admin123", role: "admin", expiresAt: null }
             }));
         }
 
-        let databaseChests = JSON.parse(localStorage.getItem("gacha_chests_save_v2"));
-        let userAccounts = JSON.parse(localStorage.getItem("accounts_gacha_save_v2"));
+        let databaseChests = JSON.parse(localStorage.getItem("gacha_chests_save_v3"));
+        let userAccounts = JSON.parse(localStorage.getItem("accounts_gacha_save_v3"));
 
-        // YOUTUBE CORE INITIALIZATION
+        // LOAD YOUTUBE PLAYER API ASYNC
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
         function onYouTubeIframeAPIReady() {
             const track = PLAYLIST_SONGS[currentSongIndex];
             document.getElementById('current-song-title').innerText = track.title;
             
-            musicAudioPlayer = new YT.Player('yt-music-player', {
-                height: '1', width: '1', videoId: track.id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'rel': 0 },
+            musicAudioPlayer = new YT.Player('yt-audio-frame', {
+                height: '1',
+                width: '1',
+                videoId: track.id,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'mute': 0,
+                    'origin': window.location.origin
+                },
                 events: {
-                    'onStateChange': function(event) {
-                        if (event.data === YT.PlayerState.ENDED) skipToNextSong();
-                    }
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
                 }
             });
         }
 
+        function onPlayerReady(event) {
+            document.getElementById('current-song-title').innerText = PLAYLIST_SONGS[currentSongIndex].title + " (Ready - Klik Play)";
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                skipToNextSong();
+            }
+        }
+
         function controlAudio(action) {
             if(!musicAudioPlayer || typeof musicAudioPlayer.playVideo !== 'function') return;
-            if(action === 'play') musicAudioPlayer.playVideo();
-            if(action === 'pause') musicAudioPlayer.pauseVideo();
+            if(action === 'play') {
+                musicAudioPlayer.playVideo();
+                document.getElementById('current-song-title').innerText = PLAYLIST_SONGS[currentSongIndex].title + " (Playing)";
+            }
+            if(action === 'pause') {
+                musicAudioPlayer.pauseVideo();
+                document.getElementById('current-song-title').innerText = PLAYLIST_SONGS[currentSongIndex].title + " (Paused)";
+            }
         }
 
         function skipToNextSong() {
             currentSongIndex = (currentSongIndex + 1) % PLAYLIST_SONGS.length;
             const track = PLAYLIST_SONGS[currentSongIndex];
-            document.getElementById('current-song-title').innerText = track.title;
+            document.getElementById('current-song-title').innerText = track.title + " (Loading...)";
             if(musicAudioPlayer && typeof musicAudioPlayer.loadVideoById === 'function') {
                 musicAudioPlayer.loadVideoById(track.id);
             }
         }
 
-        // REALTIME TICK ENGINE AND EXPIRED SYSTEM MONITOR
+        // TIMECLOCK SYSTEM
         function systemHeartbeat() {
             const now = new Date();
             document.getElementById('live-date').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' });
@@ -404,7 +429,7 @@
                     let timeLeft = currentSession.expiresAt - currentTimeStamp;
 
                     if (timeLeft <= 0) {
-                        alert("Masa berlaku akun member Anda telah kedaluwarsa (Expired)! Hubungi Admin untuk perpanjang.");
+                        alert("Masa berlaku akun member Anda telah kedaluwarsa!");
                         executeLogout();
                     } else {
                         let totalSec = Math.ceil(timeLeft / 1000);
@@ -419,7 +444,7 @@
         }
         setInterval(systemHeartbeat, 1000);
 
-        // LOGIN DISPATCHER SYSTEM
+        // LOGIN DISPATCHER
         function executeLogin() {
             const u = document.getElementById('input-username').value.trim();
             const p = document.getElementById('input-password').value.trim();
@@ -437,12 +462,6 @@
                 document.getElementById('main-panel-dashboard').classList.remove('hidden');
                 document.getElementById('display-user-login').innerText = `Logged In: ${u.toUpperCase()}`;
 
-                // Trigger Play Audio automatically on validation success
-                if(musicAudioPlayer && typeof musicAudioPlayer.setVolume === 'function') {
-                    musicAudioPlayer.setVolume(70);
-                    musicAudioPlayer.playVideo();
-                }
-
                 if(userAccounts[u].role === "admin") {
                     document.getElementById('admin-restricted-section').classList.remove('hidden');
                     updateAdminViews();
@@ -450,18 +469,16 @@
                 } else {
                     document.getElementById('admin-restricted-section').classList.add('hidden');
                 }
-                switchActiveChest('rare'); // init visual content pool stack
+                switchActiveChest('rare');
             } else {
                 alertText.innerText = "Kombinasi Username / Password salah!";
             }
         }
 
-        // CHEST TYPE SWITCHER LOGIC DYNAMIC ENGINE
         function switchActiveChest(chestType) {
-            if(isRolling) return; // Lock action during animation execution
+            if(isRolling) return; 
             activeChestType = chestType;
             
-            // Dynamic theme update variables
             let prefixTitle = "RARE CHEST SIMULATION";
             if(chestType === 'mythic') {
                 prefixTitle = "MYTHIC CHEST SIMULATION";
@@ -477,11 +494,9 @@
             document.getElementById('user-grid-items-header').innerText = `Daftar Keseluruhan Isi Item Di Dalam [ ${chestType.toUpperCase()} CHEST ]`;
             document.getElementById('admin-manage-items-title').innerText = `📦 MANAGE ITEMS & CHANCE [ ${chestType.toUpperCase()} ]`;
 
-            // Clear outstanding elements of roulette view
             document.getElementById('strip-roll-box').innerHTML = "";
             document.getElementById('gacha-winning-text').innerText = "";
 
-            // Toggle active card indicators classes
             document.getElementById('card-chest-rare').classList.remove('active-chest');
             document.getElementById('card-chest-mythic').classList.remove('active-chest');
             document.getElementById('card-chest-secret').classList.remove('active-chest');
@@ -507,7 +522,7 @@
             pool.forEach(item => {
                 grid.innerHTML += `
                     <div class="item-display-card" style="border-color: var(--chest-accent);">
-                        <img src="${item.img}" onerror="this.src='https://placehold.co/42x42/061322/ffffff?text=Item'">
+                        <img src="${item.img}" onerror="this.src='https://placehold.co/45x45/061322/ffffff?text=Item'">
                         <p>${item.name}</p>
                         <span style="color: var(--chest-accent);">${item.chance}% Chance</span>
                     </div>
@@ -515,7 +530,6 @@
             });
         }
 
-        // DYNAMIC ACCURATE ROULLETTE CALCULATOR ENGINE (FIXED CUMULATIVE CHANCE RATIO POOL)
         function triggerRollAnimation() {
             if(isRolling) return;
             const strip = document.getElementById('strip-roll-box');
@@ -526,7 +540,7 @@
             let validItems = pool.filter(i => i.chance > 0);
 
             if(validItems.length === 0) {
-                alert("Gagal melakukan gacha! Seluruh chance bernilai 0% atau list item kosong pada chest ini.");
+                alert("Gagal melakukan gacha! Seluruh chance bernilai 0% atau list item kosong.");
                 return;
             }
 
@@ -535,12 +549,10 @@
             rollButton.style.opacity = "0.5";
             announce.innerText = "";
             
-            // 1. Reset timeline transform structures
             strip.innerHTML = ""; 
             strip.style.transition = "none"; 
             strip.style.transform = "translateX(0px)";
 
-            // 2. Generate random atmospheric preview background items 
             let totalVisualTrackItems = 65;
             let displayTrackArray = [];
             for(let i = 0; i < totalVisualTrackItems; i++) {
@@ -548,7 +560,6 @@
                 displayTrackArray.push(randomAtmosphericItem);
             }
 
-            // 3. FIXED MATHEMATICAL WEIGHTED PROBABILITY ROLLER (CUMULATIVE CHANCE ENGINE)
             let totalSumOfRates = 0;
             validItems.forEach(item => totalSumOfRates += parseFloat(item.chance));
 
@@ -564,11 +575,9 @@
                 }
             }
 
-            // Lock winning item specifically to anchor position index 55 inside visual line
             let finalWinningIndexAnchor = 55;
             displayTrackArray[finalWinningIndexAnchor] = winningItemObject;
 
-            // 4. Populate structural cards into DOM view
             displayTrackArray.forEach(item => {
                 strip.innerHTML += `
                     <div class="strip-card">
@@ -578,17 +587,14 @@
                 `;
             });
 
-            // 5. Fire CSS Hardware Acceleration Transition Framework
             setTimeout(() => {
-                strip.style.transition = "transform 4.8s cubic-bezier(0.1, 0.85, 0.12, 1)";
-                const cardNodeWidth = 95;
+                strip.style.transition = "transform 4.5s cubic-bezier(0.1, 0.85, 0.12, 1)";
+                const cardNodeWidth = 100;
                 const wrapperFrameCenterOffset = document.querySelector('.roulette-wrapper').offsetWidth / 2;
-                // Calculate position shift down to target card center alignment
                 const absolutePixelShift = (finalWinningIndexAnchor * cardNodeWidth) - wrapperFrameCenterOffset + (cardNodeWidth / 2);
                 strip.style.transform = `translateX(-${absolutePixelShift}px)`;
             }, 60);
 
-            // 6. Complete Transition Callback Lifecycle Event
             setTimeout(() => {
                 announce.style.color = "var(--text-yellow)";
                 announce.innerHTML = `🎉 SELAMAT! KAMU DAPAT: <span style="color:#fff; background:#1e293b; padding:2px 8px; border-radius:4px; border:1px solid var(--chest-accent);">${winningItemObject.name.toUpperCase()}</span>`;
@@ -596,10 +602,10 @@
                 isRolling = false;
                 rollButton.disabled = false;
                 rollButton.style.opacity = "1";
-            }, 4900);
+            }, 4600);
         }
 
-        // ADMIN PANEL - MANAGE EXPIRATION MEMBER OPERATIONS
+        // ADMIN PANEL - MANAGE MEMBERS
         function adminCreateAccount() {
             const u = document.getElementById('new-member-user').value.trim();
             const p = document.getElementById('new-member-pass').value.trim();
@@ -612,9 +618,9 @@
             let calculationsExpiryMs = baselineMs + (selectedMinutes * 60 * 1000);
 
             userAccounts[u] = { pass: p, role: "member", expiresAt: calculationsExpiryMs };
-            localStorage.setItem("accounts_gacha_save_v2", JSON.stringify(userAccounts));
+            localStorage.setItem("accounts_gacha_save_v3", JSON.stringify(userAccounts));
             
-            alert(`Sukses mendaftarkan akun "${u}"! Berfungsi & Aktif selama ${selectedMinutes} menit.`);
+            alert(`Sukses mendaftarkan akun "${u}"!`);
             document.getElementById('new-member-user').value = "";
             document.getElementById('new-member-pass').value = "";
             updateAdminAccountsTable();
@@ -656,14 +662,14 @@
         }
 
         function adminDeleteAccount(username) {
-            if (confirm(`Apakah Anda yakin ingin menghapus akun "${username}" secara permanen?`)) {
+            if (confirm(`Apakah Anda yakin ingin menghapus akun "${username}"?`)) {
                 delete userAccounts[username];
-                localStorage.setItem("accounts_gacha_save_v2", JSON.stringify(userAccounts));
+                localStorage.setItem("accounts_gacha_save_v3", JSON.stringify(userAccounts));
                 updateAdminAccountsTable();
             }
         }
 
-        // ADMIN PANEL - MANAGE CRATE CONFIGURATIONS POOLS
+        // ADMIN PANEL - MANAGE CRATE CONFIGURATIONS
         function updateAdminViews() {
             const tbody = document.querySelector('#admin-items-table tbody');
             tbody.innerHTML = "";
@@ -712,30 +718,28 @@
             let imgInput = document.getElementById('edit-item-img').value.trim();
             let chanceInput = parseInt(document.getElementById('edit-item-chance').value);
 
-            if(!nameInput || !imgInput || isNaN(chanceInput)) { alert("Mohon lengkapi seluruh kolom input parameter data!"); return; }
+            if(!nameInput || !imgInput || isNaN(chanceInput)) { alert("Mohon lengkapi seluruh kolom input!"); return; }
 
             if(!databaseChests[activeChestType]) databaseChests[activeChestType] = [];
 
             if(idx === -1) {
-                // Operation Mode: Insert New Record Element
                 databaseChests[activeChestType].push({ name: nameInput, img: imgInput, chance: chanceInput });
-                alert("Sukses menambahkan item baru kedalam database chest!");
+                alert("Sukses menambahkan item baru!");
             } else {
-                // Operation Mode: Edit Existing Index Pointer 
                 databaseChests[activeChestType][idx] = { name: nameInput, img: imgInput, chance: chanceInput };
-                alert("Sukses memperbarui konfigurasi item data!");
+                alert("Sukses memperbarui item!");
             }
 
-            localStorage.setItem("gacha_chests_save_v2", JSON.stringify(databaseChests));
+            localStorage.setItem("gacha_chests_save_v3", JSON.stringify(databaseChests));
             resetItemForm();
             updateAdminViews();
             renderUserGridItems();
         }
 
         function deleteItemData(index) {
-            if(confirm(`Hapus item data "${databaseChests[activeChestType][index].name}" dari chest ini?`)) {
+            if(confirm(`Hapus item data "${databaseChests[activeChestType][index].name}"?`)) {
                 databaseChests[activeChestType].splice(index, 1);
-                localStorage.setItem("gacha_chests_save_v2", JSON.stringify(databaseChests));
+                localStorage.setItem("gacha_chests_save_v3", JSON.stringify(databaseChests));
                 updateAdminViews();
                 renderUserGridItems();
             }
