@@ -1,298 +1,329 @@
+h
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growtopia Web Panel</title>
+    <title>Growtopia Premium Gacha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
+        :root {
+            --primary: #00d2ff;
+            --secondary: #92fe9d;
+            --bg-dark: #050a18;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --neon-blue: #00f2ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            background: #0f0c20;
+            background: var(--bg-dark);
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
             min-height: 100vh;
-            overflow: hidden;
-            position: relative;
         }
 
-        /* Background Animasi ala Growtopia (Poin 5) */
-        .bg-animation {
-            position: absolute;
+        /* --- BACKGROUND ANIMASI (POIN 5) --- */
+        .video-bg {
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, #1a0033 0%, #001a33 100%);
             z-index: -2;
+            background: url('https://images8.alphacoders.com/109/1093153.png') center/cover;
+            filter: brightness(0.4);
         }
-        .particles {
-            position: absolute;
-            width: 100%; height: 100%;
-            background-image: radial-gradient(circle, #00ffcc 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveBg 10s linear infinite;
-            opacity: 0.3;
+        .overlay-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, var(--bg-dark) 90%);
             z-index: -1;
         }
-        @keyframes moveBg {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
-        }
 
-        /* Jam Tiga Zona Waktu (Poin 4 & 7) */
-        .jam-container {
-            position: absolute;
-            top: 20px;
-            display: flex;
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.7);
+        /* --- CLOCK BAR (POIN 4 & 7) --- */
+        .top-bar {
+            background: rgba(0, 0, 0, 0.8);
             padding: 10px 20px;
-            border-radius: 8px;
-            border: 2px solid #00ffcc;
-            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0; z-index: 100;
+        }
+        .clocks { display: flex; gap: 20px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; }
+        .clocks span { color: var(--primary); }
+
+        /* --- LOGIN PANEL --- */
+        .container { display: flex; justify-content: center; align-items: center; min-height: 90vh; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
             text-align: center;
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.2);
+        }
+        h1 { font-family: 'Orbitron', sans-serif; margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 2px; }
+        input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            background: rgba(255,255,255,0.1); border: 1px solid var(--primary);
+            color: #fff; border-radius: 8px; outline: none;
+        }
+        .btn {
+            width: 100%; padding: 12px; margin-top: 15px;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            border: none; color: #fff; font-weight: bold; border-radius: 8px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--primary); }
+
+        /* --- GACHA SELECTION (MIRIP GAMBAR) --- */
+        .main-content { display: none; padding: 20px; }
+        .section-title { text-align: center; margin: 30px 0; font-family: 'Orbitron'; color: var(--primary); }
+        
+        .chest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1100px; margin: 0 auto;
+        }
+        .chest-card {
+            background: var(--card-bg);
+            border-radius: 15px; padding: 30px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s; cursor: pointer;
+        }
+        .chest-card:hover { background: rgba(0, 210, 255, 0.1); border-color: var(--primary); }
+        .chest-card img { width: 120px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
+        
+        /* --- GACHA ROLLER (POIN 3) --- */
+        #gacha-screen { display: none; text-align: center; padding-top: 50px; }
+        .roller-container {
+            width: 100%; max-width: 800px; margin: 40px auto;
+            position: relative; overflow: hidden;
+            background: rgba(0,0,0,0.5); border: 2px solid var(--primary);
+            height: 150px; border-radius: 10px;
+        }
+        .roller-line {
+            position: absolute; top: 0; left: 50%; width: 4px; height: 100%;
+            background: red; z-index: 10; box-shadow: 0 0 10px red;
+        }
+        .roller-items {
+            display: flex; position: absolute; left: 0; transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+        .roll-item {
+            width: 120px; height: 150px; flex-shrink: 0;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .roll-item img { width: 60px; height: 60px; }
+
+        /* --- ADMIN PANEL (POIN 6) --- */
+        .admin-panel {
+            background: rgba(20, 0, 0, 0.8); padding: 20px; border-radius: 15px;
+            border: 1px solid red; margin-top: 40px; max-width: 500px; margin: 40px auto;
         }
 
-        .panel-box {
-            background: rgba(20, 20, 40, 0.9);
-            border: 4px solid #e6a100;
-            padding: 30px;
-            border-radius: 12px;
-            width: 350px;
-            box-shadow: 0 0 20px rgba(230, 161, 0, 0.5);
-            text-align: center;
-        }
-
-        h2 { color: #e6a100; margin-bottom: 20px; text-shadow: 2px 2px #000; }
-        input, button {
-            width: 100%; padding: 10px; margin: 10px 0;
-            border-radius: 5px; border: none; font-weight: bold;
-        }
-        input { background: #fff; color: #000; }
-        button { background: #e6a100; color: #fff; cursor: pointer; text-shadow: 1px 1px #000;}
-        button:hover { background: #ffb700; }
-
-        .hidden { display: none !important; }
-
-        /* Menu Utama Dashboard */
-        .dashboard { width: 90%; max-width: 800px; }
-        .grid-menu { display: flex; gap: 20px; margin-top: 20px; }
-        .card { 
-            background: rgba(0,0,0,0.5); padding: 20px; border-radius: 8px; 
-            border: 2px solid #e6a100; flex: 1;
-        }
-
-        /* Gacha Section */
-        .item-display { margin: 20px 0; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-        .item-img { width: 80px; height: 80px; image-rendering: pixelated; }
-
-        /* Admin Panel (Poin 6) */
-        .admin-section { border-color: #ff3333 !important; }
-        .admin-section h3 { color: #ff3333; }
-        .user-list { text-align: left; background: #000; padding: 10px; border-radius: 5px; max-height: 100px; overflow-y: auto; margin-top: 10px;}
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="bg-animation"><div class="particles"></div></div>
+    <div class="video-bg"></div>
+    <div class="overlay-gradient"></div>
 
-    <!-- Info Jam (WIB, WITA, WIT) -->
-    <div class="jam-container">
-        <div id="hari-tanggal" style="width: 100%; color: #e6a100; margin-bottom: 5px; font-weight: bold;"></div>
-        <div><span style="color:#00ffcc">WIB</span><br><span id="wib">00:00:00</span></div>
-        <div><span style="color:#00ffcc">WITA</span><br><span id="wita">00:00:00</span></div>
-        <div><span style="color:#00ffcc">WIT</span><br><span id="wit">00:00:00</span></div>
-    </div>
+    <div id="player" style="position:absolute; top:-999px;"></div>
 
-    <!-- YouTube Audio Player (Hidden berkat Youtube API) -->
-    <div id="player" style="position:absolute; top:-9999px; left:-9999px;"></div>
-
-    <!-- 1. PANEL LOGIN -->
-    <div id="login-panel" class="panel-box">
-        <h2>GT PANEL LOGIN</h2>
-        <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 10px;">Klik tombol di bawah terlebih dahulu untuk mengaktifkan musik.</p>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="prosesLogin()">LOGIN</button>
-        <p id="login-error" style="color: red; margin-top: 10px; font-size: 0.8rem;"></p>
-    </div>
-
-    <!-- DASHBOARD UTAMA (Setelah Login) -->
-    <div id="main-dashboard" class="dashboard hidden">
-        <div class="panel-box" style="width: 100%;">
-            <h2>SELAMAT DATANG DI GROWTOPIA PANEL</h2>
-            <button onclick="logout()" style="width: auto; padding: 5px 15px; float: right; background: #ff3333;">Logout</button>
-            
-            <div class="grid-menu">
-                <!-- Fitur Gacha/Crate -->
-                <div class="card">
-                    <h3>Gacha Crate</h3>
-                    <div class="item-display" id="gacha-result">
-                        <p>Silahkan Gacha!</p>
-                    </div>
-                    <button onclick="gachaItem()">Buka Crate (Gacha)</button>
-                </div>
-
-                <!-- 6. MENU ADMIN (Hanya muncul jika yang login adalah akun admin) -->
-                <div id="admin-panel" class="card admin-section hidden">
-                    <h3>ADMIN CONTROL</h3>
-                    <p style="font-size: 0.8rem;">Buat Akun Member Baru:</p>
-                    <input type="text" id="new-user" placeholder="Username Baru" style="padding: 5px;">
-                    <input type="password" id="new-pass" placeholder="Password Baru" style="padding: 5px;">
-                    <button onclick="tambahUser()" style="background: #ff3333; padding: 5px;">Buat Akun</button>
-                    
-                    <div class="user-list" id="daftar-user">
-                        <!-- Daftar user terdaftar muncul di sini -->
-                    </div>
-                </div>
-            </div>
+    <div class="top-bar">
+        <div id="hari-ini">Senin, 01 Januari 2024</div>
+        <div class="clocks">
+            <div>WIB: <span id="wib">00:00:00</span></div>
+            <div>WITA: <span id="wita">00:00:00</span></div>
+            <div>WIT: <span id="wit">00:00:00</span></div>
         </div>
     </div>
 
-    <!-- YouTube Player API -->
+    <div id="login-screen" class="container">
+        <div class="glass-card">
+            <h1>LOGIN PANEL</h1>
+            <input type="text" id="user" placeholder="Username">
+            <input type="password" id="pass" placeholder="Password">
+            <button class="btn" onclick="login()">ENTER PANEL</button>
+            <p id="error" style="color: red; margin-top: 10px;"></p>
+        </div>
+    </div>
+
+    <div id="dashboard" class="main-content">
+        <button onclick="logout()" style="background:red; color:white; border:none; padding:5px 15px; border-radius:5px; cursor:pointer;">Logout</button>
+        
+        <h2 class="section-title">PILIH CHEST UNTUK DIBUKA</h2>
+        
+        <div class="chest-grid">
+            <div class="chest-card" onclick="startGacha('Rare')">
+                <img src="https://vdownload.im/g/growtopia/items/rare_chest.png" alt="Chest">
+                <h3>Rare Chest</h3>
+                <p style="font-size:0.8rem; color:var(--primary)">1x Buka</p>
+            </div>
+            <div class="chest-card" onclick="startGacha('Mythic')">
+                <img src="https://vdownload.im/g/growtopia/items/mythic_chest.png" alt="Chest">
+                <h3 style="color: #ff00ff;">Mythic Chest</h3>
+                <p style="font-size:0.8rem; color:#ff00ff">1x Buka</p>
+            </div>
+            <div class="chest-card" onclick="startGacha('Secret')">
+                <img src="https://vdownload.im/g/growtopia/items/secret_chest.png" alt="Chest">
+                <h3 style="color: #ffae00;">Secret Chest</h3>
+                <p style="font-size:0.8rem; color:#ffae00">1x Buka</p>
+            </div>
+        </div>
+
+        <div id="admin-only" class="admin-panel hidden">
+            <h3 style="color:red">ADMIN CONTROL</h3>
+            <input type="text" id="new-user" placeholder="Buat User Baru">
+            <input type="password" id="new-pass" placeholder="Password User">
+            <button class="btn" style="background:red" onclick="createUser()">BUAT AKUN</button>
+            <div id="user-list" style="margin-top:10px; font-size:0.8rem;"></div>
+        </div>
+    </div>
+
+    <div id="gacha-screen">
+        <h2 id="chest-name-rolling">ROLLING...</h2>
+        <div class="roller-container">
+            <div class="roller-line"></div>
+            <div class="roller-items" id="roller-box"></div>
+        </div>
+        <div id="gacha-result-text" style="font-size: 1.5rem; font-weight: bold; margin-top: 20px;"></div>
+        <button class="btn" style="width: 200px" onclick="backToDashboard()">KEMBALI</button>
+    </div>
+
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
-        // DATA ITEM & CHANCE (Poin 3 - Bisa lu ubah sesuka hati di sini)
-        // Pastikan total "chance" jika dijumlahkan bernilai 100
-        const DATA_ITEM = [
-            { nama: "World Lock", gambar: "https://images.vdownload.im/g/growtopia/items/world_lock.png", chance: 60 },
-            { nama: "Diamond Lock", gambar: "https://images.vdownload.im/g/growtopia/items/diamond_lock.png", chance: 30 },
-            { nama: "Blue Anemone Hair", gambar: "https://images.vdownload.im/g/growtopia/items/blue_anemone_hair.png", chance: 8 },
-            { nama: "Devil Wings", gambar: "https://images.vdownload.im/g/growtopia/items/devil_wings.png", chance: 2 }
+        // DATA ITEM (POIN 3)
+        const ITEMS = [
+            { nama: "World Lock", img: "https://images.vdownload.im/g/growtopia/items/world_lock.png", chance: 60 },
+            { nama: "Diamond Lock", img: "https://images.vdownload.im/g/growtopia/items/diamond_lock.png", chance: 30 },
+            { nama: "Blue Anemone Hair", img: "https://images.vdownload.im/g/growtopia/items/blue_anemone_hair.png", chance: 8 },
+            { nama: "Devil Wings", img: "https://images.vdownload.im/g/growtopia/items/devil_wings.png", chance: 2 }
         ];
 
-        // Database Akun bawaan (Hanya Admin yang terdaftar di awal)
-        let databaseUser = {
-            "admin": { pass: "admin123", role: "admin" }
-        };
+        // SETUP DATABASE LOKAL
+        if(!localStorage.getItem('gt_users')) {
+            localStorage.setItem('gt_users', JSON.stringify({ "admin": {pass: "admin123", role: "admin"} }));
+        }
 
-        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('gt_users'));
         let ytPlayer;
 
-        // Integrasi Musik YouTube (Poin 2)
+        // MUSIK (POIN 2)
         function onYouTubeIframeAPIReady() {
             ytPlayer = new YT.Player('player', {
-                height: '0', width: '0',
-                videoId: 'gQ59f_68sv4', // ID dari link youtube lu
-                playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'gQ59f_68sv4' },
-                events: { 'onReady': onPlayerReady }
+                height: '0', width: '0', videoId: 'gQ59f_68sv4',
+                playerVars: { 'autoplay': 1, 'loop': 1, 'playlist': 'gQ59f_68sv4' }
             });
         }
-        function onPlayerReady(event) {
-            // Browser memblokir autoplay sebelum klik, lagu akan otomatis jalan begitu user interaksi dengan halaman web
-            document.body.addEventListener('click', () => {
-                ytPlayer.playVideo();
-            }, { once: true });
-        }
+        window.onclick = () => { if(ytPlayer) ytPlayer.playVideo(); };
 
-        // Live Clock WIB, WITA, WIT (Poin 4 & 7)
-        function updateJam() {
-            const sekarang = new Date();
+        // JAM (POIN 7)
+        function clock() {
+            const now = new Date();
+            const opt = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' };
+            document.getElementById('hari-ini').innerText = now.toLocaleDateString('id-ID', opt);
             
-            // Opsi untuk Tanggal dan Hari Indonesia
-            const opsiHari = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' };
-            document.getElementById('hari-tanggal').innerText = sekarang.toLocaleDateString('id-ID', opsiHari);
-
-            // Format Jam asli berdasarkan Zona Waktu
-            document.getElementById('wib').innerText = sekarang.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
-            document.getElementById('wita').innerText = toggleTimezone(sekarang, 1);
-            document.getElementById('wit').innerText = toggleTimezone(sekarang, 2);
+            document.getElementById('wib').innerText = now.toLocaleTimeString('id-ID', {timeZone: 'Asia/Jakarta'});
+            document.getElementById('wita').innerText = now.toLocaleTimeString('id-ID', {timeZone: 'Asia/Makassar'});
+            document.getElementById('wit').innerText = now.toLocaleTimeString('id-ID', {timeZone: 'Asia/Jayapura'});
         }
-        
-        function toggleTimezone(date, offsetHours) {
-            let targetTime = new Date(date.getTime() + (offsetHours * 60 * 60 * 1000));
-            return targetTime.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
-        }
-        setInterval(updateJam, 1000);
-        updateJam();
+        setInterval(clock, 1000);
 
-        // Sistem Login (Poin 1 & 6)
-        function prosesLogin() {
-            const userInput = document.getElementById('username').value;
-            const passInput = document.getElementById('password').value;
-            const errorMengecek = document.getElementById('login-error');
-
-            if (databaseUser[userInput] && databaseUser[userInput].pass === passInput) {
-                currentUser = userInput;
-                errorMengecek.innerText = "";
-                
-                // Pindah Tampilan
-                document.getElementById('login-panel').classList.add('hidden');
-                document.getElementById('main-dashboard').classList.remove('hidden');
-
-                // Cek Role Admin
-                if (databaseUser[userInput].role === "admin") {
-                    document.getElementById('admin-panel').classList.remove('hidden');
-                    updateDaftarUser();
-                } else {
-                    document.getElementById('admin-panel').classList.add('hidden');
+        // LOGIN (POIN 1)
+        function login() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if(users[u] && users[u].pass === p) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                if(users[u].role === 'admin') {
+                    document.getElementById('admin-only').classList.remove('hidden');
+                    renderUserList();
                 }
             } else {
-                errorMengecek.innerText = "Username atau Password Salah / Belum Dibuat Admin!";
+                document.getElementById('error').innerText = "Akses Ditolak! Akun Tidak Terdaftar.";
             }
         }
 
-        function logout() {
-            document.getElementById('main-dashboard').classList.add('hidden');
-            document.getElementById('login-panel').classList.remove('hidden');
-            document.getElementById('username').value = "";
-            document.getElementById('password').value = "";
-            currentUser = null;
-        }
+        // GACHA LOGIC (MIRIP TERA PS / NUSA TOPIC)
+        function startGacha(type) {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('gacha-screen').style.display = 'block';
+            document.getElementById('chest-name-rolling').innerText = "OPENING " + type.toUpperCase() + " CHEST...";
+            
+            const roller = document.getElementById('roller-box');
+            roller.innerHTML = '';
+            roller.style.transition = 'none';
+            roller.style.transform = 'translateX(0px)';
 
-        // Fitur Tambah Akun oleh Admin (Poin 6)
-        function tambahUser() {
-            const userBaru = document.getElementById('new-user').value.trim();
-            const passBaru = document.getElementById('new-pass').value.trim();
-
-            if (userBaru === "" || passBaru === "") {
-                alert("Isi username dan password!");
-                return;
+            // Build 50 random items for animation
+            let itemsToRoll = [];
+            for(let i=0; i<60; i++) {
+                itemsToRoll.push(ITEMS[Math.floor(Math.random() * ITEMS.length)]);
             }
 
-            if (databaseUser[userBaru]) {
-                alert("User sudah terdaftar!");
-                return;
+            // Pick winner based on chance
+            let winRand = Math.random() * 100;
+            let current = 0;
+            let winner = ITEMS[0];
+            for(let it of ITEMS) {
+                current += it.chance;
+                if(winRand <= current) { winner = it; break; }
             }
+            itemsToRoll[55] = winner; // The 56th item is our winner
 
-            databaseUser[userBaru] = { pass: passBaru, role: "member" };
-            alert(`Akun untuk ${userBaru} berhasil dibuat!`);
-            document.getElementById('new-user').value = "";
-            document.getElementById('new-pass').value = "";
-            updateDaftarUser();
+            itemsToRoll.forEach(it => {
+                roller.innerHTML += `<div class="roll-item"><img src="${it.img}"><p style="font-size:0.6rem">${it.nama}</p></div>`;
+            });
+
+            setTimeout(() => {
+                roller.style.transition = 'transform 5s cubic-bezier(0.15, 0, 0.15, 1)';
+                // Calculation: (item width 120 * index 55) - offset container to center
+                const xMove = (55 * 120) - (document.querySelector('.roller-container').offsetWidth / 2) + 60;
+                roller.style.transform = `translateX(-${xMove}px)`;
+            }, 100);
+
+            setTimeout(() => {
+                document.getElementById('gacha-result-text').innerText = "YOU GOT: " + winner.nama.toUpperCase();
+                document.getElementById('gacha-result-text').style.color = "var(--primary)";
+            }, 5200);
         }
 
-        function updateDaftarUser() {
-            const listDiv = document.getElementById('daftar-user');
-            listDiv.innerHTML = "<strong>Daftar Akun:</strong><br>";
-            for (let user in databaseUser) {
-                listDiv.innerHTML += `- ${user} (${databaseUser[user].role})<br>`;
+        function backToDashboard() {
+            document.getElementById('gacha-screen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('gacha-result-text').innerText = "";
+        }
+
+        // ADMIN CREATE (POIN 6)
+        function createUser() {
+            const nu = document.getElementById('new-user').value;
+            const np = document.getElementById('new-pass').value;
+            if(nu && np) {
+                users[nu] = {pass: np, role: 'member'};
+                localStorage.setItem('gt_users', JSON.stringify(users));
+                alert("Akun Member Berhasil Dibuat!");
+                renderUserList();
             }
         }
 
-        // Fitur Gacha Simple Sesuai Persentase (Poin 3)
-        function gachaItem() {
-            let rand = Math.random() * 100;
-            let akumulasiChance = 0;
-            let itemDidapat = DATA_ITEM[0];
-
-            for (let item of DATA_ITEM) {
-                akumulasiChance += item.chance;
-                if (rand <= akumulasiChance) {
-                    itemDidapat = item;
-                    break;
-                }
-            }
-
-            // Tampilkan Hasil
-            const display = document.getElementById('gacha-result');
-            display.innerHTML = `
-                <img class="item-img" src="${itemDidapat.gambar}" alt="${itemDidapat.nama}" onerror="this.src='https://placehold.co/80?text=Item'">
-                <p style="font-weight:bold; color:#e6a100; margin-top:5px;">${itemDidapat.nama}</p>
-                <p style="font-size:0.7rem; color:#aaa;">Chance: ${itemDidapat.chance}%</p>
-            `;
+        function renderUserList() {
+            let html = "<strong>User Terdaftar:</strong><br>";
+            for(let u in users) html += `- ${u} (${users[u].role})<br>`;
+            document.getElementById('user-list').innerHTML = html;
         }
+
+        function logout() { location.reload(); }
     </script>
 </body>
 </html>
