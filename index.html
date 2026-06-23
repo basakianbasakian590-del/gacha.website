@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Growtopia Gacha Control Panel - V3 Animated</title>
+    <title>Growtopia Premium Control Panel - V5 Ultimate</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #020b14;
-            --panel-bg: rgba(9, 25, 41, 0.85);
+            --panel-bg: rgba(9, 25, 41, 0.9);
             --border-blue: #0f385c;
             --cyan-glow: #00d2ff;
             --text-yellow: #fff37a;
@@ -17,33 +17,30 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
         
-        /* --- ANIMASI BACKGROUND GROWTOPIA STYLE --- */
         body { 
-            background: linear-gradient(to bottom, #030f26, #081d3a, #020b14); 
+            background: linear-gradient(to bottom, #061125, #0b2244, #020b14); 
             color: #fff; 
             padding-bottom: 50px;
             position: relative;
             overflow-x: hidden;
         }
         
-        /* Efek partikel awan nebula bergerak di background */
+        /* ANIMASI BACKGROUND STARS GROWTOPIA STYLE */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 200%; height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(0, 210, 255, 0.08) 0%, transparent 40%),
-                        radial-gradient(circle at 70% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 45%);
+            background: url('https://www.transparenttextures.com/patterns/stardust.png'), 
+                        radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.1) 0%, transparent 60%);
             z-index: -2;
-            animation: nebulaMovement 25s linear infinite;
+            animation: gtBackgroundMove 40s linear infinite;
         }
 
-        @keyframes nebulaMovement {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-5%, -5%) rotate(180deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
+        @keyframes gtBackgroundMove {
+            from { transform: translate(0, 0) rotate(0deg); }
+            to { transform: translate(-10%, -10%) rotate(360deg); }
         }
 
-        /* --- UTILITY COPIER BAR --- */
         .copy-utility-bar {
             background: #1a202c; padding: 12px; text-align: center;
             border-bottom: 2px solid #2d3748; display: flex; justify-content: center; position: sticky; top: 0; z-index: 99999;
@@ -52,137 +49,103 @@
             background: #48bb78; color: white; border: none; padding: 10px 24px;
             font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 0.9rem; box-shadow: 0 0 10px rgba(72,187,120,0.4);
         }
-        .btn-copy-source:hover { background: #38a169; }
 
-        /* --- CLOCK TIMEZONES BAR --- */
         .timezone-bar {
-            background: rgba(4, 13, 26, 0.9); border-bottom: 2px solid var(--cyan-glow); padding: 10px 15px;
+            background: rgba(4, 13, 26, 0.95); border-bottom: 2px solid var(--cyan-glow); padding: 10px 15px;
             display: flex; justify-content: space-between; align-items: center;
-            font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold; backdrop-filter: blur(5px);
+            font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: bold;
         }
         .timezone-bar span { color: #ffe600; }
         
-        /* --- FLOATING BGM AUDIO CONTROL BAR --- */
         .music-bar {
-            background: rgba(9, 25, 41, 0.9); border: 1px solid var(--border-blue); padding: 10px 15px;
+            background: rgba(9, 25, 41, 0.95); border: 1px solid var(--border-blue); padding: 10px 15px;
             display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 15px auto 0 auto;
-            border-radius: 6px; font-size: 0.8rem; box-shadow: 0 0 12px rgba(0,210,255,0.2); backdrop-filter: blur(5px);
+            border-radius: 6px; font-size: 0.8rem; box-shadow: 0 0 12px rgba(0,210,255,0.2);
         }
-        .music-controls { display: flex; gap: 8px; }
         .music-controls button {
             background: #0077cc; border: 1px solid #00c3ff; color: white; padding: 6px 14px;
-            border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;
+            border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold;
         }
-        .music-controls button:hover { filter: brightness(1.2); box-shadow: 0 0 8px var(--cyan-glow); }
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; position: relative; z-index: 10; }
 
-        /* --- LOGIN PAGE CARD --- */
         .login-section {
             background: var(--panel-bg); border: 2px solid var(--border-blue); border-radius: 8px;
             padding: 30px; max-width: 400px; margin: 60px auto; box-shadow: 0 0 20px rgba(0,210,255,0.2);
-            backdrop-filter: blur(10px);
         }
-        .login-section h3 { font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px; color: var(--cyan-glow); letter-spacing: 1px; }
+        .login-section h3 { font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px; color: var(--cyan-glow); }
 
         input, select {
             width: 100%; padding: 11px; margin: 8px 0;
-            background: #061322; border: 1px solid var(--border-blue); color: #fff; border-radius: 4px; outline: none; font-size: 0.9rem;
+            background: #061322; border: 1px solid var(--border-blue); color: #fff; border-radius: 4px; outline: none;
         }
-        input:focus, select:focus { border-color: var(--cyan-glow); box-shadow: 0 0 5px rgba(0,210,255,0.3); }
 
         .btn-blue {
             width: 100%; padding: 11px; background: linear-gradient(180deg, #0099ff 0%, #0066cc 100%);
-            border: 1px solid #00c3ff; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+            border: 1px solid #00c3ff; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;
         }
-        .btn-blue:hover { filter: brightness(1.2); box-shadow: 0 0 12px var(--cyan-glow); }
 
-        /* --- BOX APPLICATION MODULES --- */
         .app-box { 
             background: var(--panel-bg); border: 2px solid var(--border-blue); border-radius: 8px; 
             margin-bottom: 25px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
-            backdrop-filter: blur(10px);
         }
         .app-header {
             background: linear-gradient(90deg, #004477 0%, #001133 100%); padding: 12px 15px;
-            font-weight: bold; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; border-bottom: 1px solid var(--border-blue);
-            font-family: 'Orbitron', sans-serif;
+            font-weight: bold; display: flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif;
         }
 
-        /* --- ROULETTE BOARD ANIMATION --- */
-        .gacha-display-box {
-            background: radial-gradient(circle, rgba(12,35,64,0.6) 0%, rgba(4,15,28,0.9) 100%); padding: 25px 20px; position: relative;
-        }
-        .roulette-wrapper {
-            width: 100%; height: 130px; background: rgba(4, 15, 26, 0.95); border: 2px solid var(--border-blue);
-            border-radius: 6px; position: relative; overflow: hidden; margin: 15px 0;
-        }
-        .pointer-line {
-            position: absolute; top: 0; left: 50%; width: 4px; height: 100%;
-            background: #ffea00; z-index: 10; transform: translateX(-50%); box-shadow: 0 0 10px #ffea00;
-        }
-        .items-strip { display: flex; position: absolute; left: 0; top: 0; height: 100%; transform: translateX(0); }
-        .strip-card {
-            width: 100px; height: 100%; flex-shrink: 0; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; border-right: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.01);
-        }
-        .strip-card img { width: 50px; height: 50px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        /* ROULETTE BOARD SYSTEM */
+        .gacha-display-box { background: radial-gradient(circle, rgba(12,35,64,0.6) 0%, rgba(4,15,28,0.9) 100%); padding: 25px 20px; }
+        .roulette-wrapper { width: 100%; height: 130px; background: rgba(4, 15, 26, 0.95); border: 2px solid var(--border-blue); border-radius: 6px; position: relative; overflow: hidden; }
+        .pointer-line { position: absolute; top: 0; left: 50%; width: 4px; height: 100%; background: #ffea00; z-index: 10; transform: translateX(-50%); box-shadow: 0 0 10px #ffea00; }
+        .items-strip { display: flex; position: absolute; left: 0; top: 0; height: 100%; }
+        .strip-card { width: 100px; height: 100%; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; border-right: 1px solid rgba(255,255,255,0.06); }
+        .strip-card img { width: 50px; height: 50px; object-fit: contain; }
         .strip-card p { font-size: 0.65rem; margin-top: 6px; text-align: center; color: #e2e8f0; width: 90%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* --- THREE CHEST CORE GRID --- */
-        .teraps-bg { background: radial-gradient(circle, rgba(26,11,54,0.4) 0%, rgba(5,2,15,0.8) 100%); padding: 35px 20px; text-align: center; }
-        .chest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
-        .chest-card { 
-            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; 
-            padding: 25px 20px; text-align: center; cursor: pointer; transition: 0.2s; position: relative;
-        }
-        .chest-card:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
-        .chest-card.active-chest { border-color: var(--cyan-glow); background: rgba(0, 210, 255, 0.05); box-shadow: 0 0 15px rgba(0,210,255,0.2); }
-        .chest-card .chest-icon-box { font-size: 50px; margin-bottom: 10px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
-        .chest-card h4 { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; margin-bottom: 12px; color: #fff; }
+        /* THREE CHEST CORE SELECTION */
+        .teraps-bg { background: radial-gradient(circle, rgba(26,11,54,0.4) 0%, rgba(5,2,15,0.8) 100%); padding: 35px 20px; }
+        .chest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .chest-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 25px 20px; text-align: center; cursor: pointer; }
+        .chest-card.active-chest { border-color: var(--cyan-glow); background: rgba(0, 210, 255, 0.05); }
+        .chest-card .chest-icon-box { font-size: 50px; margin-bottom: 10px; display: block; }
         
-        .btn-chest-action {
-            background: #1a202c; border: 1px solid #4a5568; color: white; padding: 6px 15px; border-radius: 4px;
-            font-size: 0.75rem; font-weight: bold; cursor: pointer; text-transform: uppercase; width: 100%;
-        }
-        .chest-card.active-chest .btn-chest-action {
-            background: linear-gradient(180deg, #00b4db 0%, #0083b0 100%); border-color: #00d2ff;
-        }
+        .btn-chest-action { background: #1a202c; border: 1px solid #4a5568; color: white; padding: 6px 15px; border-radius: 4px; font-size: 0.75rem; width: 100%; }
+        .chest-card.active-chest .btn-chest-action { background: linear-gradient(180deg, #00b4db 0%, #0083b0 100%); border-color: #00d2ff; }
 
-        /* --- DISPLAY LAYOUT ITEMS GRID LIST --- */
         .items-grid-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; padding: 15px; }
-        .item-display-card { background: #051221; border: 1px solid var(--border-blue); border-radius: 6px; padding: 14px 6px; text-align: center; box-shadow: inset 0 0 8px rgba(0,0,0,0.5); }
-        .item-display-card img { width: 45px; height: 45px; object-fit: contain; display: block; margin: 0 auto; }
-        .item-display-card p { font-size: 0.7rem; margin-top: 6px; color: #cbd5e1; font-weight: bold; min-height: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .item-display-card span { font-size: 0.65rem; color: #48bb78; display: block; margin-top: 4px; font-family: 'Orbitron', sans-serif; }
+        .item-display-card { background: #051221; border: 1px solid var(--border-blue); border-radius: 6px; padding: 14px 6px; text-align: center; }
+        .item-display-card img { width: 45px; height: 45px; object-fit: contain; }
+        .item-display-card p { font-size: 0.7rem; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* --- ADMINISTRATION SUB PANELS --- */
+        /* BALANCE TRANSFER HUB STYLE */
+        .balance-hub { background: rgba(14, 28, 46, 0.9); border: 1px solid var(--cyan-glow); border-radius: 6px; padding: 15px; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px; }
+        .balance-display-box { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: bold; color: var(--text-yellow); }
+        .transfer-form-inline { display: flex; gap: 8px; flex-grow: 1; max-width: 500px; }
+        .transfer-form-inline input { margin: 0; padding: 8px; font-size: 0.85rem; }
+
+        /* ADMINISTRATION MODULES */
         .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; padding: 15px; }
         .admin-col { background: #051221; border: 1px solid var(--border-blue); border-radius: 6px; padding: 18px; }
-        .admin-table-wrapper { max-height: 200px; overflow-y: auto; border: 1px solid var(--border-blue); margin-bottom: 15px; background: #030a12; }
+        .admin-table-wrapper { max-height: 220px; overflow-y: auto; border: 1px solid var(--border-blue); background: #030a12; margin-top: 10px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-        th, td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border-blue); vertical-align: middle; }
-        th { background: #0c2036; color: var(--cyan-glow); font-family: 'Orbitron', sans-serif; position: sticky; top: 0; }
-        
-        .badge-admin { background: #ef4444; color: white; padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; font-weight: bold; }
-        .badge-member { background: #3b82f6; color: white; padding: 1px 4px; border-radius: 3px; font-size: 0.6rem; font-weight: bold; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border-blue); }
+        th { background: #0c2036; color: var(--cyan-glow); position: sticky; top: 0; }
 
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <!-- TOMBOL AUTOMATIC COPY UTILITY -->
     <div class="copy-utility-bar" id="top-copier-bar">
-        <button class="btn-copy-source" onclick="copyEntirePageSourceCode()">📋 SALIN SELURUH KODE WEB (V3 - ANIMATED FIX)</button>
+        <button class="btn-copy-source" onclick="copyEntirePageSourceCode()">📋 SALIN SELURUH KODE WEB (V5 - ULTIMATE WORKING)</button>
     </div>
 
-    <!-- AUDIO ENGINE HTML5 (ANTI-MACET YOUTUBE) -->
+    <!-- AUDIO STREAM ENGINE (ORIGINAL GT TRACK) -->
     <audio id="gt-native-audio" loop></audio>
 
-    <!-- TIGA ZONA WAKTU NUSANTARA -->
     <div class="timezone-bar">
-        <div id="live-date">Memuat Tanggal...</div>
+        <div id="live-date">Memuat Kalender...</div>
         <div style="display: flex; gap: 15px;">
             <div>WIB: <span id="clock-wib">00:00:00</span></div>
             <div>WITA: <span id="clock-wita">00:00:00</span></div>
@@ -190,20 +153,18 @@
         </div>
     </div>
 
-    <!-- FLOATING MUSIC WIDGET CONTROLLER -->
     <div class="music-bar">
-        <div>🎵 BGM: <span id="current-song-title" style="color: var(--cyan-glow); font-weight: bold;">Growtopia Theme Remix</span></div>
+        <div>🎵 BGM: <span id="current-song-title" style="color: var(--cyan-glow); font-weight: bold;">Growtopia Login Screen Ost</span></div>
         <div class="music-controls">
             <button onclick="controlAudio('play')">▶️ PLAY</button>
             <button onclick="controlAudio('pause')">⏸️ PAUSE</button>
-            <button onclick="skipToNextSong()">>>>> SKIP</button>
         </div>
     </div>
 
-    <!-- CARD FORM LOGIN -->
-    <div id="login-container">
+    <!-- LOGIN PANEL FRAME -->
+    <div id="login-container" class="container">
         <div class="login-section">
-            <h3>GACHA CONTROL PANEL</h3>
+            <h3>GACHA CONTROL PANEL V5</h3>
             <input type="text" id="input-username" placeholder="Username / Akun Member">
             <input type="password" id="input-password" placeholder="Password">
             <button class="btn-blue" onclick="executeLogin()">Masuk Panel</button>
@@ -211,21 +172,31 @@
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE HUB DASHBOARD -->
+    <!-- MAIN INTERACTIVE OPERATIONS HUB -->
     <div id="main-panel-dashboard" class="container hidden">
-        <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; background: rgba(9,25,41,0.8); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-blue);">
+        <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; background: rgba(9,25,41,0.85); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-blue);">
             <div>
                 <span style="color: var(--cyan-glow); font-weight: bold; font-family:'Orbitron';" id="display-user-login">Logged In</span>
                 <span id="display-user-expired" style="font-size:0.8rem; margin-left:10px; color:#a0aec0; font-weight:bold;"></span>
             </div>
-            <button onclick="executeLogout()" style="background:#ef4444; color:white; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-size:0.75rem; font-weight:bold;">LOGOUT</button>
+            <button onclick="executeLogout()" style="background:#ef4444; color:white; border:none; padding:6px 14px; border-radius:4px; cursor:pointer; font-weight:bold; font-size:0.75rem;">LOGOUT</button>
         </div>
 
-        <!-- ROULLETE DISPLAY LIVE ZONE -->
-        <div class="app-box">
-            <div class="app-header" id="title-banner-gacha">
-                <span style="color:#00d2ff">●</span> GACHA SIMULATOR
+        <!-- NEW FEATURE: LIVE BALANCE BOX & TRANSFER MECHANISM FOR ALL USER ROLES -->
+        <div class="balance-hub">
+            <div class="balance-display-box">
+                💳 SALDO LU: <span id="user-live-balance-value">0</span> DL
             </div>
+            <div class="transfer-form-inline">
+                <input type="text" id="tf-target-username" placeholder="Target Username">
+                <input type="number" id="tf-amount-val" placeholder="Jumlah (DL)">
+                <button class="btn-blue" style="width:auto; white-space:nowrap; padding:0 15px;" onclick="executeTransferBalance()">Kirim Saldo</button>
+            </div>
+        </div>
+
+        <!-- GACHA MODULE -->
+        <div class="app-box">
+            <div class="app-header" id="title-banner-gacha">● GACHA SIMULATOR</div>
             <div class="gacha-display-box">
                 <div class="roulette-wrapper">
                     <div class="pointer-line"></div>
@@ -234,30 +205,25 @@
                 <div style="text-align: center; margin-top: 12px;">
                     <button class="btn-blue" style="width: auto; padding: 12px 35px; font-family:'Orbitron'; font-size:1rem;" id="btn-roll-gacha-main" onclick="triggerRollAnimation()">BUKA CHEST (FREE)</button>
                 </div>
-                <div id="gacha-winning-text" style="text-align:center; margin-top:18px; font-family:'Orbitron'; font-weight:bold; font-size:1.2rem; min-height:28px; letter-spacing:1px;"></div>
+                <div id="gacha-winning-text" style="text-align:center; margin-top:18px; font-family:'Orbitron'; font-weight:bold; font-size:1.2rem; min-height:28px;"></div>
             </div>
         </div>
 
-        <!-- CORE THREE CHESTS PICKER SELECTION -->
+        <!-- CHEST SELECTOR -->
         <div class="app-box">
-            <div class="app-header">
-                <span style="color:#a855f7">●</span> CHOOSE CHEST CRATE SELECTION
-            </div>
+            <div class="app-header">● CHOOSE CHEST CRATE SELECTION</div>
             <div class="teraps-bg">
                 <div class="chest-grid">
-                    <!-- RARE CHEST CARD -->
                     <div class="chest-card" id="card-chest-rare" onclick="switchActiveChest('rare')">
                         <span class="chest-icon-box">📦</span>
                         <h4>Rare Chest</h4>
                         <button class="btn-chest-action">BUKA SEKARANG</button>
                     </div>
-                    <!-- MYTHIC CHEST CARD -->
                     <div class="chest-card" id="card-chest-mythic" onclick="switchActiveChest('mythic')">
                         <span class="chest-icon-box">🔮</span>
                         <h4 style="color:#a855f7;">Mythic Chest</h4>
                         <button class="btn-chest-action">BUKA SEKARANG</button>
                     </div>
-                    <!-- SECRET CHEST CARD -->
                     <div class="chest-card" id="card-chest-secret" onclick="switchActiveChest('secret')">
                         <span class="chest-icon-box">👑</span>
                         <h4 style="color:#ffaa00;">Secret Chest</h4>
@@ -267,66 +233,63 @@
             </div>
         </div>
 
-        <!-- GRID VIEWER FOR CURRENT CHEST POOL -->
         <div class="app-box">
-            <div class="app-header" id="user-grid-items-header">Daftar Item Di Dalam Chest Aktif</div>
+            <div class="app-header" id="user-grid-items-header">Daftar Item Di Dalam Chest</div>
             <div class="items-grid-list" id="user-side-items-view"></div>
         </div>
 
-        <!-- ADMIN EXCLUSIVE OPERATIONS TERMINAL -->
+        <!-- RE-DESIGNED ADMIN EXCLUSIVE SYSTEM CONSOLE -->
         <div id="admin-restricted-section" class="app-box hidden" style="border-color: #ef4444;">
-            <div class="app-header" style="background: linear-gradient(90deg, #550000 0%, #1a0000 100%); border-bottom-color: #ef4444; color:#ff8888;">
-                🛡️ Admin Control Panel (Live Settings Config)
+            <div class="app-header" style="background: linear-gradient(90deg, #550000 0%, #1a0000 100%); color:#ff8888;">
+                🛡️ Admin Control Panel (Live Settings Config & Account Database Logger)
             </div>
             <div class="admin-grid">
                 
-                <!-- ACCOUNT CREATION & TIME EXPIRY CONTROL -->
                 <div class="admin-col">
-                    <h4 style="color:#ef4444; font-family:'Orbitron'; margin-bottom:12px; font-size:0.9rem;">⚙️ SETTING EXPIRED AKUN MEMBER</h4>
+                    <h4 style="color:#ef4444; font-family:'Orbitron'; font-size:0.85rem;">⚙️ CREATE / SET EXPIRED & SALDO</h4>
                     
                     <input type="text" id="new-member-user" placeholder="Username Member Baru">
                     <input type="password" id="new-member-pass" placeholder="Password Member Baru">
+                    <input type="number" id="new-member-balance" placeholder="Set Saldo Awal (DL)" value="0">
                     
-                    <label style="font-size: 0.75rem; color: #cbd5e1; font-weight:bold;">Set Masa Aktif Durasi Akun:</label>
+                    <label style="font-size: 0.7rem; color: #cbd5e1; font-weight:bold;">Set Masa Aktif Akun:</label>
                     <select id="new-member-expiry">
-                        <option value="1">1 Menit</option>
                         <option value="5">5 Menit</option>
                         <option value="60">1 Jam</option>
                         <option value="1440">1 Hari</option>
                         <option value="10080">1 Minggu</option>
                     </select>
                     
-                    <button class="btn-blue" style="background:linear-gradient(180deg, #ef4444 0%, #991b1b 100%); border-color:#f87171; margin-top:8px;" onclick="adminCreateAccount()">Save Akun Member</button>
+                    <button class="btn-blue" style="background:linear-gradient(180deg, #ef4444 0%, #991b1b 100%); border-color:#f87171;" onclick="adminCreateAccount()">Save Akun Member</button>
                     
-                    <h4 style="color:#ef4444; font-family:'Orbitron'; margin-top:22px; margin-bottom:10px; font-size:0.85rem;">📋 DAFTAR EXPIRED MEMBER REGISTERED</h4>
+                    <h4 style="color:#ef4444; font-family:'Orbitron'; margin-top:20px; font-size:0.85rem;">📋 LOGGED DATABASE ACCOUNTS CREATED</h4>
                     <div class="admin-table-wrapper">
                         <table id="admin-accounts-table">
-                            <thead><tr><th>Username</th><th>Expired Status</th><th>Aksi</th></tr></thead>
+                            <thead><tr><th>Account Profile</th><th>Balance</th><th>Status</th><th>Aksi</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- ITEMS CRUD AND CHANCE RATIO MODIFIER -->
                 <div class="admin-col">
-                    <h4 style="color:var(--cyan-glow); font-family:'Orbitron'; margin-bottom:12px; font-size:0.9rem;" id="admin-manage-items-title">📦 MANAGE ITEMS & CHANCE</h4>
+                    <h4 style="color:var(--cyan-glow); font-family:'Orbitron'; font-size:0.85rem;" id="admin-manage-items-title">📦 MANAGE ITEMS POOL & CHANCE</h4>
                     <div class="admin-table-wrapper">
                         <table id="admin-items-table">
-                            <thead><tr><th>Nama Item</th><th>Chance %</th><th>Aksi</th></tr></thead>
+                            <thead><tr><th>Nama Item</th><th>Chance</th><th>Aksi</th></tr></thead>
                             <tbody></tbody>
                         </table>
                     </div>
                     
-                    <div style="background: rgba(0,0,0,0.4); padding: 12px; border-radius: 4px; border: 1px solid var(--border-blue);">
-                        <p style="font-size:0.75rem; font-weight:bold; color:var(--text-yellow); margin-bottom:6px;" id="form-action-title">Tambah / Modifikasi Item Baru:</p>
+                    <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 4px; border: 1px solid var(--border-blue); margin-top:10px;">
+                        <p style="font-size:0.7rem; color:var(--text-yellow); font-weight:bold;" id="form-action-title">Tambah / Modifikasi Item Baru:</p>
                         <input type="hidden" id="edit-item-index" value="-1">
-                        <input type="text" id="edit-item-name" placeholder="Nama Item (Misal: Diamond Lock)">
-                        <input type="text" id="edit-item-img" placeholder="Link/URL Gambar (.png / .jpg)">
-                        <input type="number" id="edit-item-chance" placeholder="Chance Persentase % (Misal: 25)">
+                        <input type="text" id="edit-item-name" placeholder="Nama Item">
+                        <input type="text" id="edit-item-img" placeholder="Link Gambar (.png/.jpg)">
+                        <input type="number" id="edit-item-chance" placeholder="Chance %">
                         
-                        <div style="display:flex; gap:10px; margin-top:8px;">
+                        <div style="display:flex; gap:6px; margin-top:5px;">
                             <button class="btn-blue" onclick="saveOrAddItem()">Simpan Item</button>
-                            <button class="btn-blue" style="background:#4a5568; border-color:#718096;" onclick="resetItemForm()">Clear Form</button>
+                            <button class="btn-blue" style="background:#4a5568; border-color:#718096;" onclick="resetItemForm()">Clear</button>
                         </div>
                     </div>
                 </div>
@@ -341,141 +304,100 @@
             bar.style.display = 'none';
             const pageSource = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
             bar.style.display = 'flex';
-
             navigator.clipboard.writeText(pageSource).then(() => {
-                alert("SUKSES! Kode V3 (Animasi & Audio Fix) Berhasil Disalin! Silakan paste langsung ke file index.html di GitHub.");
-            }).catch(err => {
-                alert("Gagal menyalin otomatis, silakan blok teks manual.");
+                alert("SUKSES! Seluruh Kode V5 Terintegrasi Berhasil Disalin!");
             });
         }
 
-        // PLAYLIST DIRECT MP3 STABIL (ANTI ERROR BLOCK)
-        const PLAYLIST_SONGS = [
-            { title: "Growtopia Theme Remix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { title: "Cyberpunk Gaming BGM", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { title: "Synthwave Retro Beats", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
-        ];
-
-        let currentSongIndex = 0;
+        // ORIGINAL GROWTOPIA STREAM TRACK OVERRIDES
+        const NATIVE_SOUNDTRACK_URL = "https://files.catbox.moe/s9u821.mp3";
         let loggedInUser = null;
         let activeChestType = 'rare'; 
         let isRolling = false;
         let nativeAudio = document.getElementById('gt-native-audio');
 
-        // AMAN: RE-ROUTE KE CDN RENDER ENGINE STABIL (ANTI-TANDA TANYA)
+        // PROTECTED FALLBACK IMAGE COMPILER (PROXIED TO WESERV ANTI BLOKIR)
         const CHESTS_DEFAULT_DATA = {
             rare: [
-                { name: "Legendary Rayman", img: "https://img.moeegame.com/gt/item/rayman_hair.png", chance: 15 },
-                { name: "Mythical Rayman", img: "https://img.moeegame.com/gt/item/rayman_hair.png", chance: 15 },
-                { name: "Eggplant 10K", img: "https://img.moeegame.com/gt/item/fiesta_eggplant.png", chance: 20 },
-                { name: "World Lock x10", img: "https://img.moeegame.com/gt/item/world_lock.png", chance: 50 }
+                { name: "Rayman Hair", img: "https://images.weserv.nl/?url=https://static.wikia.nocookie.net/growtopia/images/1/15/Item_3024.png", chance: 15 },
+                { name: "World Lock x10", img: "https://images.weserv.nl/?url=https://static.wikia.nocookie.net/growtopia/images/c/c5/Item_242.png", chance: 50 }
             ],
             mythic: [
-                { name: "Magplant 5000", img: "https://img.moeegame.com/gt/item/magplant_5000.png", chance: 10 },
-                { name: "Diamond Lock x5", img: "https://img.moeegame.com/gt/item/diamond_lock.png", chance: 30 },
-                { name: "Angel Wings", img: "https://img.moeegame.com/gt/item/angel_wings.png", chance: 20 },
-                { name: "Devil Wings", img: "https://img.moeegame.com/gt/item/devil_wings.png", chance: 40 }
+                { name: "Magplant 5000", img: "https://images.weserv.nl/?url=https://static.wikia.nocookie.net/growtopia/images/8/87/Item_3918.png", chance: 20 },
+                { name: "Diamond Lock x5", img: "https://images.weserv.nl/?url=https://static.wikia.nocookie.net/growtopia/images/8/8f/Item_1424.png", chance: 40 }
             ],
             secret: [
-                { name: "Phoenix Wings", img: "https://img.moeegame.com/gt/item/phoenix_wings.png", chance: 5 },
-                { name: "Golden Angel Wings", img: "https://img.moeegame.com/gt/item/golden_angel_wings.png", chance: 15 },
-                { name: "Robo Wings", img: "https://img.moeegame.com/gt/item/robo_wings.png", chance: 30 },
-                { name: "BGL Crate Supply", img: "https://img.moeegame.com/gt/item/blue_gem_lock.png", chance: 50 }
+                { name: "Phoenix Wings", img: "https://images.weserv.nl/?url=https://static.wikia.nocookie.net/growtopia/images/b/b3/Item_3374.png", chance: 10 },
+                { name: "BGL Crate Supply", img: "https://images.weserv.nl/?url=https://static.wikia.nocookie.net/growtopia/images/c/ca/Item_3802.png", chance: 40 }
             ]
         };
 
-        if(!localStorage.getItem("gacha_chests_save_v3")) {
-            localStorage.setItem("gacha_chests_save_v3", JSON.stringify(CHESTS_DEFAULT_DATA));
-        }
-        if(!localStorage.getItem("accounts_gacha_save_v3")) {
-            localStorage.setItem("accounts_gacha_save_v3", JSON.stringify({
-                "admin": { pass: "admin123", role: "admin", expiresAt: null }
+        if(!localStorage.getItem("gacha_chests_save_v5")) localStorage.setItem("gacha_chests_save_v5", JSON.stringify(CHESTS_DEFAULT_DATA));
+        if(!localStorage.getItem("accounts_gacha_save_v5")) {
+            localStorage.setItem("accounts_gacha_save_v5", JSON.stringify({
+                "admin": { pass: "admin123", role: "admin", expiresAt: null, balance: 99999 }
             }));
         }
 
-        let databaseChests = JSON.parse(localStorage.getItem("gacha_chests_save_v3"));
-        let userAccounts = JSON.parse(localStorage.getItem("accounts_gacha_save_v3"));
+        let databaseChests = JSON.parse(localStorage.getItem("gacha_chests_save_v5"));
+        let userAccounts = JSON.parse(localStorage.getItem("accounts_gacha_save_v5"));
 
-        // NATIVE AUDIO CONTROLLER ENGINE
         window.addEventListener('DOMContentLoaded', () => {
-            setupAudioTrack();
+            nativeAudio.src = NATIVE_SOUNDTRACK_URL;
         });
 
-        function setupAudioTrack() {
-            nativeAudio.src = PLAYLIST_SONGS[currentSongIndex].url;
-            document.getElementById('current-song-title').innerText = PLAYLIST_SONGS[currentSongIndex].title + " (Ready - Klik Play)";
-        }
-
-        function controlAudio(action) {
-            if(action === 'play') {
+        function controlAudio(act) {
+            if(act === 'play') {
                 nativeAudio.play().then(() => {
-                    document.getElementById('current-song-title').innerText = PLAYLIST_SONGS[currentSongIndex].title + " (🔊 Playing)";
-                }).catch(err => {
-                    alert("Klik layar sekali lagi lalu pencet PLAY untuk konfirmasi izin audio browser!");
-                });
-            }
-            if(action === 'pause') {
+                    document.getElementById('current-song-title').innerText = "Growtopia Main Theme Ost (🔊 Live)";
+                }).catch(() => { alert("Ketuk layar HP lu sekali bebas, baru klik PLAY!"); });
+            } else {
                 nativeAudio.pause();
-                document.getElementById('current-song-title').innerText = PLAYLIST_SONGS[currentSongIndex].title + " (⏸️ Paused)";
+                document.getElementById('current-song-title').innerText = "Growtopia Main Theme Ost (⏸️ Paused)";
             }
         }
 
-        function skipToNextSong() {
-            currentSongIndex = (currentSongIndex + 1) % PLAYLIST_SONGS.length;
-            setupAudioTrack();
-            setTimeout(() => { controlAudio('play'); }, 200);
-        }
-
-        nativeAudio.onended = function() {
-            skipToNextSong();
-        };
-
-        // TIMECLOCK SYSTEM
-        function systemHeartbeat() {
+        function clockSystemHeartbeat() {
             const now = new Date();
-            document.getElementById('live-date').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' });
+            document.getElementById('live-date').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('clock-wib').innerText = now.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
             document.getElementById('clock-wita').innerText = now.toLocaleTimeString('id-ID', { timeZone: 'Asia/Makassar' });
             document.getElementById('clock-wit').innerText = now.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jayapura' });
 
             if (loggedInUser && userAccounts[loggedInUser]) {
-                let currentSession = userAccounts[loggedInUser];
-                if (currentSession.expiresAt) {
-                    let currentTimeStamp = new Date().getTime();
-                    let timeLeft = currentSession.expiresAt - currentTimeStamp;
-
+                let session = userAccounts[loggedInUser];
+                if (session.expiresAt) {
+                    let timeLeft = session.expiresAt - new Date().getTime();
                     if (timeLeft <= 0) {
-                        alert("Masa berlaku akun member Anda telah kedaluwarsa!");
+                        alert("Sesi member habis/expired!");
                         executeLogout();
                     } else {
                         let totalSec = Math.ceil(timeLeft / 1000);
-                        let min = Math.floor(totalSec / 60);
-                        let sec = totalSec % 60;
-                        document.getElementById('display-user-expired').innerText = `(Expired Sisa: ${min}m ${sec}s)`;
+                        document.getElementById('display-user-expired').innerText = `(Sisa: ${Math.floor(totalSec/60)}m ${totalSec%60}s)`;
                     }
                 } else {
-                    document.getElementById('display-user-expired').innerText = `(Permanent Admin Dev)`;
+                    document.getElementById('display-user-expired').innerText = `(Owner Dev Permanent)`;
                 }
             }
         }
-        setInterval(systemHeartbeat, 1000);
+        setInterval(clockSystemHeartbeat, 1000);
 
         function executeLogin() {
             const u = document.getElementById('input-username').value.trim();
             const p = document.getElementById('input-password').value.trim();
-            const alertText = document.getElementById('login-alert-msg');
+            const alertMsg = document.getElementById('login-alert-msg');
 
             if(userAccounts[u] && userAccounts[u].pass === p) {
                 if (userAccounts[u].expiresAt && new Date().getTime() > userAccounts[u].expiresAt) {
-                    alertText.innerText = "Akun member ini sudah Expired!";
+                    alertMsg.innerText = "Akun member Anda sudah kedaluwarsa!";
                     return;
                 }
-
-                alertText.innerText = "";
                 loggedInUser = u;
                 document.getElementById('login-container').classList.add('hidden');
                 document.getElementById('main-panel-dashboard').classList.remove('hidden');
                 document.getElementById('display-user-login').innerText = `Logged In: ${u.toUpperCase()}`;
+                
+                updateLiveBalanceDisplay();
 
                 if(userAccounts[u].role === "admin") {
                     document.getElementById('admin-restricted-section').classList.remove('hidden');
@@ -485,63 +407,84 @@
                     document.getElementById('admin-restricted-section').classList.add('hidden');
                 }
                 switchActiveChest('rare');
-                // Auto trigger play audio on interaction
                 controlAudio('play');
             } else {
-                alertText.innerText = "Kombinasi Username / Password salah!";
+                alertMsg.innerText = "Username atau Password salah!";
             }
+        }
+
+        function updateLiveBalanceDisplay() {
+            if(loggedInUser) {
+                document.getElementById('user-live-balance-value').innerText = userAccounts[loggedInUser].balance || 0;
+            }
+        }
+
+        // FEATURE: TRANSFER BALANCE PROTOCOLS FOR ALL MEMBERS
+        function executeTransferBalance() {
+            const targetUser = document.getElementById('tf-target-username').value.trim();
+            const amountTransfer = parseInt(document.getElementById('tf-amount-val').value);
+
+            if(!targetUser || isNaN(amountTransfer) || amountTransfer <= 0) {
+                alert("Isi target username dan jumlah transfer yang valid!");
+                return;
+            }
+            if(!userAccounts[targetUser]) {
+                alert("Username tujuan tidak terdaftar!");
+                return;
+            }
+            if(targetUser === loggedInUser) {
+                alert("Gak bisa transfer saldo ke diri sendiri, cok!");
+                return;
+            }
+            if(userAccounts[loggedInUser].balance < amountTransfer) {
+                alert("Saldo DL lu gak cukup!");
+                return;
+            }
+
+            // Execute transaction operations
+            userAccounts[loggedInUser].balance -= amountTransfer;
+            userAccounts[targetUser].balance += amountTransfer;
+
+            localStorage.setItem("accounts_gacha_save_v5", JSON.stringify(userAccounts));
+            alert(`Sukses transfer ${amountTransfer} DL ke ${targetUser}!`);
+            
+            document.getElementById('tf-target-username').value = "";
+            document.getElementById('tf-amount-val').value = "";
+            
+            updateLiveBalanceDisplay();
+            if(userAccounts[loggedInUser].role === "admin") updateAdminAccountsTable();
         }
 
         function switchActiveChest(chestType) {
             if(isRolling) return; 
             activeChestType = chestType;
-            
-            let prefixTitle = "RARE CHEST SIMULATION";
-            if(chestType === 'mythic') {
-                prefixTitle = "MYTHIC CHEST SIMULATION";
-                document.documentElement.style.setProperty('--chest-accent', '#a855f7');
-            } else if(chestType === 'secret') {
-                prefixTitle = "SECRET CHEST SIMULATION";
-                document.documentElement.style.setProperty('--chest-accent', '#ffaa00');
-            } else {
-                document.documentElement.style.setProperty('--chest-accent', '#00d2ff');
-            }
+            let prefix = "RARE CHEST SIMULATION";
+            if(chestType === 'mythic') { prefix = "MYTHIC CHEST SIMULATION"; document.documentElement.style.setProperty('--chest-accent', '#a855f7'); }
+            else if(chestType === 'secret') { prefix = "SECRET CHEST SIMULATION"; document.documentElement.style.setProperty('--chest-accent', '#ffaa00'); }
+            else { document.documentElement.style.setProperty('--chest-accent', '#00d2ff'); }
 
-            document.getElementById('title-banner-gacha').innerHTML = `<span style="color:var(--chest-accent)">●</span> Growtopia Web Panel - ${prefixTitle}`;
-            document.getElementById('user-grid-items-header').innerText = `Daftar Keseluruhan Isi Item Di Dalam [ ${chestType.toUpperCase()} CHEST ]`;
-            document.getElementById('admin-manage-items-title').innerText = `📦 MANAGE ITEMS & CHANCE [ ${chestType.toUpperCase()} ]`;
-
+            document.getElementById('title-banner-gacha').innerHTML = `<span style="color:var(--chest-accent)">●</span> Growtopia Web Panel - ${prefix}`;
+            document.getElementById('user-grid-items-header').innerText = `Isi Item Di Dalam [ ${chestType.toUpperCase()} CHEST ]`;
             document.getElementById('strip-roll-box').innerHTML = "";
             document.getElementById('gacha-winning-text').innerText = "";
 
-            document.getElementById('card-chest-rare').classList.remove('active-chest');
-            document.getElementById('card-chest-mythic').classList.remove('active-chest');
-            document.getElementById('card-chest-secret').classList.remove('active-chest');
-            document.getElementById(`card-chest-${chestType}`).classList.add('active-chest');
+            document.getElementById('card-chest-rare').className = 'chest-card' + (chestType==='rare'?' active-chest':'');
+            document.getElementById('card-chest-mythic').className = 'chest-card' + (chestType==='mythic'?' active-chest':'');
+            document.getElementById('card-chest-secret').className = 'chest-card' + (chestType==='secret'?' active-chest':'');
 
             renderUserGridItems();
-            if(loggedInUser && userAccounts[loggedInUser].role === 'admin') {
-                updateAdminViews();
-            }
-            resetItemForm();
+            if(userAccounts[loggedInUser].role === 'admin') updateAdminViews();
         }
 
         function renderUserGridItems() {
             const grid = document.getElementById('user-side-items-view');
             grid.innerHTML = "";
-            let pool = databaseChests[activeChestType] || [];
-            
-            if(pool.length === 0) {
-                grid.innerHTML = `<p style="padding:15px; color:#ef4444; font-size:0.8rem;">Pool item kosong! Silakan tambah lewat admin panel.</p>`;
-                return;
-            }
-
-            pool.forEach(item => {
+            (databaseChests[activeChestType] || []).forEach(item => {
                 grid.innerHTML += `
                     <div class="item-display-card" style="border-color: var(--chest-accent);">
                         <img src="${item.img}" onerror="this.src='https://images.placeholders.dev/?width=45&height=45&text=Item&background=%23061322&color=%23ffffff'">
                         <p>${item.name}</p>
-                        <span style="color: var(--chest-accent);">${item.chance}% Chance</span>
+                        <span style="color:var(--chest-accent); font-size:0.65rem; font-weight:bold;">${item.chance}% Chance</span>
                     </div>
                 `;
             });
@@ -551,213 +494,122 @@
             if(isRolling) return;
             const strip = document.getElementById('strip-roll-box');
             const announce = document.getElementById('gacha-winning-text');
-            const rollButton = document.getElementById('btn-roll-gacha-main');
-            
-            let pool = databaseChests[activeChestType] || [];
-            let validItems = pool.filter(i => i.chance > 0);
+            const btn = document.getElementById('btn-roll-gacha-main');
+            let pool = (databaseChests[activeChestType] || []).filter(i => i.chance > 0);
 
-            if(validItems.length === 0) {
-                alert("Gagal melakukan gacha! Seluruh chance bernilai 0% atau list item kosong.");
-                return;
+            if(pool.length === 0) { alert("Pool item kosong atau chance 0%!"); return; }
+
+            isRolling = true; btn.disabled = true; btn.style.opacity = "0.5";
+            announce.innerText = ""; strip.innerHTML = ""; strip.style.transition = "none"; strip.style.transform = "translateX(0px)";
+
+            let visualTrack = [];
+            for(let i=0; i<65; i++) visualTrack.push(pool[Math.floor(Math.random()*pool.length)]);
+
+            let totalRate = 0; pool.forEach(i => totalRate += parseFloat(i.chance));
+            let rng = Math.random() * totalRate;
+            let acc = 0; let winner = pool[0];
+
+            for(let item of pool) {
+                acc += parseFloat(item.chance);
+                if(rng <= acc) { winner = item; break; }
             }
 
-            isRolling = true;
-            rollButton.disabled = true;
-            rollButton.style.opacity = "0.5";
-            announce.innerText = "";
-            
-            strip.innerHTML = ""; 
-            strip.style.transition = "none"; 
-            strip.style.transform = "translateX(0px)";
-
-            let totalVisualTrackItems = 65;
-            let displayTrackArray = [];
-            for(let i = 0; i < totalVisualTrackItems; i++) {
-                let randomAtmosphericItem = validItems[Math.floor(Math.random() * validItems.length)];
-                displayTrackArray.push(randomAtmosphericItem);
-            }
-
-            let totalSumOfRates = 0;
-            validItems.forEach(item => totalSumOfRates += parseFloat(item.chance));
-
-            let rngRoll = Math.random() * totalSumOfRates;
-            let currentAccumulator = 0;
-            let winningItemObject = validItems[0];
-
-            for(let item of validItems) {
-                currentAccumulator += parseFloat(item.chance);
-                if(rngRoll <= currentAccumulator) {
-                    winningItemObject = item;
-                    break;
-                }
-            }
-
-            let finalWinningIndexAnchor = 55;
-            displayTrackArray[finalWinningIndexAnchor] = winningItemObject;
-
-            displayTrackArray.forEach(item => {
-                strip.innerHTML += `
-                    <div class="strip-card">
-                        <img src="${item.img}" onerror="this.src='https://images.placeholders.dev/?width=45&height=45&text=?&background=%23061322&color=%23ffffff'">
-                        <p>${item.name}</p>
-                    </div>
-                `;
+            visualTrack[55] = winner;
+            visualTrack.forEach(item => {
+                strip.innerHTML += `<div class="strip-card"><img src="${item.img}" onerror="this.src='https://images.placeholders.dev/?width=45&height=45&text=?&background=%23061322&color=%23ffffff'"><p>${item.name}</p></div>`;
             });
 
             setTimeout(() => {
                 strip.style.transition = "transform 4.5s cubic-bezier(0.1, 0.85, 0.12, 1)";
-                const cardNodeWidth = 100;
-                const wrapperFrameCenterOffset = document.querySelector('.roulette-wrapper').offsetWidth / 2;
-                const absolutePixelShift = (finalWinningIndexAnchor * cardNodeWidth) - wrapperFrameCenterOffset + (cardNodeWidth / 2);
-                strip.style.transform = `translateX(-${absolutePixelShift}px)`;
-            }, 60);
+                let offset = (55 * 100) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + 50;
+                strip.style.transform = `translateX(-${offset}px)`;
+            }, 50);
 
             setTimeout(() => {
-                announce.style.color = "var(--text-yellow)";
-                announce.innerHTML = `🎉 SELAMAT! KAMU DAPAT: <span style="color:#fff; background:#1e293b; padding:2px 8px; border-radius:4px; border:1px solid var(--chest-accent);">${winningItemObject.name.toUpperCase()}</span>`;
-                
-                isRolling = false;
-                rollButton.disabled = false;
-                rollButton.style.opacity = "1";
+                announce.innerHTML = `🎉 DAPAT: <span style="color:var(--text-yellow); background:#1e293b; padding:3px 10px; border:1px solid var(--chest-accent); border-radius:4px;">${winner.name.toUpperCase()}</span>`;
+                isRolling = false; btn.disabled = false; btn.style.opacity = "1";
             }, 4600);
         }
 
+        // ADMIN FEATURE: CREATE AND TRACK CREATED DATABASE ACCOUNTS WITH LIVE BALANCES
         function adminCreateAccount() {
             const u = document.getElementById('new-member-user').value.trim();
             const p = document.getElementById('new-member-pass').value.trim();
-            const selectedMinutes = parseInt(document.getElementById('new-member-expiry').value);
+            const b = parseInt(document.getElementById('new-member-balance').value) || 0;
+            const min = parseInt(document.getElementById('new-member-expiry').value);
 
-            if(!u || !p) { alert("Form Isian Username & Password masih kosong!"); return; }
-            if(userAccounts[u]) { alert("Username tersebut sudah terdaftar!"); return; }
+            if(!u || !p) { alert("Username & Password gak boleh kosong!"); return; }
+            if(userAccounts[u]) { alert("Username sudah terdaftar!"); return; }
 
-            let baselineMs = new Date().getTime();
-            let calculationsExpiryMs = baselineMs + (selectedMinutes * 60 * 1000);
-
-            userAccounts[u] = { pass: p, role: "member", expiresAt: calculationsExpiryMs };
-            localStorage.setItem("accounts_gacha_save_v3", JSON.stringify(userAccounts));
+            let exp = new Date().getTime() + (min * 60 * 1000);
+            userAccounts[u] = { pass: p, role: "member", expiresAt: exp, balance: b };
+            localStorage.setItem("accounts_gacha_save_v5", JSON.stringify(userAccounts));
             
-            alert(`Sukses mendaftarkan akun "${u}"!`);
+            alert(`Sukses buat akun: ${u} | Saldo: ${b} DL`);
             document.getElementById('new-member-user').value = "";
             document.getElementById('new-member-pass').value = "";
+            document.getElementById('new-member-balance').value = "0";
             updateAdminAccountsTable();
         }
 
         function updateAdminAccountsTable() {
             const tbody = document.querySelector('#admin-accounts-table tbody');
             tbody.innerHTML = "";
-            
-            Object.keys(userAccounts).forEach(username => {
-                let session = userAccounts[username];
-                let displayStatusString = "<span style='color:#10b981;'>Permanent Admin</span>";
-                
-                if (session.expiresAt) {
-                    let nowTime = new Date().getTime();
-                    if (nowTime > session.expiresAt) {
-                        displayStatusString = "<span style='color:#ef4444; font-weight:bold;'>Expired</span>";
-                    } else {
-                        let totalRemainingMinutes = Math.round((session.expiresAt - nowTime) / 60000);
-                        if(totalRemainingMinutes > 1440) {
-                            displayStatusString = `Aktif (~${Math.round(totalRemainingMinutes/1440)} Hari)`;
-                        } else {
-                            displayStatusString = `Aktif (~${totalRemainingMinutes} Menit)`;
-                        }
-                    }
+            Object.keys(userAccounts).forEach(user => {
+                let session = userAccounts[user];
+                let status = "<span style='color:#10b981;'>Admin Permanent</span>";
+                if(session.expiresAt) {
+                    status = new Date().getTime() > session.expiresAt ? "<span style='color:#ef4444;'>Expired</span>" : "Aktif";
                 }
-
-                let roleBadge = session.role === 'admin' ? `<span class="badge-admin">ADMIN</span>` : `<span class="badge-member">MEMBER</span>`;
-                let deleteActionNode = username === "admin" ? "" : `<button style="background:#ef4444; color:#fff; border:none; padding:3px 7px; cursor:pointer; border-radius:3px; font-weight:bold; font-size:0.65rem;" onclick="adminDeleteAccount('${username}')">Hapus</button>`;
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>${username}</b> <br> ${roleBadge}</td>
-                        <td>${displayStatusString}</td>
-                        <td>${deleteActionNode}</td>
-                    </tr>
-                `;
+                let delBtn = user === 'admin' ? '' : `<button style="background:#ef4444; border:none; color:white; padding:2px 5px; cursor:pointer;" onclick="adminDeleteAccount('${user}')">Hapus</button>`;
+                tbody.innerHTML += `<tr><td><b>${user}</b></td><td>${session.balance || 0} DL</td><td>${status}</td><td>${delBtn}</td></tr>`;
             });
         }
 
-        function adminDeleteAccount(username) {
-            if (confirm(`Apakah Anda yakin ingin menghapus akun "${username}"?`)) {
-                delete userAccounts[username];
-                localStorage.setItem("accounts_gacha_save_v3", JSON.stringify(userAccounts));
-                updateAdminAccountsTable();
-            }
+        function adminDeleteAccount(user) {
+            if(confirm(`Hapus total akun "${user}"?`)) { delete userAccounts[user]; localStorage.setItem("accounts_gacha_save_v5", JSON.stringify(userAccounts)); updateAdminAccountsTable(); }
         }
 
         function updateAdminViews() {
-            const tbody = document.querySelector('#admin-items-table tbody');
-            tbody.innerHTML = "";
-            let pool = databaseChests[activeChestType] || [];
-
-            pool.forEach((item, idx) => {
-                tbody.innerHTML += `
-                    <tr>
-                        <td>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <img src="${item.img}" style="width:25px; height:25px; object-fit:contain;" onerror="this.src='https://images.placeholders.dev/?width=25&height=25&text=?&background=%23000000&color=%23ffffff'">
-                                <span>${item.name}</span>
-                            </div>
-                        </td>
-                        <td style="font-weight:bold; color:var(--text-yellow);">${item.chance}%</td>
-                        <td>
-                            <button style="background:#00d2ff; color:#000; border:none; padding:3px 6px; cursor:pointer; border-radius:3px; font-weight:bold; font-size:0.65rem;" onclick="loadItemToForm(${idx})">Edit</button>
-                            <button style="background:#ef4444; color:#fff; border:none; padding:3px 6px; cursor:pointer; border-radius:3px; font-weight:bold; font-size:0.65rem; margin-left:2px;" onclick="deleteItemData(${idx})">Hapus</button>
-                        </td>
-                    </tr>
-                `;
+            const tbody = document.querySelector('#admin-items-table tbody'); tbody.innerHTML = "";
+            (databaseChests[activeChestType] || []).forEach((item, idx) => {
+                tbody.innerHTML += `<tr><td>${item.name}</td><td><b>${item.chance}%</b></td><td><button style="background:#00d2ff; padding:2px 5px;" onclick="loadItemToForm(${idx})">Edit</button><button style="background:#ef4444; margin-left:3px; padding:2px 5px;" onclick="deleteItemData(${idx})">Hapus</button></td></tr>`;
             });
         }
 
         function loadItemToForm(index) {
-            let pool = databaseChests[activeChestType] || [];
-            let targetItem = pool[index];
+            let item = databaseChests[activeChestType][index];
             document.getElementById('edit-item-index').value = index;
-            document.getElementById('edit-item-name').value = targetItem.name;
-            document.getElementById('edit-item-img').value = targetItem.img;
-            document.getElementById('edit-item-chance').value = targetItem.chance;
-            document.getElementById('form-action-title').innerText = `Update Item Index: [ ${index} ]`;
+            document.getElementById('edit-item-name').value = item.name;
+            document.getElementById('edit-item-img').value = item.img;
+            document.getElementById('edit-item-chance').value = item.chance;
         }
 
-        function resetItemForm() {
-            document.getElementById('edit-item-index').value = "-1";
-            document.getElementById('edit-item-name').value = "";
-            document.getElementById('edit-item-img').value = "";
-            document.getElementById('edit-item-chance').value = "";
-            document.getElementById('form-action-title').innerText = "Tambah / Modifikasi Item Baru:";
-        }
+        function resetItemForm() { document.getElementById('edit-item-index').value = "-1"; document.getElementById('edit-item-name').value = ""; document.getElementById('edit-item-img').value = ""; document.getElementById('edit-item-chance').value = ""; }
 
         function saveOrAddItem() {
             let idx = parseInt(document.getElementById('edit-item-index').value);
-            let nameInput = document.getElementById('edit-item-name').value.trim();
+            let n = document.getElementById('edit-item-name').value.trim();
             let imgInput = document.getElementById('edit-item-img').value.trim();
-            let chanceInput = parseInt(document.getElementById('edit-item-chance').value);
+            let c = parseInt(document.getElementById('edit-item-chance').value);
 
-            if(!nameInput || !imgInput || isNaN(chanceInput)) { alert("Mohon lengkapi seluruh kolom input!"); return; }
-
-            if(!databaseChests[activeChestType]) databaseChests[activeChestType] = [];
-
-            if(idx === -1) {
-                databaseChests[activeChestType].push({ name: nameInput, img: imgInput, chance: chanceInput });
-                alert("Sukses menambahkan item baru!");
-            } else {
-                databaseChests[activeChestType][idx] = { name: nameInput, img: imgInput, chance: chanceInput };
-                alert("Sukses memperbarui item!");
+            if(!n || !imgInput || isNaN(c)) { alert("Data form tidak lengkap!"); return; }
+            
+            // Auto injection proxy anti-tanda tanya jika belum ada proxy weserv
+            let finalImgUrl = imgInput;
+            if(!imgInput.includes("weserv.nl") && !imgInput.includes("ibb.co") && imgInput.startsWith("http")) {
+                finalImgUrl = "https://images.weserv.nl/?url=" + imgInput;
             }
 
-            localStorage.setItem("gacha_chests_save_v3", JSON.stringify(databaseChests));
-            resetItemForm();
-            updateAdminViews();
-            renderUserGridItems();
+            if(idx === -1) databaseChests[activeChestType].push({ name: n, img: finalImgUrl, chance: c });
+            else databaseChests[activeChestType][idx] = { name: n, img: finalImgUrl, chance: c };
+
+            localStorage.setItem("gacha_chests_save_v5", JSON.stringify(databaseChests));
+            resetItemForm(); updateAdminViews(); renderUserGridItems();
         }
 
         function deleteItemData(index) {
-            if(confirm(`Hapus item data "${databaseChests[activeChestType][index].name}"?`)) {
-                databaseChests[activeChestType].splice(index, 1);
-                localStorage.setItem("gacha_chests_save_v3", JSON.stringify(databaseChests));
-                updateAdminViews();
-                renderUserGridItems();
-            }
+            if(confirm("Hapus item ini?")) { databaseChests[activeChestType].splice(index, 1); localStorage.setItem("gacha_chests_save_v5", JSON.stringify(databaseChests)); updateAdminViews(); renderUserGridItems(); }
         }
 
         function executeLogout() { loggedInUser = null; location.reload(); }
