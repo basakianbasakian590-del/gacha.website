@@ -3,549 +3,491 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AndraDev - Gacha Growtopia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        gtDark: '#0A0E27',
-                        gtGold: '#FFD700',
-                        gtBlue: '#4A90E2',
-                        gtPurple: '#9B59B6',
-                        gtRed: '#E74C3C',
-                        gtGreen: '#2ECC71'
-                    },
-                    fontFamily: {
-                        sans: ['Segoe UI', 'Roboto', 'sans-serif']
-                    }
-                }
-            }
+    <title>AndraDev - Growtopia Gacha</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background: #0a0a2e;
+        }
+
+        /* Background Animasi Growtopia */
+        .growtopia-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .growtopia-bg canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 215, 0, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100vh) rotate(720deg); opacity: 1; }
+        }
+
+        /* Pixel Blocks (Growtopia Style) */
+        .pixel-block {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: #2d5a1e;
+            border: 2px solid #1a3a0f;
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Login Container */
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 10, 46, 0.95);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            max-width: 90%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.3), inset 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .login-container h1 {
+            text-align: center;
+            color: #ffd700;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 #8b6914;
+        }
+
+        .login-container .subtitle {
+            text-align: center;
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .login-container .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container .logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ddd;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            border: none;
+            border-radius: 10px;
+            color: #1a1a2e;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-msg {
+            color: #ff4444;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .blocked-msg {
+            color: #ff6600;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .attempts-info {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+        }
+
+        .register-link a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Music Controls */
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .music-btn {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffd700;
+            font-size: 20px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 215, 0, 0.4);
+            transform: scale(1.1);
+        }
+
+        .speed-control {
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            gap: 5px;
+        }
+
+        .speed-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            border-radius: 5px;
+            padding: 5px 10px;
+            color: #ffd700;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .speed-btn.active {
+            background: #ffd700;
+            color: #1a1a2e;
+        }
+
+        /* Jam Digital */
+        .clock-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: #ffd700;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+
+        .clock-display .date {
+            font-size: 10px;
+            color: #aaa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .clock-display .timezone {
+            font-size: 8px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 20px;
             }
-            .text-shadow {
-                text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+            .login-container h1 {
+                font-size: 18px;
             }
-            .text-shadow-sm {
-                text-shadow: 0 0 4px rgba(255, 215, 0, 0.4);
-            }
-            .glow-border {
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-            }
-            .bg-pattern {
-                background-image: url('https://i.imgur.com/7Z9KqGm.png');
-                background-size: 150px;
-                background-repeat: repeat;
-                opacity: 0.05;
-            }
-            .bg-anim {
-                animation: moveBg 60s linear infinite;
-            }
-            @keyframes moveBg {
-                0% { background-position: 0 0; }
-                100% { background-position: 1000px 1000px; }
-            }
-            @keyframes float {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-10px); }
-            }
-            .float {
-                animation: float 4s ease-in-out infinite;
-            }
-            @keyframes pulse {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0.8; }
-            }
-            .pulse {
-                animation: pulse 2s ease-in-out infinite;
-            }
-            .scrollbar::-webkit-scrollbar {
-                width: 6px;
-            }
-            .scrollbar::-webkit-scrollbar-track {
-                background: #1E2952;
-            }
-            .scrollbar::-webkit-scrollbar-thumb {
-                background: #FFD700;
-                border-radius: 3px;
+            .clock-display {
+                font-size: 10px;
+                padding: 5px 10px;
             }
         }
     </style>
 </head>
-<body class="bg-gtDark text-white min-h-screen relative overflow-x-hidden">
-    <!-- Background Animasi -->
-    <div class="fixed inset-0 bg-pattern bg-anim z-0"></div>
-    <div class="fixed inset-0 bg-gradient-to-b from-black/70 to-gtDark/90 z-10"></div>
-
-    <!-- Kontrol Musik -->
-    <div class="fixed bottom-4 left-4 z-50 bg-black/70 backdrop-blur-md rounded-full p-3 border border-gtGold/40 flex items-center gap-2">
-        <button id="btnPlay" class="w-8 h-8 flex items-center justify-center text-gtGold hover:text-white transition-colors"><i class="fa fa-play"></i></button>
-        <button id="btnStop" class="w-8 h-8 flex items-center justify-center text-gtGold hover:text-white transition-colors"><i class="fa fa-stop"></i></button>
-        <select id="speedAudio" class="bg-transparent border border-gtGold/40 rounded px-1 text-xs outline-none">
-            <option value="1">1x</option>
-            <option value="1.5">1.5x</option>
-            <option value="2">2x</option>
-            <option value="2.5">2.5x</option>
-            <option value="3">3x</option>
-        </select>
-        <input type="range" id="volumeAudio" min="0" max="100" value="50" class="w-16 h-1 bg-gtGold/40 rounded outline-none">
+<body>
+    <!-- Background Animasi Growtopia -->
+    <div class="growtopia-bg">
+        <canvas id="growtopiaCanvas"></canvas>
+        <div class="particles" id="particles"></div>
+        <!-- Pixel Blocks akan digenerate oleh JS -->
+        <div id="pixelBlocks"></div>
     </div>
 
-    <!-- Audio Lagu Hits 2026 Indonesia -->
-    <audio id="bgAudio" loop preload="auto">
-        <source src="https://cdn.jsdelivr.net/gh/andrawb/assets/music/hits-indo-2026.mp3" type="audio/mpeg">
-        Browser kamu tidak mendukung pemutar musik.
-    
-
-    <!-- Halaman Login -->
-    <div id="halamanLogin" class="fixed inset-0 z-40 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-        <div class="bg-gradient-to-br from-[#162342] to-[#0F1A36] p-8 rounded-2xl border-2 border-gtGold glow-border w-full max-w-md mx-4">
-            <h2 class="text-3xl font-bold text-center text-gtGold text-shadow mb-6">AndraDev Gacha</h2>
-            <div class="mb-4">
-                <label class="block text-sm text-gray-300 mb-1">Username</label>
-                <input type="text" id="inputUser" class="w-full px-4 py-2 rounded-lg bg-[#1E2952] border border-gtBlue/40 focus:border-gtGold outline-none transition-colors" placeholder="Masukkan username">
-            </div>
-            <div class="mb-4">
-                <label class="block text-sm text-gray-300 mb-1">Password</label>
-                <input type="password" id="inputPass" class="w-full px-4 py-2 rounded-lg bg-[#1E2952] border border-gtBlue/40 focus:border-gtGold outline-none transition-colors" placeholder="Masukkan password">
-            </div>
-            <div id="pesanLogin" class="text-center text-sm mb-4 h-5"></div>
-            <button onclick="prosesLogin()" class="w-full py-3 bg-gradient-to-r from-gtGold to-[#F5B800] text-black font-bold rounded-lg hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] transition-shadow">Masuk</button>
-        </div>
+    <!-- Jam Digital -->
+    <div class="clock-display" id="clockDisplay">
+        <div id="timeDisplay">00:00:00</div>
+        <div class="date" id="dateDisplay">Senin, 1 Januari 2026</div>
+        <div class="timezone" id="timezoneDisplay">WIB</div>
     </div>
 
-    <!-- Halaman Utama -->
-    <div id="halamanUtama" class="relative z-20 hidden p-4 max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="flex flex-wrap justify-between items-center gap-4 bg-black/50 backdrop-blur-sm p-4 rounded-xl border border-gtGold/30 mb-6">
-            <h1 class="text-2xl md:text-3xl font-bold text-gtGold text-shadow">AndraDev Gacha</h1>
-            <div class="text-right">
-                <p class="text-sm text-gray-300">Selamat datang, <span id="namaPengguna" class="font-bold text-gtGold"></span></p>
-                <p class="text-xs text-gray-400">Masa Aktif: <span id="masaAktifText" class="text-gtGreen"></span></p>
+    <!-- Login Container -->
+    <div class="login-container" id="loginContainer">
+        <div class="logo">
+            <span style="font-size: 60px;">🎮</span>
+        </div>
+        <h1>AndraDev</h1>
+        <div class="subtitle">Growtopia Gacha System</div>
+        
+        <div id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Masukkan username..." autocomplete="off">
             </div>
-            <div class="flex flex-wrap gap-2">
-                <button onclick="tampilkanSaldo()" class="px-3 py-1 bg-gtBlue rounded text-sm"><i class="fa fa-wallet mr-1"></i> Rp <span id="saldoUser">0</span></button>
-                <button onclick="bukaTransfer()" class="px-3 py-1 bg-gtPurple rounded text-sm"><i class="fa fa-exchange mr-1"></i> Transfer</button>
-                <button onclick="keluarAkun()" class="px-3 py-1 bg-gtRed rounded text-sm"><i class="fa fa-sign-out mr-1"></i> Keluar</button>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Masukkan password..." autocomplete="off">
             </div>
-        </header>
-
-        <!-- Jam & Waktu -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-gtBlue/30 text-center">
-                <p class="text-sm text-gray-300">WIB</p>
-                <p id="jamWib" class="text-xl font-bold text-gtGold"></p>
-            </div>
-            <div class="bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-gtBlue/30 text-center">
-                <p class="text-sm text-gray-300">WITA</p>
-                <p id="jamWita" class="text-xl font-bold text-gtGold"></p>
-            </div>
-            <div class="bg-black/50 backdrop-blur-sm p-3 rounded-lg border border-gtBlue/30 text-center">
-                <p class="text-sm text-gray-300">WIT</p>
-                <p id="jamWit" class="text-xl font-bold text-gtGold"></p>
-            </div>
+            <button class="login-btn" id="loginBtn" onclick="handleLogin()">🔑 MASUK</button>
+            <div class="error-msg" id="errorMsg">❌ Username atau password salah!</div>
+            <div class="blocked-msg" id="blockedMsg">🚫 Akun Anda telah diblokir! Hubungi Admin.</div>
+            <div class="attempts-info" id="attemptsInfo">Percobaan tersisa: 3</div>
         </div>
 
-        <!-- Menu Gacha -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div onclick="pilihPeti('basic')" class="bg-gradient-to-br from-[#1E2952] to-[#0F1A36] p-6 rounded-xl border-2 border-[#4A5568] hover:border-gtGold transition-all duration-300 glow-border hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] cursor-pointer group float">
-                <h3 class="text-xl font-bold text-center text-gray-200 group-hover:text-gtGold transition-colors">Basic Chest</h3>
-                <img src="https://i.imgur.com/7Z9KqGm.png" alt="Basic Chest" class="w-32 h-32 mx-auto my-4 drop-shadow-[0_0_10px_rgba(74,85,104,0.5)]">
-                <p class="text-center text-gray-300 text-sm">Harga: Rp 5.000</p>
-                <button onclick="mulaiGacha('basic'); event.stopPropagation()" class="w-full mt-3 py-2 bg-[#4A5568] hover:bg-gtGold hover:text-black font-bold rounded transition-colors">Buka</button>
-            </div>
-            <div onclick="pilihPeti('rare')" class="bg-gradient-to-br from-[#1E2952] to-[#0F1A36] p-6 rounded-xl border-2 border-[#4299E1] hover:border-gtGold transition-all duration-300 glow-border hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] cursor-pointer group float" style="animation-delay: 0.5s">
-                <h3 class="text-xl font-bold text-center text-gtBlue group-hover:text-gtGold transition-colors">Rare Chest</h3>
-                <img src="https://i.imgur.com/3xQz8Lp.png" alt="Rare Chest" class="w-32 h-32 mx-auto my-4 drop-shadow-[0_0_10px_rgba(66,153,225,0.5)]">
-                <p class="text-center text-gray-300 text-sm">Harga: Rp 15.000</p>
-                <button onclick="mulaiGacha('rare'); event.stopPropagation()" class="w-full mt-3 py-2 bg-gtBlue hover:bg-gtGold hover:text-black font-bold rounded transition-colors">Buka</button>
-            </div>
-            <div onclick="pilihPeti('mythic')" class="bg-gradient-to-br from-[#1E2952] to-[#0F1A36] p-6 rounded-xl border-2 border-[#9B59B6] hover:border-gtGold transition-all duration-300 glow-border hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] cursor-pointer group float" style="animation-delay: 1s">
-                <h3 class="text-xl font-bold text-center text-gtPurple group-hover:text-gtGold transition-colors">Mythic Chest</h3>
-                <img src="https://i.imgur.com/9V5mQxH.png" alt="Mythic Chest" class="w-32 h-32 mx-auto my-4 drop-shadow-[0_0_10px_rgba(155,89,182,0.5)]">
-                <p class="text-center text-gray-300 text-sm">Harga: Rp 30.000</p>
-                <button onclick="mulaiGacha('mythic'); event.stopPropagation()" class="w-full mt-3 py-2 bg-gtPurple hover:bg-gtGold hover:text-black font-bold rounded transition-colors">Buka</button>
-            </div>
-        </div>
-
-        <!-- Hasil Gacha -->
-        <div id="hasilGacha" class="bg-black/50 backdrop-blur-sm p-6 rounded-xl border border-gtGold/30 mb-8 text-center min-h-[200px] flex flex-col items-center justify-center">
-            <p class="text-gray-300">Pilih dan buka peti di atas untuk melihat hasil</p>
-        </div>
-
-        <!-- Tombol Admin & Perpanjang -->
-        <div class="flex flex-wrap gap-3 justify-center">
-            <button onclick="bukaPanelAdmin()" class="px-5 py-2 bg-gtRed rounded-lg font-bold hover:shadow-[0_0_15px_rgba(231,76,60,0.5)] transition-shadow"><i class="fa fa-cog mr-1"></i> Panel Admin</button>
-            <button onclick="bukaPerpanjang()" class="px-5 py-2 bg-gtGreen rounded-lg font-bold hover:shadow-[0_0_15px_rgba(46,204,113,0.5)] transition-shadow"><i class="fa fa-calendar-plus-o mr-1"></i> Perpanjang Masa Aktif</button>
+        <div class="register-link">
+            Belum punya akun? <a href="#" onclick="showRegister()">Daftar Sekarang</a>
         </div>
     </div>
 
-    <!-- Panel Admin -->
-    <div id="panelAdmin" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden p-4 overflow-y-auto scrollbar">
-        <div class="max-w-4xl mx-auto bg-gradient-to-br from-[#162342] to-[#0F1A36] p-6 rounded-xl border-2 border-gtGold glow-border">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gtGold">Panel Admin</h2>
-                <button onclick="tutupPanelAdmin()" class="text-gtRed text-xl"><i class="fa fa-times"></i></button>
+    <!-- Register Container (Hidden) -->
+    <div class="login-container" id="registerContainer" style="display: none;">
+        <div class="logo">
+            <span style="font-size: 60px;">📝</span>
+        </div>
+        <h1>Daftar Akun</h1>
+        <div class="subtitle">Buat akun baru untuk bermain</div>
+        
+        <div id="registerForm">
+            <div class="form-group">
+                <label>Username Baru</label>
+                <input type="text" id="regUsername" placeholder="Buat username..." autocomplete="off">
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Kelola Akun -->
-                <div class="bg-black/40 p-4 rounded-lg border border-gtBlue/30">
-                    <h3 class="text-lg font-bold text-gtGold mb-3">Kelola Akun Pengguna</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
-                        <input type="text" id="adminUser" placeholder="Username" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                        <input type="password" id="adminPass" placeholder="Password" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                        <input type="number" id="adminSaldo" placeholder="Saldo (Rp)" min="0" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                        <select id="adminExpired" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                            <option value="0">Selamanya</option>
-                            <option value="1">1 Hari</option>
-                            <option value="7">7 Hari</option>
-                            <option value="30">30 Hari</option>
-                            <option value="90">90 Hari</option>
-                        </select>
-                    </div>
-                    <button onclick="tambahAkunAdmin()" class="w-full py-2 bg-gtGreen rounded font-bold mb-4">Tambah Akun</button>
-                    <div id="daftarAkunAdmin" class="max-h-60 overflow-y-auto space-y-2"></div>
-                </div>
-
-                <!-- Kelola Item Gacha -->
-                <div class="bg-black/40 p-4 rounded-lg border border-gtBlue/30">
-                    <h3 class="text-lg font-bold text-gtGold mb-3">Kelola Item Gacha</h3>
-                    <select id="jenisPetiAdmin" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-3">
-                        <option value="basic">Basic Chest</option>
-                        <option value="rare">Rare Chest</option>
-                        <option value="mythic">Mythic Chest</option>
-                    </select>
-                    <div class="grid grid-cols-1 gap-2 mb-3">
-                        <input type="text" id="namaItemAdmin" placeholder="Nama Item" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                        <input type="text" id="gambarItemAdmin" placeholder="Link Gambar (bebas)" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                        <input type="number" id="chanceItemAdmin" min="0" max="100" step="0.1" placeholder="Peluang (%)" class="px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none">
-                    </div>
-                    <button onclick="tambahItemAdmin()" class="w-full py-2 bg-gtPurple rounded font-bold mb-4">Tambah Item</button>
-                    <div id="daftarItemAdmin" class="max-h-60 overflow-y-auto space-y-2"></div>
-                </div>
+            <div class="form-group">
+                <label>Password Baru</label>
+                <input type="password" id="regPassword" placeholder="Buat password..." autocomplete="off">
             </div>
+            <div class="form-group">
+                <label>Konfirmasi Password</label>
+                <input type="password" id="regConfirmPassword" placeholder="Konfirmasi password..." autocomplete="off">
+            </div>
+            <button class="login-btn" onclick="handleRegister()">✅ DAFTAR</button>
+            <div class="error-msg" id="regErrorMsg"></div>
+        </div>
+
+        <div class="register-link">
+            Sudah punya akun? <a href="#" onclick="showLogin()">Masuk</a>
         </div>
     </div>
 
-    <!-- Modal Transfer -->
-    <div id="modalTransfer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[#162342] p-6 rounded-xl border-2 border-gtGold w-full max-w-md">
-            <h3 class="text-xl font-bold text-gtGold mb-4">Transfer Saldo</h3>
-            <input type="text" id="tujuanTransfer" placeholder="Username Tujuan" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-3">
-            <input type="number" id="jumlahTransfer" min="1000" placeholder="Jumlah (Rp)" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-4">
-            <div class="flex gap-2">
-                <button onclick="lakukanTransfer()" class="flex-1 py-2 bg-gtGreen rounded font-bold">Kirim</button>
-                <button onclick="tutupModalTransfer()" class="flex-1 py-2 bg-gtRed rounded font-bold">Batal</button>
-            </div>
+    <!-- Music Controls -->
+    <div class="music-controls">
+        <div class="speed-control" id="speedControl">
+            <button class="speed-btn" onclick="setSpeed(1)">1x</button>
+            <button class="speed-btn" onclick="setSpeed(1.5)">1.5x</button>
+            <button class="speed-btn" onclick="setSpeed(2)">2x</button>
+            <button class="speed-btn" onclick="setSpeed(3)">3x</button>
         </div>
-    </div>
-
-    <!-- Modal Perpanjang -->
-    <div id="modalPerpanjang" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[#162342] p-6 rounded-xl border-2 border-gtGold w-full max-w-md">
-            <h3 class="text-xl font-bold text-gtGold mb-4">Perpanjang Masa Aktif</h3>
-            <select id="pilihLama" class="w-full px-3 py-2 rounded bg-[#1E2952] border border-gtBlue/40 outline-none mb-4">
-                <option value="7">7 Hari - Rp 10.000</option>
-                <option value="30">30 Hari - Rp 35.000</option>
-                <option value="90">90 Hari - Rp 90.000</option>
-            </select>
-            <div class="flex gap-2">
-                <button onclick="lakukanPerpanjang()" class="flex-1 py-2 bg-gtGreen rounded font-bold">Bayar & Perpanjang</button>
-                <button onclick="tutupModalPerpanjang()" class="flex-1 py-2 bg-gtRed rounded font-bold">Batal</button>
-            </div>
-        </div>
+        <button class="music-btn" id="musicToggle" onclick="toggleMusic()">🎵</button>
+        <button class="music-btn" onclick="toggleSpeedControl()">⏩</button>
     </div>
 
     <script>
-        // --- DATABASE & DATA AWAL ---
-        let db = JSON.parse(localStorage.getItem('andraDevGachaDB')) || {
-            akun: [
-                {username: 'admin', sandi: 'admin123', saldo: 999999999, expired: 0, blokir: 0, salahLogin: 0}
-            ],
-            item: {
+        // ==================== DATABASE SIMULASI ====================
+        let database = {
+            users: JSON.parse(localStorage.getItem('andradev_users')) || {
+                admin: {
+                    password: 'admin123',
+                    role: 'admin',
+                    blocked: false,
+                    loginAttempts: 0,
+                    expired: null,
+                    balance: 999999999,
+                    createdBy: 'system'
+                },
+                member1: {
+                    password: 'member123',
+                    role: 'member',
+                    blocked: false,
+                    loginAttempts: 0,
+                    expired: '2027-01-01',
+                    balance: 500000,
+                    createdBy: 'admin'
+                }
+            },
+            items: JSON.parse(localStorage.getItem('andradev_items')) || {
                 basic: [
-                    {nama: 'Batu Kecil', gambar: 'https://i.imgur.com/3yaf2WB.png', chance: 60},
-                    {nama: 'Biji Pohon', gambar: 'https://i.imgur.com/8Km9tLL.png', chance: 30},
-                    {nama: 'Batu Langka', gambar: 'https://i.imgur.com/Z6XbK0F.png', chance: 10}
+                    { name: 'Shadow Shard', image: '🔮', chance: 40, id: 1 },
+                    { name: 'Crystal Fragment', image: '💎', chance: 30, id: 2 },
+                    { name: 'Magic Dust', image: '✨', chance: 20, id: 3 },
+                    { name: 'Common Seed', image: '🌱', chance: 10, id: 4 }
                 ],
                 rare: [
-                    {nama: 'Batu Langka', gambar: 'https://i.imgur.com/Z6XbK0F.png', chance: 50},
-                    {nama: 'Alat Kerja', gambar: 'https://i.imgur.com/2nCt3Sbl.png', chance: 35},
-                    {nama: 'Barang Bernilai', gambar: 'https://i.imgur.com/9V5mQxH.png', chance: 15}
+                    { name: 'Legendary Sword', image: '🗡️', chance: 20, id: 5 },
+                    { name: 'Dragon Scale', image: '🐉', chance: 25, id: 6 },
+                    { name: 'Mythical Orb', image: '🔵', chance: 30, id: 7 },
+                    { name: 'Phoenix Feather', image: '🪶', chance: 25, id: 8 }
                 ],
                 mythic: [
-                    {nama: 'Barang Bernilai', gambar: 'https://i.imgur.com/9V5mQxH.png', chance: 60},
-                    {nama: 'Alat Kerja Premium', gambar: 'https://i.imgur.com/2nCt3Sbl.png', chance: 30},
-                    {nama: 'Item Legendaris', gambar: 'https://i.imgur.com/7Z9KqGm.png', chance: 10}
+                    { name: 'AndraDev Crown', image: '👑', chance: 5, id: 9 },
+                    { name: 'Cosmic Wings', image: '🪽', chance: 10, id: 10 },
+                    { name: 'Time Gem', image: '⏳', chance: 15, id: 11 },
+                    { name: 'Infinity Blade', image: '⚔️', chance: 20, id: 12 },
+                    { name: 'Golden Apple', image: '🍎', chance: 25, id: 13 },
+                    { name: 'Star Fragment', image: '⭐', chance: 25, id: 14 }
                 ]
             },
-            pengaturan: {namaWeb: 'AndraDev', musik: 'https://cdn.jsdelivr.net/gh/andrawb/assets/music/hits-indo-2026.mp3'}
+            gachaHistory: JSON.parse(localStorage.getItem('andradev_history')) || [],
+            settings: JSON.parse(localStorage.getItem('andradev_settings')) || {
+                webName: 'AndraDev',
+                musicUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+                musicVolume: 0.5
+            },
+            transfers: JSON.parse(localStorage.getItem('andradev_transfers')) || []
         };
 
-        let userAktif = null;
-        let audio = document.getElementById('bgAudio');
-
-        // --- SIMPAN DATABASE ---
-        function simpanDB() {
-            localStorage.setItem('andraDevGachaDB', JSON.stringify(db));
+        // ==================== SAVE DATABASE ====================
+        function saveDatabase() {
+            localStorage.setItem('andradev_users', JSON.stringify(database.users));
+            localStorage.setItem('andradev_items', JSON.stringify(database.items));
+            localStorage.setItem('andradev_history', JSON.stringify(database.gachaHistory));
+            localStorage.setItem('andradev_settings', JSON.stringify(database.settings));
+            localStorage.setItem('andradev_transfers', JSON.stringify(database.transfers));
         }
 
-        // --- JAM WAKTU ---
-        function updateJam() {
-            const now = new Date();
-            const jamWib = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Jakarta'}));
-            const jamWita = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Makassar'}));
-            const jamWit = new Date(now.toLocaleString('en-US', {timeZone: 'Asia/Jayapura'}));
+        // ==================== BACKGROUND ANIMASI ====================
+        function initGrowtopiaBackground() {
+            const canvas = document.getElementById('growtopiaCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-            const format = (t) => t.toLocaleString('id-ID', {day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit'});
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#0a0a2e');
+            gradient.addColorStop(0.3, '#1a1a4e');
+            gradient.addColorStop(0.6, '#2a1a3e');
+            gradient.addColorStop(1, '#1a2a1e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            document.getElementById('jamWib').textContent = format(jamWib);
-            document.getElementById('jamWita').textContent = format(jamWita);
-            document.getElementById('jamWit').textContent = format(jamWit);
-        }
-        setInterval(updateJam, 1000); updateJam();
-
-        // --- KONTROL MUSIK ---
-        document.getElementById('btnPlay').addEventListener('click', () => audio.play().catch(() => {}));
-        document.getElementById('btnStop').addEventListener('click', () => audio.pause());
-        document.getElementById('speedAudio').addEventListener('change', (e) => audio.playbackRate = parseFloat(e.target.value));
-        document.getElementById('volumeAudio').addEventListener('input', (e) => audio.volume = e.target.value / 100);
-
-        // --- LOGIN SISTEM ---
-        function prosesLogin() {
-            const u = document.getElementById('inputUser').value.trim();
-            const p = document.getElementById('inputPass').value.trim();
-            const pesan = document.getElementById('pesanLogin');
-
-            if (!u || !p) return pesan.textContent = 'Isi semua kolom!', pesan.className = 'text-gtRed';
-
-            const akun = db.akun.find(a => a.username === u);
-            if (!akun) return pesan.textContent = 'Akun tidak ditemukan!', pesan.className = 'text-gtRed';
-
-            if (akun.blokir > Date.now()) return pesan.textContent = 'Akun diblokir, coba nanti!', pesan.className = 'text-gtRed';
-
-            if (akun.sandi !== p) {
-                akun.salahLogin++;
-                if (akun.salahLogin >= 3) {
-                    akun.blokir = Date.now() + 15 * 60 * 1000;
-                    pesan.textContent = 'Salah 3x! Akun diblokir 15 menit';
-                } else {
-                    pesan.textContent = `Salah! Kesempatan: ${3 - akun.salahLogin}`;
-                }
-                simpanDB();
-                return pesan.className = 'text-gtRed';
-            }
-
-            if (akun.expired !== 0 && akun.expired < Date.now()) {
-                return pesan.textContent = 'Masa aktif habis! Hubungi admin.', pesan.className = 'text-gtRed';
-            }
-
-            akun.salahLogin = 0;
-            simpanDB();
-            userAktif = akun;
-            masukKeHalamanUtama();
-        }
-
-        function masukKeHalamanUtama() {
-            document.getElementById('halamanLogin').classList.add('hidden');
-            document.getElementById('halamanUtama').classList.remove('hidden');
-            document.getElementById('namaPengguna').textContent = userAktif.username;
-            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
-            document.getElementById('masaAktifText').textContent = userAktif.expired === 0 ? 'Selamanya' : new Date(userAktif.expired).toLocaleDateString('id-ID');
-        }
-
-        function keluarAkun() {
-            userAktif = null;
-            document.getElementById('halamanUtama').classList.add('hidden');
-            document.getElementById('halamanLogin').classList.remove('hidden');
-            document.getElementById('inputUser').value = '';
-            document.getElementById('inputPass').value = '';
-        }
-
-        // --- GACHA SISTEM ---
-        function pilihPeti(jenis) {
-            window.jenisTerpilih = jenis;
-        }
-
-        function mulaiGacha(jenis) {
-            const harga = {basic: 5000, rare: 15000, mythic: 30000}[jenis];
-            if (userAktif.saldo < harga) return alert('Saldo tidak cukup!');
-
-            userAktif.saldo -= harga;
-            simpanDB();
-            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
-
-            const daftar = db.item[jenis];
-            let total = 0;
-            let hasil = null;
-            const acak = Math.random() * 100;
-
-            for (const item of daftar) {
-                total += item.chance;
-                if (acak <= total) {
-                    hasil = item;
-                    break;
-                }
-            }
-
-            const tampil = document.getElementById('hasilGacha');
-            tampil.innerHTML = `
-                <h3 class="text-xl font-bold text-gtGold mb-3">Selamat Kamu Mendapatkan:</h3>
-                <img src="${hasil.gambar}" alt="${hasil.nama}" class="w-40 h-40 mx-auto my-3 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]">
-                <p class="text-lg font-bold">${hasil.nama}</p>
-                <p class="text-sm text-gray-400">Peluang: ${hasil.chance}%</p>
-            `;
-        }
-
-        // --- TRANSFER SALDO ---
-        function bukaTransfer() {
-            document.getElementById('modalTransfer').classList.remove('hidden');
-        }
-        function tutupModalTransfer() {
-            document.getElementById('modalTransfer').classList.add('hidden');
-        }
-        function lakukanTransfer() {
-            const tujuan = document.getElementById('tujuanTransfer').value.trim();
-            const jumlah = parseInt(document.getElementById('jumlahTransfer').value);
-
-            if (!tujuan || !jumlah || jumlah < 1000) return alert('Isi data dengan benar!');
-            if (tujuan === userAktif.username) return alert('Tidak bisa transfer ke diri sendiri!');
-            if (userAktif.saldo < jumlah) return alert('Saldo tidak cukup!');
-
-            const akunTujuan = db.akun.find(a => a.username === tujuan);
-            if (!akunTujuan) return alert('Username tujuan tidak ditemukan!');
-
-            userAktif.saldo -= jumlah;
-            akunTujuan.saldo += jumlah;
-            simpanDB();
-            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
-            alert(`Berhasil transfer Rp ${jumlah.toLocaleString('id-ID')} ke ${tujuan}`);
-            tutupModalTransfer();
-        }
-
-        // --- PERPANJANG AKUN ---
-        function bukaPerpanjang() {
-            document.getElementById('modalPerpanjang').classList.remove('hidden');
-        }
-        function tutupModalPerpanjang() {
-            document.getElementById('modalPerpanjang').classList.add('hidden');
-        }
-        function lakukanPerpanjang() {
-            const hari = parseInt(document.getElementById('pilihLama').value);
-            const harga = {7: 10000, 30: 35000, 90: 90000}[hari];
-
-            if (userAktif.saldo < harga) return alert('Saldo tidak cukup!');
-
-            userAktif.saldo -= harga;
-            const tambah = hari * 24 * 60 * 60 * 1000;
-            userAktif.expired = userAktif.expired === 0 ? Date.now() + tambah : userAktif.expired + tambah;
-            simpanDB();
-            document.getElementById('saldoUser').textContent = userAktif.saldo.toLocaleString('id-ID');
-            document.getElementById('masaAktifText').textContent = new Date(userAktif.expired).toLocaleDateString('id-ID');
-            alert(`Berhasil perpanjang ${hari} hari!`);
-            tutupModalPerpanjang();
-        }
-
-        // --- PANEL ADMIN ---
-        function bukaPanelAdmin() {
-            if (userAktif.username !== 'admin') return alert('Hanya admin yang bisa akses!');
-            document.getElementById('panelAdmin').classList.remove('hidden');
-            tampilkanDaftarAkunAdmin();
-            tampilkanDaftarItemAdmin();
-        }
-        function tutupPanelAdmin() {
-            document.getElementById('panelAdmin').classList.add('hidden');
-        }
-
-        function tambahAkunAdmin() {
-            const u = document.getElementById('adminUser').value.trim();
-            const p = document.getElementById('adminPass').value.trim();
-            const s = parseInt(document.getElementById('adminSaldo').value) || 0;
-            const e = parseInt(document.getElementById('adminExpired').value);
-
-            if (!u || !p) return alert('Username dan password wajib diisi!');
-            if (db.akun.some(a => a.username === u)) return alert('Username sudah ada!');
-
-            const expired = e === 0 ? 0 : Date.now() + e * 24 * 60 * 60 * 1000;
-            db.akun.push({username: u, sandi: p, saldo: s, expired: expired, blokir: 0, salahLogin: 0});
-            simpanDB();
-            tampilkanDaftarAkunAdmin();
-            alert('Akun berhasil ditambahkan!');
-        }
-
-        function tampilkanDaftarAkunAdmin() {
-            const wadah = document.getElementById('daftarAkunAdmin');
-            wadah.innerHTML = '';
-            db.akun.forEach((akun, idx) => {
-                if (akun.username === 'admin') return;
-                const teksExp = akun.expired === 0 ? 'Selamanya' : new Date(akun.expired).toLocaleDateString('id-ID');
-                wadah.innerHTML += `
-                    <div class="bg-black/50 p-2 rounded border border-gtBlue/30 flex justify-between items-center">
-                        <div>
-                            <p>${akun.username} | Rp ${akun.saldo.toLocaleString('id-ID')}</p>
-                            <p class="text-xs text-gray-400">Masa Aktif: ${teksExp}</p>
-                        </div>
-                        <button onclick="hapusAkunAdmin(${idx})" class="text-gtRed"><i class="fa fa-trash"></i></button>
-                    </div>
-                `;
-            });
-        }
-
-        function hapusAkunAdmin(idx) {
-            if (confirm('Yakin hapus akun ini?')) {
-                db.akun.splice(idx, 1);
-                simpanDB();
-                tampilkanDaftarAkunAdmin();
-            }
-        }
-
-        function tambahItemAdmin() {
-            const jenis = document.getElementById('jenisPetiAdmin').value;
-            const nama = document.getElementById('namaItemAdmin').value.trim();
-            const gambar = document.getElementById('gambarItemAdmin').value.trim();
-            const chance = parseFloat(document.getElementById('chanceItemAdmin').value);
-
-            if (!nama || !gambar || isNaN(chance) || chance <= 0 || chance > 100) return alert('Isi data dengan benar!');
-
-            db.item[jenis].push({nama, gambar, chance});
-            simpanDB();
-            tampilkanDaftarItemAdmin();
-            alert('Item berhasil ditambahkan!');
-        }
-
-        function tampilkanDaftarItemAdmin() {
-            const wadah = document.getElementById('daftarItemAdmin');
-            wadah.innerHTML = '';
-            for (const jenis in db.item) {
-                wadah.innerHTML += `<h4 class="text-sm text-gtGold mt-2">${jenis.toUpperCase()}</h4>`;
-                db.item[jenis].forEach((item, idx) => {
-                    wadah.innerHTML += `
-                        <div class="bg-black/50 p-2 rounded border border-gtBlue/30 flex justify-between items-center">
-                            <div>
-                                <p>${item.nama} | ${item.chance}%</p>
-                            </div>
-                            <button onclick="hapusItemAdmin('${jenis}', ${idx})" class="text-gtRed"><i class="fa fa-trash"></i></button>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        function hapusItemAdmin(jenis, idx) {
-            if (confirm('Yakin hapus item ini?')) {
-                db.item[jenis].splice(idx, 1);
-                simpanDB();
-                tampilkanDaftarItemAdmin();
-            }
-        }
-    </script>
-</body>
-</html>
+            // Stars
+            for (let i = 0; i < 200; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 3 + 1;
+                const alpha = Math.random() * 0.8 + 0.2;
+                ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                ctx.beginPath();
