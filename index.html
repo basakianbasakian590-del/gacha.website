@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Gacha Website</title>
+<style>
+body {
+    background: url('https://i.imgur.com/6Iej2c3.jpg') no-repeat center/cover;
+    font-family: Arial;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+.card {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+button {
+    padding: 15px 30px;
+    background: cyan;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+img {
+    width: 120px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 id="gachaName">TeraPS Gacha</h1>
+
+    <div class="card">
+        <h2>🎁 Buka Chest</h2>
+        <button onclick="roll()">BUKA SEKARANG</button>
+
+        <div id="result"></div>
+    </div>
+</div>
+
+<script>
+let items = [
+    {name: "Legendary Rayman", img: "https://i.imgur.com/Z6XbK0F.png", chance: 5},
+    {name: "Mythical Rayman", img: "https://i.imgur.com/8Km9tLL.png", chance: 10},
+    {name: "Magplant 15K", img: "https://i.imgur.com/3yaf2WB.png", chance: 20},
+    {name: "Worm", img: "https://i.imgur.com/2nCt3Sbl.png", chance: 65}
+];
+
+function roll(){
+    let rand = Math.random() * 100;
+    let total = 0;
+
+    for(let i of items){
+        total += i.chance;
+        if(rand <= total){
+            document.getElementById("result").innerHTML =
+                `<h3>${i.name}</h3><img src="${i.img}">`;
+            break;
+        }
+    }
+}
+</script>
+
+</body>
+</html>
